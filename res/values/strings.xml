@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cow</string>
+    
+    <string name="str_status_lbl">Status is:</string>
+    <string name="str_status">Unset</string>
+    <string name="str_accuracy_lbl">Accuracy is:</string>
+    <string name="str_accuracy">Unset</string>
+    <string name="str_coords">Co-ords</string>
 </resources>
+
