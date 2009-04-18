@@ -4,24 +4,23 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 
 public class Cow extends Activity implements SensorListener {
 
 	private static final String	TAG							= "[moo]:";
 
-	private boolean							mooServiceIsBound;
-	private ServiceConnection		mooServiceConnection;
 	private SensorManager				mSensorManager;
 	private Date								startTime;
 	protected static final int	DORMANT_COW			= 45;
@@ -43,18 +42,8 @@ public class Cow extends Activity implements SensorListener {
 
 		this.startTime = new Date(000000000);
 
-		mooServiceIsBound = true;
-
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (mooServiceIsBound) {
-			unbindService(mooServiceConnection);
-			mooServiceIsBound = false;
-		}
-	}
 
 	@Override
 	public void onAccuracyChanged(int sensor, int accuracy) {
@@ -84,30 +73,49 @@ public class Cow extends Activity implements SensorListener {
 	
   private static class CowHeadView extends View {
     private CowHead mDrawable;
+		private Bitmap		cowHead;
+		private int				cowHeadXOffset;
+		private int				cowHeadYOffset;
+
+		private Animation	anim;
 
     public CowHeadView(Context context) {
         super(context);
         setFocusable(true);
         setFocusableInTouchMode(true);
+        
+  			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.me);
+  			cowHeadXOffset = cowHead.getWidth() / 2;
+  			cowHeadYOffset = cowHead.getHeight() / 2;
 
-        Drawable dr = context.getResources().getDrawable(R.drawable.me);
-        dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
-        
-        Animation an = new TranslateAnimation(0, 100, 0, 200);
-        an.setDuration(2000);
-        an.setRepeatCount(-1);
-        an.initialize(10, 10, 10, 10);
-        
-        mDrawable = new CowHead(dr, an);
-        an.startNow();
     }
     
     @Override protected void onDraw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
+  			super.onDraw(canvas);
 
-        mDrawable.draw(canvas);
+  			// creates the animation the first time
+  			if (anim == null) {
+  				createAnim(canvas);
+  			}
+
+  			int centerX = canvas.getWidth() / 2;
+  			int centerY = canvas.getHeight() / 2;
+
+  			canvas.drawBitmap(cowHead, centerX - cowHeadXOffset, centerY - cowHeadYOffset, null);
+//        mDrawable.draw(canvas);
         invalidate();
     }
+    
+		private void createAnim(Canvas canvas) {
+			anim = new RotateAnimation(0, 360, canvas.getWidth() / 2, canvas.getHeight() / 2);
+			anim.setRepeatMode(Animation.RESTART);
+			anim.setRepeatCount(5);
+			anim.setDuration(1800L);
+			anim.setInterpolator(new LinearInterpolator());
+
+			startAnimation(anim);
+		}
 }
 	
 
