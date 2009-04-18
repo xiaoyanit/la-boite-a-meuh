@@ -1,18 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Cow</string>
-    
-    <string name="str_status_lbl">Status is:</string>
-    <string name="str_status">Unset</string>
-    <string name="str_accuracy_lbl">Accuracy is:</string>
-    <string name="str_accuracy">Unset</string>
-    <string name="str_X">000000</string>
-    <string name="str_Y">000000</string>
-    
-    <string name="moo_serv_start">moo monitor start</string>
-    <string name="moo_serv_stop">moo monitor stop</string>
-    <string name="moo_serv_lbl">moo service</string>
-    
-    
 </resources>
-
