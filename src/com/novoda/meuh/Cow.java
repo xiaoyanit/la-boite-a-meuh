@@ -1,100 +1,94 @@
 package com.novoda.meuh;
 
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.Bundle;
-import android.os.IBinder;
-import android.widget.TextView;
-import android.widget.Toast;
+import java.util.Date;
 
-public class Cow extends Activity {
+import android.app.Activity;
+import android.content.ServiceConnection;
+import android.hardware.SensorListener;
+import android.hardware.SensorManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.TextView;
+
+public class Cow extends Activity implements SensorListener{
 
 	private static final String	TAG												= "[moo]:";
 	private TextView						status;
 	private TextView						coOrds;
 	private TextView						accuracy_str;
-	private float[]							currentOrientationValues	= new float[3];
 	private TextView						currentX;
 	private TextView						currentY;
 
-  private boolean mIsBound;
-  private MooService mBoundService;	
-
+  private boolean mooServiceIsBound;
+	private ServiceConnection	mooServiceConnection;
+	private Handler	mooHandler;	
+  private SensorManager				mSensorManager;
+	private Date	startTime;
+	protected static final int	DORMANT_COW	= 45;
+	protected static final int	BUILDING_GAS	= 53;
+	protected static final int	MOO	= 88;
+	private int	cowState = DORMANT_COW;
+	private static final int	MOO_THRESHHOLD	= -60;
+	
+	private long	totalMooPower;
+  
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
     
 		status = (TextView) findViewById(R.id.txt_status);
 		accuracy_str = (TextView) findViewById(R.id.txt_accuracy);
 		currentX = (TextView) findViewById(R.id.txt_X);
 		currentY = (TextView) findViewById(R.id.txt_Y);
+		
+		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		mSensorManager.registerListener(this, SensorManager.SENSOR_ACCELEROMETER | SensorManager.SENSOR_MAGNETIC_FIELD | SensorManager.SENSOR_ORIENTATION,
+				SensorManager.SENSOR_DELAY_FASTEST);
+		
+		this.startTime = new Date(000000000);
 
-		setContentView(R.layout.main);
-    bindService(new Intent(Cow.this, MooService.class), mConnection, Context.BIND_AUTO_CREATE);
-    mIsBound = true;
+		mooServiceIsBound = true;
+
 	}
 	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-    if (mIsBound) {
-      unbindService(mConnection);
-      mIsBound = false;
+    if (mooServiceIsBound) {
+      unbindService(mooServiceConnection);
+      mooServiceIsBound = false;
     }
 	}
-	
-  private ServiceConnection mConnection = new ServiceConnection() {
-    public void onServiceConnected(ComponentName className, IBinder service) {
-        mBoundService = ((MooService.LocalBinder)service).getService();
-        
-        Toast.makeText(Cow.this, R.string.moo_serv_start, Toast.LENGTH_SHORT).show();
-    }
-
-    public void onServiceDisconnected(ComponentName className) {
-        mBoundService = null;
-        Toast.makeText(Cow.this, R.string.moo_serv_stop,  Toast.LENGTH_SHORT).show();
-    }
-};
-
+  
+	@Override
 	public void onAccuracyChanged(int sensor, int accuracy) {
-
-		// Log.i(TAG, "Sensor: [" + Integer.toString(sensor) + "]");
-		// Log.i(TAG, "Accuracy:" + Integer.toString(accuracy) );
-		//		
-		// status.setText("Sensor: [" + Integer.toString(sensor) + "]");
-		// accuracy_str.setText(Integer.toString(accuracy));
+		
 	}
 
+	@Override
 	public void onSensorChanged(int sensor, float[] values) {
-//
-//		synchronized (this) {
-//			if (sensor == SensorManager.SENSOR_ORIENTATION) {
-//				currentX.setText(Float.toString(values[0]));
-//				currentY.setText(Float.toString(values[1]));
-//			}
-//		}
 		
-		
-	}
+			synchronized (this) {
+				if (sensor == SensorManager.SENSOR_ORIENTATION) {
+					
+					if(values[1] > Cow.MOO_THRESHHOLD && cowState == Cow.DORMANT_COW){
+						startTime = new Date();
+						cowState = Cow.BUILDING_GAS;
+					}
+					
+					if(values[1] < Cow.MOO_THRESHHOLD && cowState == Cow.BUILDING_GAS){
+						totalMooPower = startTime.getTime() - System.currentTimeMillis();
+						Log.d(TAG, "Moo Power: [" + totalMooPower + "]");
+						cowState = Cow.DORMANT_COW;
+					}
+				}
 
-	//		
-	// int entry, allValues = values.length;
-	// StringBuffer builtString = new StringBuffer(allValues);
-	//			
-	// status.setText("Sensor: [" + Integer.toString(sensor) + "]");
-	// Log.i(TAG, "Sensor: [" + Integer.toString(sensor) + "]");
-	//			
-	// for (entry = (allValues - 1); entry >= 0; entry--){
-	// builtString.append(values[entry]);
-	// }
-	//			
-	// Log.i(TAG, "CoOrds:" + builtString );
-	// coOrds.setText(builtString);
-	//		
-	// }
+			}
+	}
+  
+  
 
 }
