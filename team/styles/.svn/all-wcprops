@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/6/trunk/team/styles
+END
+codeformatter-eclipse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/6/trunk/team/styles/codeformatter-eclipse.xml
+END
+cleanup-eclipse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/6/trunk/team/styles/cleanup-eclipse.xml
+END
+codetemplates-eclipse.xml
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/6/trunk/team/styles/codetemplates-eclipse.xml
+END
