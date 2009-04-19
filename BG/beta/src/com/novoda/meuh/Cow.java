@@ -1,113 +1,90 @@
 package com.novoda.meuh;
 
-import java.util.Date;
-
 import android.app.Activity;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.OrientationEventListener;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.novoda.meuh.media.MeuhSound;
 
-public class Cow extends Activity implements SensorEventListener {
+public class Cow extends Activity {
 
 	private static final String TAG = "[moo]:";
 
-	private Date startTime;
-	protected static final int DORMANT_COW = 45;
-	protected static final int BUILDING_GAS = 53;
-	protected static final int MOO = 88;
-	private int cowState = DORMANT_COW;
-
-	private static final int MOO_THRESHHOLD = 60;
-
-	private boolean hasTilted = false;
-
-	private long totalMooPower;
-
 	private MeuhSound mCowSound;
 
-	private SensorManager mSensorManager;
+	private Moo m;
 
-	private long enterTime;
-
-	private long exitTime;
-
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		setContentView(R.layout.main);
 		mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
-		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+
+		m = new Moo(this);
+		if (!m.canDetectOrientation())
+			Toast.makeText(this, "can't moo :(", 1000);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mSensorManager.registerListener(this, mSensorManager
-				.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-				SensorManager.SENSOR_DELAY_FASTEST);
+		m.enable();
 	}
 
 	@Override
 	protected void onStop() {
-		mSensorManager.unregisterListener(this);
+		m.disable();
 		super.onStop();
 	}
 
-	public void onSensorChanged(SensorEvent event) {
-		if (event.sensor.getType() != Sensor.TYPE_ORIENTATION)
-			return;
+	private class Moo extends OrientationEventListener {
 
-		Log.i(TAG, "x " + event.values[0] + " ,y " + event.values[1] + " ,z "
-				+ event.values[2]);
+		private boolean isMooing;
+		private int mooPower;
 
-		synchronized (this) {
-			// if (event.values[2] > Cow.MOO_THRESHHOLD
-			// && cowState == Cow.DORMANT_COW) {
-			// startTime = new Date();
-			// cowState = Cow.BUILDING_GAS;
-			// }
-			//
-			// if (event.values[2] < Cow.MOO_THRESHHOLD
-			// && cowState == Cow.BUILDING_GAS) {
-			// totalMooPower = startTime.getTime()
-			// - System.currentTimeMillis();
-			// Log.d(TAG, "Moo Power: [" + totalMooPower + "]");
-			// cowState = Cow.DORMANT_COW;
-			// }
-			
-			// First time it tilts
-			if (Math.abs(event.values[2]) > Cow.MOO_THRESHHOLD && !hasTilted) {
-				enterTime = System.currentTimeMillis();
-				hasTilted = true;
-			}
+		public Moo(Context context) {
+			super(context);
+		}
 
-			if (Math.abs(event.values[2]) < Cow.MOO_THRESHHOLD && hasTilted) {
-				exitTime = System.currentTimeMillis();
-				// playSound(enterTime - exitTime);
-				long lon = enterTime - exitTime;
-				lon = (lon > 4000) ? 4000 : lon;
-				Log.i(TAG, "enter " + lon / 1000);
-				mCowSound.play(lon / 1000);
-				hasTilted = false;
+		@Override
+		public void onOrientationChanged(int orientation) {
+			if (orientation > 60 && orientation < 300) {
+				isMooing = true;
+				mooPower++;
+
+			} else
+				isMooing = false;
+
+			if (!isMooing && mooPower > 0) {
+				// play sound
+				Log.i(TAG, "Power " + mooPower);
+				double speed = 1;
+				if (mooPower < 3)
+					speed = 3;
+				else if (mooPower < 5)
+					speed = 2;
+				else if (mooPower < 10)
+					speed = 1;
+				else if (mooPower < 13)
+					speed = 0.7;
+				else if (mooPower < 15)
+					speed = 0.5;
+				else
+					speed = 0.4;
+
+				mCowSound.play(speed);
+				mooPower = 0;
 			}
 		}
-	}
 
-	private void playSound(long lon) {
-		lon = (lon > 4000) ? 4000 : lon;
-		mCowSound.play(lon / 1000);
-	}
-
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
 
 }
