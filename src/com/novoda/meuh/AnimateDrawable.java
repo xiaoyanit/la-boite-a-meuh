@@ -22,16 +22,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Transformation;
 
-public class CowHead extends ProxyDrawable {
+public class AnimateDrawable extends ProxyDrawable {
     
     private Animation mAnimation;
     private Transformation mTransformation = new Transformation();
 
-    public CowHead(Drawable target) {
+    public AnimateDrawable(Drawable target) {
         super(target);
     }
     
-    public CowHead(Drawable target, Animation animation) {
+    public AnimateDrawable(Drawable target, Animation animation) {
         super(target);
         mAnimation = animation;
     }
@@ -68,5 +68,6 @@ public class CowHead extends ProxyDrawable {
             canvas.restoreToCount(sc);
         }
     }
+    
 }
     

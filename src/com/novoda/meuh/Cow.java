@@ -1,8 +1,7 @@
 package com.novoda.meuh;
 
-import java.util.Date;
-
 import android.app.Activity;
+<<<<<<< HEAD:src/com/novoda/meuh/Cow.java
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -125,4 +124,17 @@ public class Cow extends Activity implements SensorListener {
 		}
 	}
 
+=======
+import android.os.Bundle;
+
+public class Cow extends Activity
+{
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+    }
+>>>>>>> 7aa80e39323ff39bbebecb14ee12da4597ed3aec:src/com/novoda/meuh/Cow.java
 }
