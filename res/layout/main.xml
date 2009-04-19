@@ -38,21 +38,13 @@
         android:paddingTop="4dip"
         android:text="@string/str_accuracy"/>
         
-    <TextView android:id="@+id/txt_X"
+    <TextView android:id="@+id/txt_coords"
         android:layout_width="fill_parent" 
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:gravity="center_horizontal" 
         android:paddingTop="4dip"
-        android:text="@string/str_Y"/>
-
-    <TextView android:id="@+id/txt_Y"
-        android:layout_width="fill_parent" 
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        android:gravity="center_horizontal" 
-        android:paddingTop="4dip"
-        android:text="@string/str_Y"/>
+        android:text="@string/str_coords"/>
 
 </LinearLayout>
 

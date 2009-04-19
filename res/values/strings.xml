@@ -8,6 +8,7 @@
     <string name="str_accuracy">Unset</string>
     <string name="str_X">000000</string>
     <string name="str_Y">000000</string>
+    <string name="str_coords">000000</string>
     
     <string name="moo_serv_start">moo monitor start</string>
     <string name="moo_serv_stop">moo monitor stop</string>

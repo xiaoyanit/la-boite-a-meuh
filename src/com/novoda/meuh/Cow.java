@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.hardware.SensorListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -31,19 +30,21 @@ public class Cow extends Activity implements SensorListener {
 
 	private long								totalMooPower;
 
+	private CowHeadView					cowHeadView;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-    setContentView(new CowHeadView(this));
+		cowHeadView = new CowHeadView(this);
+		setContentView(cowHeadView);
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		mSensorManager.registerListener(this, SensorManager.SENSOR_ACCELEROMETER | SensorManager.SENSOR_MAGNETIC_FIELD | SensorManager.SENSOR_ORIENTATION,
 				SensorManager.SENSOR_DELAY_FASTEST);
 
 		this.startTime = new Date(000000000);
-
+		this.setRequestedOrientation(1);
 	}
-
 
 	@Override
 	public void onAccuracyChanged(int sensor, int accuracy) {
@@ -64,59 +65,64 @@ public class Cow extends Activity implements SensorListener {
 				if (values[1] < Cow.MOO_THRESHHOLD && cowState == Cow.BUILDING_GAS) {
 					totalMooPower = startTime.getTime() - System.currentTimeMillis();
 					Log.d(TAG, "Moo Power: [" + totalMooPower + "]");
+					moo(totalMooPower);
 					cowState = Cow.DORMANT_COW;
 				}
 			}
 
 		}
 	}
-	
-  private static class CowHeadView extends View {
-    private CowHead mDrawable;
+
+	private void moo(long totalMooPower) {
+		cowHeadView.spinCowHead(totalMooPower);
+		// makeMooSound();
+	}	
+
+	private static class CowHeadView extends View {
 		private Bitmap		cowHead;
 		private int				cowHeadXOffset;
 		private int				cowHeadYOffset;
 
 		private Animation	anim;
+		private Canvas	canvas;
 
-    public CowHeadView(Context context) {
-        super(context);
-        setFocusable(true);
-        setFocusableInTouchMode(true);
-        
-  			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.me);
-  			cowHeadXOffset = cowHead.getWidth() / 2;
-  			cowHeadYOffset = cowHead.getHeight() / 2;
+		public CowHeadView(Context context) {
+			super(context);
+			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.me);
+			cowHeadXOffset = cowHead.getWidth() / 2;
+			cowHeadYOffset = cowHead.getHeight() / 2;
 
-    }
-    
-    @Override protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
-  			super.onDraw(canvas);
+		}
 
-  			// creates the animation the first time
-  			if (anim == null) {
-  				createAnim(canvas);
-  			}
+		public void spinCowHead(long totalMooPower) {
+			anim.setDuration(Math.abs(totalMooPower));
+			synchronized (this) {
+				startAnimation(anim);
+			}
+		}
 
-  			int centerX = canvas.getWidth() / 2;
-  			int centerY = canvas.getHeight() / 2;
-
-  			canvas.drawBitmap(cowHead, centerX - cowHeadXOffset, centerY - cowHeadYOffset, null);
-//        mDrawable.draw(canvas);
-        invalidate();
-    }
-    
 		private void createAnim(Canvas canvas) {
 			anim = new RotateAnimation(0, 360, canvas.getWidth() / 2, canvas.getHeight() / 2);
 			anim.setRepeatMode(Animation.RESTART);
-			anim.setRepeatCount(5);
+			anim.setRepeatCount(0);
 			anim.setDuration(1800L);
-			anim.setInterpolator(new LinearInterpolator());
-
 			startAnimation(anim);
 		}
-}
-	
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+			super.onDraw(canvas);
+			this.canvas = canvas;
+
+			if (anim == null) {
+				createAnim(canvas);
+			}
+
+			int centerX = canvas.getWidth() / 2;
+			int centerY = canvas.getHeight() / 2;
+
+			canvas.drawBitmap(cowHead, centerX - cowHeadXOffset, centerY - cowHeadYOffset, null);
+		}
+	}
 
 }
