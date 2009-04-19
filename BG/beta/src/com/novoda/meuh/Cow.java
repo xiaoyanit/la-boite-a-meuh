@@ -97,7 +97,7 @@ public class Cow extends Activity {
 		}
 		
 		public void moo(double speed) {
-			cowHeadView.spinCowHead(800L);
+		//	cowHeadView.spinCowHead(800L);
 			mCowSound.play(speed);
 			mooPower = 0;
 		}
