@@ -17,11 +17,8 @@ public final class R {
         public static final int me=0x7f020003;
     }
     public static final class id {
-        public static final int txt_accuracy=0x7f060003;
-        public static final int txt_accuracy_lbl=0x7f060002;
-        public static final int txt_coords=0x7f060004;
-        public static final int txt_status=0x7f060001;
-        public static final int txt_status_lbl=0x7f060000;
+        public static final int cowhead=0x7f060000;
+        public static final int cowheadview=0x7f060001;
     }
     public static final class layout {
         public static final int main=0x7f030000;

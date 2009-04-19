@@ -35,9 +35,9 @@ public class Cow extends Activity implements SensorListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		cowHeadView = new CowHeadView(this);
-		setContentView(cowHeadView);
-
+		setContentView(R.layout.main);
+		cowHeadView = (CowHeadView)findViewById(R.id.cowheadview);
+		
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		mSensorManager.registerListener(this, SensorManager.SENSOR_ACCELEROMETER | SensorManager.SENSOR_MAGNETIC_FIELD | SensorManager.SENSOR_ORIENTATION,
 				SensorManager.SENSOR_DELAY_FASTEST);
@@ -76,53 +76,6 @@ public class Cow extends Activity implements SensorListener {
 	private void moo(long totalMooPower) {
 		cowHeadView.spinCowHead(totalMooPower);
 		// makeMooSound();
-	}
-
-	private static class CowHeadView extends View {
-		private Bitmap		cowHead;
-		private int			cowHeadXOffset;
-		private int			cowHeadYOffset;
-
-		private Animation	anim;
-		private Canvas		canvas;
-
-		public CowHeadView(Context context) {
-			super(context);
-			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.me);
-			cowHeadXOffset = cowHead.getWidth() / 2;
-			cowHeadYOffset = cowHead.getHeight() / 2;
-
-		}
-
-		public void spinCowHead(long totalMooPower) {
-			anim.setDuration(Math.abs(totalMooPower));
-			synchronized (this) {
-				startAnimation(anim);
-			}
-		}
-
-		private void createAnim(Canvas canvas) {
-			anim = new RotateAnimation(0, 360, canvas.getWidth() / 2, canvas.getHeight() / 2);
-			anim.setRepeatMode(Animation.RESTART);
-			anim.setRepeatCount(0);
-			anim.setDuration(1800L);
-			startAnimation(anim);
-		}
-
-		@Override
-		protected void onDraw(Canvas canvas) {
-			super.onDraw(canvas);
-			this.canvas = canvas;
-
-			if (anim == null) {
-				createAnim(canvas);
-			}
-
-			int centerX = canvas.getWidth() / 2;
-			int centerY = canvas.getHeight() / 2;
-
-			canvas.drawBitmap(cowHead, centerX - cowHeadXOffset, centerY - cowHeadYOffset, null);
-		}
 	}
 
 }
