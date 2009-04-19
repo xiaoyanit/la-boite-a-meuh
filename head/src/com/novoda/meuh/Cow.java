@@ -18,19 +18,19 @@ import android.view.animation.RotateAnimation;
 
 public class Cow extends Activity implements SensorListener {
 
-	private static final String	TAG							= "[moo]:";
+	private static final String	TAG				= "[moo]:";
 
-	private SensorManager				mSensorManager;
-	private Date								startTime;
-	protected static final int	DORMANT_COW			= 45;
-	protected static final int	BUILDING_GAS		= 53;
-	protected static final int	MOO							= 88;
-	private int									cowState				= DORMANT_COW;
-	private static final int		MOO_THRESHHOLD	= -60;
+	private SensorManager		mSensorManager;
+	private Date				startTime;
+	protected static final int	DORMANT_COW		= 45;
+	protected static final int	BUILDING_GAS	= 53;
+	protected static final int	MOO				= 88;
+	private int					cowState		= DORMANT_COW;
+	private static final int	MOO_THRESHHOLD	= -60;
 
-	private long								totalMooPower;
+	private long				totalMooPower;
 
-	private CowHeadView					cowHeadView;
+	private CowHeadView			cowHeadView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,15 +76,15 @@ public class Cow extends Activity implements SensorListener {
 	private void moo(long totalMooPower) {
 		cowHeadView.spinCowHead(totalMooPower);
 		// makeMooSound();
-	}	
+	}
 
 	private static class CowHeadView extends View {
 		private Bitmap		cowHead;
-		private int				cowHeadXOffset;
-		private int				cowHeadYOffset;
+		private int			cowHeadXOffset;
+		private int			cowHeadYOffset;
 
 		private Animation	anim;
-		private Canvas	canvas;
+		private Canvas		canvas;
 
 		public CowHeadView(Context context) {
 			super(context);

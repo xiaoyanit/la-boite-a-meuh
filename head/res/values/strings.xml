@@ -14,5 +14,6 @@
     <string name="moo_serv_stop">moo monitor stop</string>
     <string name="moo_serv_lbl">moo service</string>
     
+    <string name="hello">Hello World, Cow!</string>
     
 </resources>
