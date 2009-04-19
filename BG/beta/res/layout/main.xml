@@ -18,5 +18,11 @@
 		android:layout_height="wrap_content"
 		android:layout_centerInParent="true"
 		android:src="@drawable/cow" />
+		
+	<com.novoda.meuh.CowHeadView
+		android:id="@+id/cowheadview"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+	/>
 
 </RelativeLayout>
