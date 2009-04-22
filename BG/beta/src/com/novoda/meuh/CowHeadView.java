@@ -5,11 +5,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 
 public class CowHeadView extends View{
+	private static final String TAG = "mooh: ";
 	private Bitmap		cowHead;
 	private int			cowHeadXOffset;
 	private int			cowHeadYOffset;
@@ -17,6 +19,8 @@ public class CowHeadView extends View{
 	private Animation	anim;
 	private Canvas		canvas;
 
+	public float degrees = 0;
+	
 	public CowHeadView(Context context, AttributeSet set) {
 		super(context);
 		cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
@@ -50,8 +54,10 @@ public class CowHeadView extends View{
 
 		int centerX = canvas.getWidth() / 2;
 		int centerY = canvas.getHeight() / 2;
-
+		canvas.rotate(degrees);
+		Log.i(TAG, "degrees : " + degrees);
 		canvas.drawBitmap(cowHead, centerX - cowHeadXOffset, centerY - cowHeadYOffset, null);
 	}
+	
 }
 

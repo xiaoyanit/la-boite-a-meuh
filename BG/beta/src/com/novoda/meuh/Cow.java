@@ -5,6 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.AttributeSet;
@@ -23,9 +26,11 @@ public class Cow extends Activity {
 	private static final String TAG = "[moo]:";
 
 	private MeuhSound mCowSound;
-	private int mOrientation = -1;
+	private int mOrientation = 0;
 	private Moo m;
-	private CowHeadView	cowHeadView;
+	private CowHeadView cowHeadView;
+
+	private View view;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,12 @@ public class Cow extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		setContentView(R.layout.main);
-		cowHeadView = (CowHeadView) findViewById(R.id.cowheadview);
-		
+		view = new NCowHeadView(this);
+
+		setContentView(view);
+
+		// cowHeadView = (CowHeadView) findViewById(R.id.cowheadview);
+
 		mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
 
 		m = new Moo(this);
@@ -66,10 +74,19 @@ public class Cow extends Activity {
 
 		@Override
 		public void onOrientationChanged(int orientation) {
+			mOrientation = orientation;
+			if (view != null)
+				view.invalidate();
+
+			if (cowHeadView != null) {
+
+				cowHeadView.degrees = (float) orientation;
+				cowHeadView.invalidate();
+			}
+
 			if (orientation > 60 && orientation < 300) {
 				isMooing = true;
 				mooPower++;
-
 			} else
 				isMooing = false;
 
@@ -89,19 +106,66 @@ public class Cow extends Activity {
 					speed = 0.5;
 				else
 					speed = 0.4;
-				
 				moo(speed);
-
 			}
-
 		}
-		
+
 		public void moo(double speed) {
-		//	cowHeadView.spinCowHead(800L);
+			// cowHeadView.spinCowHead(800L);
 			mCowSound.play(speed);
 			mooPower = 0;
 		}
-
 	}
 
+	private class NCowHeadView extends View {
+		private Paint mPaint = new Paint();
+		private Bitmap bg;
+
+		private Bitmap cowHead;
+		private int cowHeadXOffset;
+		private int cowHeadYOffset;
+
+		public NCowHeadView(Context context) {
+			super(context);
+
+			bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
+
+			// Construct the cow head
+			cowHead = BitmapFactory.decodeResource(getResources(),
+					R.drawable.cow);
+			cowHeadXOffset = cowHead.getWidth() / 2;
+			cowHeadYOffset = cowHead.getHeight() / 2;
+		}
+
+		@Override
+		protected void onDraw(Canvas canvas) {
+			Paint paint = mPaint;
+			canvas.drawBitmap(bg, 0, 0, paint);
+
+			paint.setAntiAlias(true);
+
+			int w = canvas.getWidth();
+			int h = canvas.getHeight();
+			int cx = w / 2;
+			int cy = h / 2;
+
+			// move it a bit more to the bottom so the cow head fits.
+			cy += 40;
+
+			canvas.translate(cx, cy);
+
+			canvas.rotate(-1 * mOrientation);
+			canvas.drawBitmap(cowHead, -cowHeadXOffset, -cowHeadYOffset, paint);
+		}
+
+		@Override
+		protected void onAttachedToWindow() {
+			super.onAttachedToWindow();
+		}
+
+		@Override
+		protected void onDetachedFromWindow() {
+			super.onDetachedFromWindow();
+		}
+	}
 }
