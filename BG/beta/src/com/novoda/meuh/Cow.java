@@ -5,19 +5,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.media.AudioManager;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.novoda.meuh.media.MeuhSound;
 
@@ -25,10 +24,12 @@ public class Cow extends Activity {
 
 	private static final String TAG = "[moo]:";
 
+	private static final int CARL_ID = 0;
+	private static final int KEVIN_ID = 1;
+
 	private MeuhSound mCowSound;
 	private int mOrientation = 0;
 	private Moo m;
-	private CowHeadView cowHeadView;
 
 	private View view;
 
@@ -38,11 +39,8 @@ public class Cow extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		view = new NCowHeadView(this);
-
+		view = new CowHeadView(this);
 		setContentView(view);
-
-		// cowHeadView = (CowHeadView) findViewById(R.id.cowheadview);
 
 		mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
 
@@ -78,12 +76,6 @@ public class Cow extends Activity {
 			if (view != null)
 				view.invalidate();
 
-			if (cowHeadView != null) {
-
-				cowHeadView.degrees = (float) orientation;
-				cowHeadView.invalidate();
-			}
-
 			if (orientation > 60 && orientation < 300) {
 				isMooing = true;
 				mooPower++;
@@ -117,7 +109,7 @@ public class Cow extends Activity {
 		}
 	}
 
-	private class NCowHeadView extends View {
+	private class CowHeadView extends View {
 		private Paint mPaint = new Paint();
 		private Bitmap bg;
 
@@ -125,7 +117,7 @@ public class Cow extends Activity {
 		private int cowHeadXOffset;
 		private int cowHeadYOffset;
 
-		public NCowHeadView(Context context) {
+		public CowHeadView(Context context) {
 			super(context);
 
 			bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
@@ -141,9 +133,7 @@ public class Cow extends Activity {
 		protected void onDraw(Canvas canvas) {
 			Paint paint = mPaint;
 			canvas.drawBitmap(bg, 0, 0, paint);
-
 			paint.setAntiAlias(true);
-
 			int w = canvas.getWidth();
 			int h = canvas.getHeight();
 			int cx = w / 2;
@@ -151,7 +141,6 @@ public class Cow extends Activity {
 
 			// move it a bit more to the bottom so the cow head fits.
 			cy += 40;
-
 			canvas.translate(cx, cy);
 
 			canvas.rotate(-1 * mOrientation);
@@ -167,5 +156,59 @@ public class Cow extends Activity {
 		protected void onDetachedFromWindow() {
 			super.onDetachedFromWindow();
 		}
+	
+		public boolean onLongClick(View view){
+			Log.i(TAG, "clic");
+			return true;
+		}
 	}
+	
+	public boolean onLongClick(View view){
+		Log.i(TAG, "clic");
+		return true;
+	}
+	
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
+		//super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, CARL_ID, 0, "Carl is a cow");
+		menu.add(0, KEVIN_ID, 0, "Kevin is a cow");
+	}
+
+	public boolean onContextItemSelected(MenuItem item) {
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		switch (item.getItemId()) {
+		case CARL_ID:
+			Log.i(TAG, "carl");
+			return true;
+		case KEVIN_ID:
+			Log.i(TAG, "kevin");
+			return true;
+		default:
+			return super.onContextItemSelected(item);
+		}
+	}
+	
+	/* Creates the menu items */
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    menu.add(0, CARL_ID, 0, "Carl is a cow");
+	    menu.add(0, KEVIN_ID, 0, "Kevin is a cow");
+	    menu.add(0, KEVIN_ID, 0, "You are a cow");
+	    return true;
+	}
+
+	/* Handles item selections */
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case CARL_ID:
+	    	mCowSound = MeuhSound.create(this, R.raw.carlthecow);
+	        return true;
+	    case KEVIN_ID:
+	    	mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
+	        return true;
+	    }
+	    return false;
+	}
+	
+	
 }
