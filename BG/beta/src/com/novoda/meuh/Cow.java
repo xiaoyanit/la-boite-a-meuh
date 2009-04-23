@@ -1,5 +1,7 @@
 package com.novoda.meuh;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,6 +27,7 @@ public class Cow extends Activity {
 
 	private static final int CARL_ID = 0;
 	private static final int KEVIN_ID = 1;
+	private static final int YOU_ID = 2;
 
 	private MeuhSound mCowSound;
 	private int mOrientation = 0;
@@ -162,24 +165,37 @@ public class Cow extends Activity {
 	}
 
 	/*********************** voice recorder ***********************/
-	public void record() {
-		MediaRecorder recorder = new MediaRecorder();
+	private MediaRecorder recorder;
+	public void record() throws Exception {
+		recorder = new MediaRecorder();
 		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-		recorder.setOutputFile(PATH_NAME);
+		recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
+		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+		recorder.setOutputFile(File.createTempFile("tmp_", ".wav").getPath());
 		recorder.prepare();
 		recorder.start(); // Recording is now started
-		recorder.stop();
-		recorder.reset(); // You can reuse the object by going back to
-		recorder.release(); // Now the object cannot be reused
+		
+        new Thread() { 
+            public void run() { 
+                 try{ 
+                      // Do some Fake-Work 
+                      sleep(3000); 
+                 } catch (Exception e) {  } 
+                 // Dismiss the Dialog 
+                 recorder.stop();
+         		recorder.reset(); // You can reuse the object by going back to
+        		recorder.release(); // Now the object cannot be reused
+            } 
+       }.start(); 
+		
+
 	}
 
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, CARL_ID, 0, "Carl is a cow").setIcon(R.drawable.carl);
 		menu.add(0, KEVIN_ID, 0, "Kevin is a cow").setIcon(R.drawable.kevin);
-		menu.add(0, KEVIN_ID, 0, "You are a cow").setIcon(R.drawable.you);
+		menu.add(0, YOU_ID, 0, "You are a cow").setIcon(R.drawable.you);
 		return true;
 	}
 
@@ -194,6 +210,15 @@ public class Cow extends Activity {
 		case KEVIN_ID:
 			mCowSound.dispose();
 			mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
+			return true;
+		case YOU_ID:
+			
+			try {
+					record();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			return true;
 		}
 		return false;
