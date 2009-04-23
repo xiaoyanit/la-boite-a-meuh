@@ -42,6 +42,7 @@ public class MeuhSound {
 					resid);
 			if (afd == null)
 				return null;
+			Log.i(TAG, "size: " + afd.getLength());
 			MeuhSound meuh = new MeuhSound(context.getResources()
 					.openRawResource(resid), (int) afd.getLength());
 			afd.close();
@@ -59,6 +60,7 @@ public class MeuhSound {
 
 	private void prepare() {
 		buffer = new byte[fileLength];
+		Log.i(TAG, "file l: " + fileLength);
 		try {
 			audioin.read(buffer);
 			audioin.close();
@@ -70,6 +72,7 @@ public class MeuhSound {
 				AudioFormat.ENCODING_DEFAULT, fileLength,
 				AudioTrack.MODE_STATIC);
 		at.write(buffer, 0, fileLength);
+		at.flush();
 	}
 
 	public void play(double speed) {
@@ -83,7 +86,7 @@ public class MeuhSound {
 		at.play();
 	}
 
-	public void dispose() throws IOException {
+	public void dispose() {
 		at.release();
 		buffer = null;
 	}

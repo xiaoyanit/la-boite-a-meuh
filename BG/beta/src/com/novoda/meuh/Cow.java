@@ -7,16 +7,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
-import android.widget.AdapterView.AdapterContextMenuInfo;
 
 import com.novoda.meuh.media.MeuhSound;
 
@@ -42,7 +41,7 @@ public class Cow extends Activity {
 		view = new CowHeadView(this);
 		setContentView(view);
 
-		mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
+		mCowSound = MeuhSound.create(this, R.raw.carlthecow);
 
 		m = new Moo(this);
 		if (!m.canDetectOrientation())
@@ -60,6 +59,8 @@ public class Cow extends Activity {
 		m.disable();
 		super.onStop();
 	}
+
+	private boolean isMooChanging = false;
 
 	private class Moo extends OrientationEventListener {
 
@@ -103,9 +104,11 @@ public class Cow extends Activity {
 		}
 
 		public void moo(double speed) {
-			// cowHeadView.spinCowHead(800L);
-			mCowSound.play(speed);
+			if (!isMooChanging) {
+				mCowSound.play(speed);
+			}
 			mooPower = 0;
+
 		}
 	}
 
@@ -156,59 +159,43 @@ public class Cow extends Activity {
 		protected void onDetachedFromWindow() {
 			super.onDetachedFromWindow();
 		}
-	
-		public boolean onLongClick(View view){
-			Log.i(TAG, "clic");
-			return true;
-		}
 	}
-	
-	public boolean onLongClick(View view){
-		Log.i(TAG, "clic");
+
+	/*********************** voice recorder ***********************/
+	public void record() {
+		MediaRecorder recorder = new MediaRecorder();
+		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+		recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+		recorder.setOutputFile(PATH_NAME);
+		recorder.prepare();
+		recorder.start(); // Recording is now started
+		recorder.stop();
+		recorder.reset(); // You can reuse the object by going back to
+		recorder.release(); // Now the object cannot be reused
+	}
+
+	/*********************** Menu creation ***********************/
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, CARL_ID, 0, "Carl is a cow").setIcon(R.drawable.carl);
+		menu.add(0, KEVIN_ID, 0, "Kevin is a cow").setIcon(R.drawable.kevin);
+		menu.add(0, KEVIN_ID, 0, "You are a cow").setIcon(R.drawable.you);
 		return true;
 	}
-	
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
-		//super.onCreateContextMenu(menu, v, menuInfo);
-		menu.add(0, CARL_ID, 0, "Carl is a cow");
-		menu.add(0, KEVIN_ID, 0, "Kevin is a cow");
-	}
 
-	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case CARL_ID:
-			Log.i(TAG, "carl");
+			isMooChanging = true;
+			mCowSound.dispose();
+			mCowSound = MeuhSound.create(this, R.raw.carlthecow);
+			isMooChanging = false;
 			return true;
 		case KEVIN_ID:
-			Log.i(TAG, "kevin");
+			mCowSound.dispose();
+			mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
 			return true;
-		default:
-			return super.onContextItemSelected(item);
 		}
+		return false;
 	}
-	
-	/* Creates the menu items */
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    menu.add(0, CARL_ID, 0, "Carl is a cow");
-	    menu.add(0, KEVIN_ID, 0, "Kevin is a cow");
-	    menu.add(0, KEVIN_ID, 0, "You are a cow");
-	    return true;
-	}
-
-	/* Handles item selections */
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    case CARL_ID:
-	    	mCowSound = MeuhSound.create(this, R.raw.carlthecow);
-	        return true;
-	    case KEVIN_ID:
-	    	mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
-	        return true;
-	    }
-	    return false;
-	}
-	
-	
 }
