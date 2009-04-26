@@ -1,7 +1,5 @@
 package com.novoda.meuh;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -164,38 +161,13 @@ public class Cow extends Activity {
 		}
 	}
 
-	/*********************** voice recorder ***********************/
-	private MediaRecorder recorder;
-	public void record() throws Exception {
-		recorder = new MediaRecorder();
-		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-		recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
-		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-		recorder.setOutputFile(File.createTempFile("tmp_", ".wav").getPath());
-		recorder.prepare();
-		recorder.start(); // Recording is now started
-		
-        new Thread() { 
-            public void run() { 
-                 try{ 
-                      // Do some Fake-Work 
-                      sleep(3000); 
-                 } catch (Exception e) {  } 
-                 // Dismiss the Dialog 
-                 recorder.stop();
-         		recorder.reset(); // You can reuse the object by going back to
-        		recorder.release(); // Now the object cannot be reused
-            } 
-       }.start(); 
-		
-
-	}
-
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, CARL_ID, 0, "Carl is a cow").setIcon(R.drawable.carl);
 		menu.add(0, KEVIN_ID, 0, "Kevin is a cow").setIcon(R.drawable.kevin);
-		menu.add(0, YOU_ID, 0, "You are a cow").setIcon(R.drawable.you);
+		
+		// Will be enabled later.
+		//menu.add(0, YOU_ID, 0, "You are a cow").setIcon(R.drawable.you);
 		return true;
 	}
 
@@ -212,14 +184,7 @@ public class Cow extends Activity {
 			mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
 			return true;
 		case YOU_ID:
-			
-			try {
-					record();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			return true;
+			// Not implemented yet
 		}
 		return false;
 	}
