@@ -20,17 +20,17 @@ import com.novoda.meuh.media.MeuhSound;
 
 public class Cow extends Activity {
 
-	private static final String TAG = "[moo]:";
+	private static final String	TAG				= "[moo]:";
 
-	private static final int CARL_ID = 0;
-	private static final int KEVIN_ID = 1;
-	private static final int YOU_ID = 2;
+	private static final int	CARL_ID			= 0;
+	private static final int	KEVIN_ID		= 1;
+	private static final int	YOU_ID			= 2;
 
-	private MeuhSound mCowSound;
-	private int mOrientation = 0;
-	private Moo m;
+	private MeuhSound			mCowSound;
+	private int					mOrientation	= 0;
+	private Moo					m;
 
-	private View view;
+	private View				view;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,12 +60,12 @@ public class Cow extends Activity {
 		super.onStop();
 	}
 
-	private boolean isMooChanging = false;
+	private boolean	isMooChanging	= false;
 
 	private class Moo extends OrientationEventListener {
 
-		private boolean isMooing;
-		private int mooPower;
+		private boolean	isMooing;
+		private int		mooPower;
 
 		public Moo(Context context) {
 			super(context);
@@ -113,12 +113,12 @@ public class Cow extends Activity {
 	}
 
 	private class CowHeadView extends View {
-		private Paint mPaint = new Paint();
-		private Bitmap bg;
+		private Paint	mPaint	= new Paint();
+		private Bitmap	bg;
 
-		private Bitmap cowHead;
-		private int cowHeadXOffset;
-		private int cowHeadYOffset;
+		private Bitmap	cowHead;
+		private int		cowHeadXOffset;
+		private int		cowHeadYOffset;
 
 		public CowHeadView(Context context) {
 			super(context);
@@ -126,8 +126,7 @@ public class Cow extends Activity {
 			bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
 
 			// Construct the cow head
-			cowHead = BitmapFactory.decodeResource(getResources(),
-					R.drawable.cow);
+			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
 			cowHeadXOffset = cowHead.getWidth() / 2;
 			cowHeadYOffset = cowHead.getHeight() / 2;
 		}
@@ -165,26 +164,26 @@ public class Cow extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, CARL_ID, 0, "Carl is a cow").setIcon(R.drawable.carl);
 		menu.add(0, KEVIN_ID, 0, "Kevin is a cow").setIcon(R.drawable.kevin);
-		
+
 		// Will be enabled later.
-		//menu.add(0, YOU_ID, 0, "You are a cow").setIcon(R.drawable.you);
+		// menu.add(0, YOU_ID, 0, "You are a cow").setIcon(R.drawable.you);
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case CARL_ID:
-			isMooChanging = true;
-			mCowSound.dispose();
-			mCowSound = MeuhSound.create(this, R.raw.carlthecow);
-			isMooChanging = false;
-			return true;
-		case KEVIN_ID:
-			mCowSound.dispose();
-			mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
-			return true;
-		case YOU_ID:
-			// Not implemented yet
+			case CARL_ID:
+				isMooChanging = true;
+				mCowSound.dispose();
+				mCowSound = MeuhSound.create(this, R.raw.carlthecow);
+				isMooChanging = false;
+				return true;
+			case KEVIN_ID:
+				mCowSound.dispose();
+				mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
+				return true;
+			case YOU_ID:
+				// Not implemented yet
 		}
 		return false;
 	}

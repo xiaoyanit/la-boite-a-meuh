@@ -17,19 +17,19 @@ import android.util.Log;
  */
 public class MeuhSound {
 
-	private static final int DEFAULT_RATE = 44100;
+	private static final int	DEFAULT_RATE	= 44100;
 
-	private static final String TAG = "meuh:";
+	private static final String	TAG				= "meuh:";
 
 	// Have to be cast to int as we won't play huge files
-	private int fileLength;
-	private InputStream audioin;
+	private int					fileLength;
+	private InputStream			audioin;
 
-	private byte[] buffer;
+	private byte[]				buffer;
 
-	private AudioTrack at;
+	private AudioTrack			at;
 
-	private boolean first = true;
+	private boolean				first			= true;
 
 	public MeuhSound(InputStream in, int size) throws FileNotFoundException {
 		fileLength = size;
@@ -38,13 +38,11 @@ public class MeuhSound {
 
 	public static MeuhSound create(Context context, int resid) {
 		try {
-			AssetFileDescriptor afd = context.getResources().openRawResourceFd(
-					resid);
+			AssetFileDescriptor afd = context.getResources().openRawResourceFd(resid);
 			if (afd == null)
 				return null;
 			Log.i(TAG, "size: " + afd.getLength());
-			MeuhSound meuh = new MeuhSound(context.getResources()
-					.openRawResource(resid), (int) afd.getLength());
+			MeuhSound meuh = new MeuhSound(context.getResources().openRawResource(resid), (int) afd.getLength());
 			afd.close();
 			meuh.prepare();
 			return meuh;
@@ -67,10 +65,7 @@ public class MeuhSound {
 		} catch (IOException ex) {
 			Log.e(TAG, "prepare failed: " + ex.getMessage());
 		}
-		at = new AudioTrack(AudioManager.STREAM_MUSIC, DEFAULT_RATE,
-				AudioFormat.CHANNEL_CONFIGURATION_STEREO,
-				AudioFormat.ENCODING_DEFAULT, fileLength,
-				AudioTrack.MODE_STATIC);
+		at = new AudioTrack(AudioManager.STREAM_MUSIC, DEFAULT_RATE, AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_DEFAULT, fileLength, AudioTrack.MODE_STATIC);
 		at.write(buffer, 0, fileLength);
 		at.flush();
 	}
