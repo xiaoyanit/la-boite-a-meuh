@@ -17,6 +17,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.novoda.meuh.media.MeuhSound;
+import com.novoda.meuh.media.SoundPoolMgr;
 
 public class Cow extends Activity {
 
@@ -28,51 +29,60 @@ public class Cow extends Activity {
 
 	private MeuhSound			mCowSound;
 	private int					mOrientation	= 0;
-	private Moo					m;
+	private MooOnRotationEvent					mooOnRotationEvent;
 
 	private View				view;
+
+	private SoundPoolMgr	mgr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		view = new CowHeadView(this);
 		setContentView(view);
 
-		mCowSound = MeuhSound.create(this, R.raw.carlthecow);
+//		mCowSound = MeuhSound.create(this, R.raw.carlthecow);
+		mgr = new SoundPoolMgr(this); 
+		mgr.init();
 
-		m = new Moo(this);
-		if (!m.canDetectOrientation())
-			Toast.makeText(this, "can't moo :(", 1000);
+		mooOnRotationEvent = new MooOnRotationEvent(this);
+		
+		if (!mooOnRotationEvent.canDetectOrientation()){
+			Toast.makeText(this, "Can't moo :(", 1000);
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		m.enable();
+		mooOnRotationEvent.enable();
 	}
 
 	@Override
 	protected void onStop() {
-		m.disable();
+		mooOnRotationEvent.disable();
 		super.onStop();
 	}
 
 	private boolean	isMooChanging	= false;
 
-	private class Moo extends OrientationEventListener {
+	private class MooOnRotationEvent extends OrientationEventListener {
 
 		private boolean	isMooing;
 		private int		mooPower;
 
-		public Moo(Context context) {
+		public MooOnRotationEvent(Context context) {
 			super(context);
 		}
 
 		@Override
 		public void onOrientationChanged(int orientation) {
+			
+			
 			mOrientation = orientation;
 			if (view != null)
 				view.invalidate();
@@ -99,13 +109,15 @@ public class Cow extends Activity {
 					speed = 0.5;
 				else
 					speed = 0.4;
-				moo(speed);
+					moo(speed);
 			}
+			
 		}
 
 		public void moo(double speed) {
 			if (!isMooChanging) {
-				mCowSound.play(speed);
+//				mgr.play(speed);
+				mgr.playSound(speed);
 			}
 			mooPower = 0;
 
