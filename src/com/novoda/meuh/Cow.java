@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.novoda.meuh.media.MeuhSound;
 import com.novoda.meuh.media.SoundPoolMgr;
 
 public class Cow extends Activity {
@@ -24,12 +25,17 @@ public class Cow extends Activity {
 
 	private static final int	CARL_ID			= 0;
 	private static final int	KEVIN_ID		= 1;
+	private static final int SWITCH_SOUND_MANAGER = 2;
+
+	private boolean soundManager = true;
+	
 	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mooOnRotationEvent;
 
 	private View				view;
 
 	private SoundPoolMgr		mgr;
+	private MeuhSound			mCowSound;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,8 @@ public class Cow extends Activity {
 		view = new CowHeadView(this);
 		setContentView(view);
 
+		mCowSound = MeuhSound.create(this, R.raw.carlthecow);
+		
 		mgr = new SoundPoolMgr(this);
 		mgr.init();
 
@@ -90,18 +98,18 @@ public class Cow extends Activity {
 			if (!isMooing && mooPower > 0) {
 				// play sound
 				Log.i(TAG, "Power " + mooPower);
-				float speed = 1.4f;
+				float speed = 1.0f;
 
 				if (mooPower > 15)
-					speed = 0.3f;
+					speed = 0.5f;
 				else if (mooPower > 13)
-					speed = 0.9f;
+					speed = 0.7f;
 				else if (mooPower > 10)
-					speed = 1.4f;
+					speed = 1.0f;
 				else if (mooPower > 5)
-					speed = 2.4f;
+					speed = 1.5f;
 				else if (mooPower > 3)
-					speed = 3.4f;
+					speed = 1.9f;
 
 				moo(speed);
 			}
@@ -110,7 +118,10 @@ public class Cow extends Activity {
 
 		public void moo(float speed) {
 			if (!isMooChanging) {
-				mgr.playSound(speed);
+				if (soundManager)
+					mgr.playSound(speed);
+				else
+					mCowSound.play(speed);
 			}
 			mooPower = 0;
 
@@ -169,6 +180,7 @@ public class Cow extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, CARL_ID, 0, "Carl's French meuh").setIcon(R.drawable.carl);
 		menu.add(0, KEVIN_ID, 0, "Kevin's Scottish moo").setIcon(R.drawable.kevin);
+		menu.add(0, SWITCH_SOUND_MANAGER, 0, "change sound manager").setIcon(android.R.drawable.ic_media_play);
 		return true;
 	}
 
@@ -176,13 +188,20 @@ public class Cow extends Activity {
 		switch (item.getItemId()) {
 			case CARL_ID:
 				isMooChanging = true;
+				mCowSound.dispose();
+				mCowSound = MeuhSound.create(this, R.raw.carlthecow);
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_1;
 				isMooChanging = false;
 				return true;
 			case KEVIN_ID:
 				isMooChanging = true;
+				mCowSound.dispose();
+				mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_2;
 				isMooChanging = false;
+				return true;
+			case SWITCH_SOUND_MANAGER:
+				soundManager = !soundManager;  
 				return true;
 		}
 		return false;

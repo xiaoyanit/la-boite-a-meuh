@@ -21,7 +21,6 @@ public class SoundPoolMgr {
 	private HashMap<Integer, Integer>	soundPoolMap;
 
 	public static int					SELECTED_MOO_SOUND;
-	private static final int			DEFAULT_RATE	= 44100;
 
 	public SoundPoolMgr(Context context) {
 		this.context = context;
@@ -35,9 +34,10 @@ public class SoundPoolMgr {
 	public void init() {
 		if (enabled) {
 			Log.d(TAG, "Initializing new SoundPool");
+			
 			// re-init sound pool to work around bugs
 			release();
-			soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+			soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 			soundPoolMap = new HashMap<Integer, Integer>();
 			soundPoolMap.put(MOO_SOUND_1, soundPool.load(context, R.raw.carlthecow, 1));
 			soundPoolMap.put(MOO_SOUND_2, soundPool.load(context, R.raw.kevinthecow, 1));

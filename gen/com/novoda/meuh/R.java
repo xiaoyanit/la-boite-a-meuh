@@ -20,7 +20,9 @@ public final class R {
     }
     public static final class raw {
         public static final int carlthecow=0x7f030000;
-        public static final int kevinthecow=0x7f030001;
+        public static final int carlthecow2=0x7f030001;
+        public static final int kevinthecow=0x7f030002;
+        public static final int kevinthecow2=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040001;

@@ -17,7 +17,7 @@ import android.util.Log;
  */
 public class MeuhSound {
 
-	private static final int	DEFAULT_RATE	= 44100;
+	private static final int	DEFAULT_RATE	= 22050;
 
 	private static final String	TAG				= "meuh:";
 
@@ -65,7 +65,7 @@ public class MeuhSound {
 		} catch (IOException ex) {
 			Log.e(TAG, "prepare failed: " + ex.getMessage());
 		}
-		at = new AudioTrack(AudioManager.STREAM_MUSIC, DEFAULT_RATE, AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_DEFAULT, fileLength, AudioTrack.MODE_STATIC);
+		at = new AudioTrack(AudioManager.STREAM_MUSIC, DEFAULT_RATE, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_DEFAULT, fileLength, AudioTrack.MODE_STATIC);
 		at.write(buffer, 0, fileLength);
 		at.flush();
 	}
