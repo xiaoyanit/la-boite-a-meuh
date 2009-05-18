@@ -10,61 +10,65 @@ import android.media.SoundPool;
 import android.util.Log;
 
 public class SoundPoolMgr {
-    private static final String TAG = "SoundPoolSoundManager";
+	private static final String			TAG				= "SoundPoolSoundManager";
 
-    public static final int SOUND_1 = 1;
+	public static final int				MOO_SOUND_1		= 1;
+	public static final int				MOO_SOUND_2		= 2;
 
-    private boolean enabled = true;
-    private Context context;
-    private SoundPool soundPool;
-    private HashMap<Integer, Integer> soundPoolMap;
-	private static final int	DEFAULT_RATE	= 44100;
+	private boolean						enabled			= true;
+	private Context						context;
+	private SoundPool					soundPool;
+	private HashMap<Integer, Integer>	soundPoolMap;
 
-    public SoundPoolMgr(Context context) {
-            this.context = context;
-    }
+	public static int					SELECTED_MOO_SOUND;
+	private static final int			DEFAULT_RATE	= 44100;
 
-    public void reInit() {
-            init();
-    }
+	public SoundPoolMgr(Context context) {
+		this.context = context;
+		SELECTED_MOO_SOUND = MOO_SOUND_1;
+	}
 
-    public void init() {
-            if (enabled) {
-                    Log.d(TAG, "Initializing new SoundPool");
-                    //re-init sound pool to work around bugs
-                    release();
-                    soundPool = new SoundPool(2,AudioManager.STREAM_MUSIC, 100);
-                    soundPoolMap = new HashMap<Integer, Integer>();
-                    soundPoolMap.put(SOUND_1, soundPool.load(context, R.raw.carlthecow, 1));
-                    Log.d(TAG, "SoundPool initialized");
-            }
-    }
+	public void reInit() {
+		init();
+	}
 
-    public void release() {
-            if (soundPool != null) {
-                    Log.d(TAG, "Closing SoundPool");
-                    soundPool.release();
-                    soundPool = null;
-                    Log.d(TAG, "SoundPool closed");
-                    return;
-            }
-    }
+	public void init() {
+		if (enabled) {
+			Log.d(TAG, "Initializing new SoundPool");
+			// re-init sound pool to work around bugs
+			release();
+			soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+			soundPoolMap = new HashMap<Integer, Integer>();
+			soundPoolMap.put(MOO_SOUND_1, soundPool.load(context, R.raw.carlthecow, 1));
+			soundPoolMap.put(MOO_SOUND_2, soundPool.load(context, R.raw.kevinthecow, 1));
+			Log.d(TAG, "SoundPool initialized");
+		}
+	}
 
-    public void playSound(double speed) { 	
-    	
-            if (soundPool != null) {
-                    Log.d(TAG, "Playing Sound " + 1);
-                    AudioManager mgr = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-                    int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
-                    Integer soundId = soundPoolMap.get(1);
-                    if (soundId != null) {
-                            soundPool.play(soundPoolMap.get(1), streamVolume,streamVolume, 1, 0, 1.4f);
-                    }
-            }
-    }
+	public void release() {
+		if (soundPool != null) {
+			Log.d(TAG, "Closing SoundPool");
+			soundPool.release();
+			soundPool = null;
+			Log.d(TAG, "SoundPool closed");
+			return;
+		}
+	}
 
-    public void setEnabled(boolean enabled) {
-            this.enabled = enabled;
-    }
+	public void playSound(float speed) {
 
-} 
+		if (soundPool != null) {
+			Log.d(TAG, "Playing Sound " + 1);
+			AudioManager mgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+			int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
+			if (soundPoolMap.get(SELECTED_MOO_SOUND) != null) {
+				soundPool.play(soundPoolMap.get(SELECTED_MOO_SOUND), streamVolume, streamVolume, 1, 0, speed);
+			}
+		}
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+}

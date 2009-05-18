@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.novoda.meuh.media.MeuhSound;
 import com.novoda.meuh.media.SoundPoolMgr;
 
 public class Cow extends Activity {
@@ -25,33 +24,29 @@ public class Cow extends Activity {
 
 	private static final int	CARL_ID			= 0;
 	private static final int	KEVIN_ID		= 1;
-	private static final int	YOU_ID			= 2;
-
-	private MeuhSound			mCowSound;
 	private int					mOrientation	= 0;
-	private MooOnRotationEvent					mooOnRotationEvent;
+	private MooOnRotationEvent	mooOnRotationEvent;
 
 	private View				view;
 
-	private SoundPoolMgr	mgr;
+	private SoundPoolMgr		mgr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		view = new CowHeadView(this);
 		setContentView(view);
 
-//		mCowSound = MeuhSound.create(this, R.raw.carlthecow);
-		mgr = new SoundPoolMgr(this); 
+		mgr = new SoundPoolMgr(this);
 		mgr.init();
 
 		mooOnRotationEvent = new MooOnRotationEvent(this);
-		
-		if (!mooOnRotationEvent.canDetectOrientation()){
+
+		if (!mooOnRotationEvent.canDetectOrientation()) {
 			Toast.makeText(this, "Can't moo :(", 1000);
 		}
 	}
@@ -81,8 +76,7 @@ public class Cow extends Activity {
 
 		@Override
 		public void onOrientationChanged(int orientation) {
-			
-			
+
 			mOrientation = orientation;
 			if (view != null)
 				view.invalidate();
@@ -96,27 +90,26 @@ public class Cow extends Activity {
 			if (!isMooing && mooPower > 0) {
 				// play sound
 				Log.i(TAG, "Power " + mooPower);
-				double speed = 1;
-				if (mooPower < 3)
-					speed = 3;
-				else if (mooPower < 5)
-					speed = 2;
-				else if (mooPower < 10)
-					speed = 1;
-				else if (mooPower < 13)
-					speed = 0.7;
-				else if (mooPower < 15)
-					speed = 0.5;
-				else
-					speed = 0.4;
-					moo(speed);
+				float speed = 1.4f;
+
+				if (mooPower > 15)
+					speed = 0.3f;
+				else if (mooPower > 13)
+					speed = 0.9f;
+				else if (mooPower > 10)
+					speed = 1.4f;
+				else if (mooPower > 5)
+					speed = 2.4f;
+				else if (mooPower > 3)
+					speed = 3.4f;
+
+				moo(speed);
 			}
-			
+
 		}
 
-		public void moo(double speed) {
+		public void moo(float speed) {
 			if (!isMooChanging) {
-//				mgr.play(speed);
 				mgr.playSound(speed);
 			}
 			mooPower = 0;
@@ -174,11 +167,8 @@ public class Cow extends Activity {
 
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, CARL_ID, 0, "Carl is a cow").setIcon(R.drawable.carl);
-		menu.add(0, KEVIN_ID, 0, "Kevin is a cow").setIcon(R.drawable.kevin);
-
-		// Will be enabled later.
-		// menu.add(0, YOU_ID, 0, "You are a cow").setIcon(R.drawable.you);
+		menu.add(0, CARL_ID, 0, "Carl's French meuh").setIcon(R.drawable.carl);
+		menu.add(0, KEVIN_ID, 0, "Kevin's Scottish moo").setIcon(R.drawable.kevin);
 		return true;
 	}
 
@@ -186,16 +176,14 @@ public class Cow extends Activity {
 		switch (item.getItemId()) {
 			case CARL_ID:
 				isMooChanging = true;
-				mCowSound.dispose();
-				mCowSound = MeuhSound.create(this, R.raw.carlthecow);
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_1;
 				isMooChanging = false;
 				return true;
 			case KEVIN_ID:
-				mCowSound.dispose();
-				mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
+				isMooChanging = true;
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_2;
+				isMooChanging = false;
 				return true;
-			case YOU_ID:
-				// Not implemented yet
 		}
 		return false;
 	}
