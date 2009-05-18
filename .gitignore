@@ -1,6 +1,7 @@
-log/*.log
-tmp/**/*
-.DS_Store
-.bin
-bin/**/*
 bin/*
+gen
+.classpath
+.project
+default.*
+.settings/*
+build.properties
