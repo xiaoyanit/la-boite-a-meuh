@@ -6,3 +6,5 @@ gen
 default.*
 .settings/*
 build.properties
+.DS_Store
+
