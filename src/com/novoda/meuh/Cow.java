@@ -1,3 +1,16 @@
+/**********************************************
+ * 
+ *  la-boite-a-meuh
+ *  :Cow
+ *  
+ *  A demonstration of Raw Audio playback
+ *  and Orientation listening.
+ *  Tilt the cow head to make a moo!
+ * 
+ *    
+ *  http://www.novoda.com/blog
+ * 
+ */
 package com.novoda.meuh;
 
 import android.app.Activity;
@@ -21,15 +34,15 @@ import com.novoda.meuh.media.SoundPoolMgr;
 
 public class Cow extends Activity {
 
-	private static final String	TAG				= "[moo]:";
+	private static final String	TAG						= "[Moo]:";
 
-	private static final int	CARL_ID			= 0;
-	private static final int	KEVIN_ID		= 1;
-	private static final int SWITCH_SOUND_MANAGER = 2;
+	private static final int	CARL_ID					= 0;
+	private static final int	KEVIN_ID				= 1;
+	private static final int	SWITCH_SOUND_MANAGER	= 2;
 
-	private boolean soundManager = true;
-	
-	private int					mOrientation	= 0;
+	private boolean				soundManager			= true;
+
+	private int					mOrientation			= 0;
 	private MooOnRotationEvent	mooOnRotationEvent;
 
 	private View				view;
@@ -48,7 +61,7 @@ public class Cow extends Activity {
 		setContentView(view);
 
 		mCowSound = MeuhSound.create(this, R.raw.carlthecow);
-		
+
 		mgr = new SoundPoolMgr(this);
 		mgr.init();
 
@@ -86,17 +99,19 @@ public class Cow extends Activity {
 		public void onOrientationChanged(int orientation) {
 
 			mOrientation = orientation;
-			if (view != null)
+			if (view != null) {
 				view.invalidate();
+			}
 
 			if (orientation > 60 && orientation < 300) {
 				isMooing = true;
 				mooPower++;
-			} else
+			} else {
 				isMooing = false;
+			}
 
 			if (!isMooing && mooPower > 0) {
-				// play sound
+
 				Log.i(TAG, "Power " + mooPower);
 				float speed = 1.0f;
 
@@ -140,8 +155,6 @@ public class Cow extends Activity {
 			super(context);
 
 			bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
-
-			// Construct the cow head
 			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
 			cowHeadXOffset = cowHead.getWidth() / 2;
 			cowHeadYOffset = cowHead.getHeight() / 2;
@@ -154,13 +167,10 @@ public class Cow extends Activity {
 			paint.setAntiAlias(true);
 			int w = canvas.getWidth();
 			int h = canvas.getHeight();
-			int cx = w / 2;
-			int cy = h / 2;
+			int cx = (w / 2);
+			int cy = (h / 2) + 40;
 
-			// move it a bit more to the bottom so the cow head fits.
-			cy += 40;
 			canvas.translate(cx, cy);
-
 			canvas.rotate(-1 * mOrientation);
 			canvas.drawBitmap(cowHead, -cowHeadXOffset, -cowHeadYOffset, paint);
 		}
@@ -201,7 +211,7 @@ public class Cow extends Activity {
 				isMooChanging = false;
 				return true;
 			case SWITCH_SOUND_MANAGER:
-				soundManager = !soundManager;  
+				soundManager = !soundManager;
 				return true;
 		}
 		return false;

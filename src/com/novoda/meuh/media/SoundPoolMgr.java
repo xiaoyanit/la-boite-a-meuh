@@ -1,3 +1,15 @@
+/**********************************************
+ * 
+ *  la-boite-a-meuh
+ *  :SoundPoolMgr
+ * 
+ *  When called upon it plays back stored 
+ *  files at a requested rate.
+ * 
+ * 
+ *  http://www.novoda.com/blog
+ * 
+ */
 package com.novoda.meuh.media;
 
 import java.util.HashMap;
@@ -10,7 +22,7 @@ import android.media.SoundPool;
 import android.util.Log;
 
 public class SoundPoolMgr {
-	private static final String			TAG				= "SoundPoolSoundManager";
+	private static final String			TAG				= "[Moo-SoundPoolMgr]:";
 
 	public static final int				MOO_SOUND_1		= 1;
 	public static final int				MOO_SOUND_2		= 2;
@@ -27,16 +39,11 @@ public class SoundPoolMgr {
 		SELECTED_MOO_SOUND = MOO_SOUND_1;
 	}
 
-	public void reInit() {
-		init();
-	}
-
 	public void init() {
 		if (enabled) {
 			Log.d(TAG, "Initializing new SoundPool");
 			
-			// re-init sound pool to work around bugs
-			release();
+			release(); // re-init sound pool to work around bugs
 			soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
 			soundPoolMap = new HashMap<Integer, Integer>();
 			soundPoolMap.put(MOO_SOUND_1, soundPool.load(context, R.raw.carlthecow, 1));
@@ -58,7 +65,7 @@ public class SoundPoolMgr {
 	public void playSound(float speed) {
 
 		if (soundPool != null) {
-			Log.d(TAG, "Playing Sound " + 1);
+			Log.d(TAG, "Playing Sound ["+ SELECTED_MOO_SOUND +"]");
 			AudioManager mgr = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 			int streamVolume = mgr.getStreamVolume(AudioManager.STREAM_MUSIC);
 			if (soundPoolMap.get(SELECTED_MOO_SOUND) != null) {

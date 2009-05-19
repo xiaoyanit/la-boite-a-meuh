@@ -1,3 +1,15 @@
+/**********************************************
+ * 
+ *  la-boite-a-meuh
+ *  :MeuhSound
+ *  
+ *  Alter the frequency of the replayed sound. 
+ *  This only works with 44.1k Hz 16bit stereo PCM sound files.
+ *    
+ *    
+ *  http://www.novoda.com/blog
+ * 
+ */
 package com.novoda.meuh.media;
 
 import java.io.FileNotFoundException;
@@ -11,10 +23,6 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 import android.util.Log;
 
-/*
- * Very simple class to alter the frequency of the replayed sound. This only works with 44.1k Hz 16bit stereo PCM sound files.
- * 
- */
 public class MeuhSound {
 
 	private static final int	DEFAULT_RATE	= 22050;

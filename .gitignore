@@ -1,5 +1,6 @@
 # need 
 bin/*
+gen/*
 gen
 .classpath
 .project
