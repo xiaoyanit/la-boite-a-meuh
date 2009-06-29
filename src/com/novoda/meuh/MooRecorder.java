@@ -20,18 +20,10 @@ public class MooRecorder extends Activity {
 	protected static final String	TAG								= "[MooRecord]:";
 	private Button					startRecording;
 
-	public static final int			COLUMN_AUDIO_URI_ID				= 0;
-	public static final int			COLUMN_RELATIVE_FILE_LOCATION	= 1;
-	public static final int			COLUMN_FILENAME					= 2;
-	public static final int			COLUMN_INDEX4					= 2;
-	public static final int			COLUMN_INDEX5					= 2;
-	private static final String		audio_dir						= "/sdcard/la-boite-a-meuh/media/audio/meuhs";
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.audiomgr);
-
 		startRecording = (Button) findViewById(R.id.startrecording);
 
 		startRecording.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +47,6 @@ public class MooRecorder extends Activity {
 
 		Cursor cursor = managedQuery(Uri.parse(data.toURI()), null, null, null, null);
 		startManagingCursor(cursor);
-
 		cursor.moveToLast();
 //		mRecordedAudio_uri = data.getData();
 //		mRecordedAudio_uri_id = cursor.getString(COLUMN_AUDIO_URI_ID);
@@ -63,8 +54,8 @@ public class MooRecorder extends Activity {
 //		mRecordedAudio_name = cursor.getString(COLUMN_FILENAME);
 		
 		try {
-			String path = FileSys.createFilenameWithChecks(audio_dir, "kevins_new_moo", ".3gpp");
-			FileSys.copyViaChannels(new File(cursor.getString(COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
+			String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
+			FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
