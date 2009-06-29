@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.util.Log;
 
@@ -62,4 +65,17 @@ public class FileSys {
 	    } catch (IOException e) {
 	    }
     }
+    
+	public static ArrayList<File> listFilesInDir(String dir) {
+		
+		List<File> files = Arrays.asList(new File(dir).listFiles());
+		ArrayList<File> allFiles = new ArrayList<File>();
+		for (File file: files){
+			allFiles.add(file);
+		}
+		
+		return allFiles;
+	}
+
+    
 }

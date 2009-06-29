@@ -20,10 +20,12 @@ public final class R {
     }
     public static final class id {
         public static final int label=0x7f070000;
+        public static final int row_artist=0x7f070002;
         public static final int startrecording=0x7f070001;
     }
     public static final class layout {
         public static final int audiomgr=0x7f030000;
+        public static final int recording_select_row=0x7f030001;
     }
     public static final class raw {
         public static final int carlthecow=0x7f040000;

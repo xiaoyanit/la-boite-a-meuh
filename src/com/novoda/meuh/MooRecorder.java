@@ -3,7 +3,7 @@ package com.novoda.meuh;
 import java.io.File;
 import java.io.IOException;
 
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,14 +11,18 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.os.FileSys;
+import com.novoda.view.FileAdapter;
 
-public class MooRecorder extends Activity {
+public class MooRecorder extends ListActivity {
 
-	protected static final String	TAG								= "[MooRecord]:";
+	protected static final String	TAG	= "[MooRecord]:";
 	private Button					startRecording;
+	private FileAdapter				fileListAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,15 @@ public class MooRecorder extends Activity {
 			}
 		});
 
+		fileListAdapter = new FileAdapter(this, FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR));
+		this.setListAdapter(fileListAdapter);
+
+		getListView().setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView parent, View view, int position, long id) {
+				MooRecorder.this.finish();
+			}
+		});
+
 	}
 
 	@Override
@@ -48,11 +61,12 @@ public class MooRecorder extends Activity {
 		Cursor cursor = managedQuery(Uri.parse(data.toURI()), null, null, null, null);
 		startManagingCursor(cursor);
 		cursor.moveToLast();
-//		mRecordedAudio_uri = data.getData();
-//		mRecordedAudio_uri_id = cursor.getString(COLUMN_AUDIO_URI_ID);
-//		mRecordedAudio_absLoc = cursor.getString(COLUMN_RELATIVE_FILE_LOCATION);
-//		mRecordedAudio_name = cursor.getString(COLUMN_FILENAME);
-		
+		// mRecordedAudio_uri = data.getData();
+		// mRecordedAudio_uri_id = cursor.getString(COLUMN_AUDIO_URI_ID);
+		// mRecordedAudio_absLoc =
+		// cursor.getString(COLUMN_RELATIVE_FILE_LOCATION);
+		// mRecordedAudio_name = cursor.getString(COLUMN_FILENAME);
+
 		try {
 			String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
 			FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
@@ -60,8 +74,5 @@ public class MooRecorder extends Activity {
 			e.printStackTrace();
 		}
 	}
-
-
-
 
 }
