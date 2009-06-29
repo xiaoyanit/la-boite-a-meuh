@@ -15,12 +15,14 @@ package com.novoda.meuh;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -212,6 +214,9 @@ public class Cow extends Activity {
 				return true;
 			case SWITCH_SOUND_MANAGER:
 				soundManager = !soundManager;
+				Intent intent = new Intent();
+				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooRecorder");
+				startActivity(intent);
 				return true;
 		}
 		return false;
