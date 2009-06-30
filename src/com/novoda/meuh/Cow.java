@@ -70,7 +70,6 @@ public class Cow extends Activity {
 		setContentView(view);
 
 		initSoundPool();
-
 		mooOnRotationEvent = new MooOnRotationEvent(this);
 
 		if (!mooOnRotationEvent.canDetectOrientation()) {
