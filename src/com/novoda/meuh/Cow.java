@@ -13,14 +13,21 @@
  */
 package com.novoda.meuh;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -33,6 +40,7 @@ import android.widget.Toast;
 
 import com.novoda.meuh.media.MeuhSound;
 import com.novoda.meuh.media.SoundPoolMgr;
+import com.novoda.os.FileSys;
 
 public class Cow extends Activity {
 
@@ -50,22 +58,18 @@ public class Cow extends Activity {
 	private View				view;
 
 	private SoundPoolMgr		mgr;
-	private MeuhSound			mCowSound;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
+	public void onCreate(Bundle bundle) {
+		super.onCreate(bundle);
+		
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		view = new CowHeadView(this);
 		setContentView(view);
 
-		mCowSound = MeuhSound.create(this, R.raw.carlthecow);
-
-		mgr = new SoundPoolMgr(this);
-		mgr.init();
+		initSoundPool();
 
 		mooOnRotationEvent = new MooOnRotationEvent(this);
 
@@ -74,6 +78,11 @@ public class Cow extends Activity {
 		}
 	}
 
+	private void initSoundPool() {
+		mgr = new SoundPoolMgr(this);
+		mgr.init();
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -135,10 +144,7 @@ public class Cow extends Activity {
 
 		public void moo(float speed) {
 			if (!isMooChanging) {
-				if (soundManager)
-					mgr.playSound(speed);
-				else
-					mCowSound.play(speed);
+				mgr.playSound(speed);
 			}
 			mooPower = 0;
 
@@ -200,25 +206,46 @@ public class Cow extends Activity {
 		switch (item.getItemId()) {
 			case CARL_ID:
 				isMooChanging = true;
-				mCowSound.dispose();
-				mCowSound = MeuhSound.create(this, R.raw.carlthecow);
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_1;
 				isMooChanging = false;
 				return true;
 			case KEVIN_ID:
 				isMooChanging = true;
-				mCowSound.dispose();
-				mCowSound = MeuhSound.create(this, R.raw.kevinthecow);
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_2;
 				isMooChanging = false;
 				return true;
 			case SWITCH_SOUND_MANAGER:
-				soundManager = !soundManager;
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				Intent intent = new Intent();
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooRecorder");
-				startActivity(intent);
+				startActivityForResult( intent, Constants.PICK_SOUND_REQUEST);
 				return true;
 		}
 		return false;
 	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		Log.i(TAG, "Got the result" + data.getData());
+		
+		if (requestCode == Constants.PICK_SOUND_REQUEST) {
+            if (resultCode == RESULT_OK) {
+
+        		Log.i(TAG, "This is what is in data " + data.getData());
+        		Log.i(TAG, "This is the action " + data.getAction());
+        		Log.i(TAG, "This is the ID " + data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+        		
+        		
+        		ArrayList<File> files = FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR);
+        		File file = files.get(data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+        		Log.i(TAG, "file I want is " + file.getAbsolutePath());
+				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
+				
+				initSoundPool();
+            }
+        }
+
+	}
+	
+	
 }

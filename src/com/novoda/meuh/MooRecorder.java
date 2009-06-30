@@ -29,7 +29,7 @@ public class MooRecorder extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.audiomgr);
 		startRecording = (Button) findViewById(R.id.startrecording);
-
+		
 		startRecording.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				try {
@@ -45,6 +45,11 @@ public class MooRecorder extends ListActivity {
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView parent, View view, int position, long id) {
+				
+				Intent intent = getIntent();
+				intent.setAction(Constants.PICK_SOUND);
+				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
+				setResult(RESULT_OK, intent);
 				MooRecorder.this.finish();
 			}
 		});
@@ -73,6 +78,8 @@ public class MooRecorder extends ListActivity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 	}
+
 
 }
