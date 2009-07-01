@@ -28,6 +28,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Contacts.People;
 import android.util.Log;
@@ -41,6 +42,7 @@ import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
 import com.novoda.os.FileSys;
+import com.novoda.view.StringListAdapter;
 
 public class Cow extends Activity {
 
@@ -237,7 +239,7 @@ public class Cow extends Activity {
 				Log.i(TAG, "This is the action " + data.getAction());
 				Log.i(TAG, "This is the ID " + data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 
-				ArrayList<File> files = FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR);
+				ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
 				File file = files.get(data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 				Log.i(TAG, "file I want is " + file.getAbsolutePath());
 				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
@@ -252,11 +254,9 @@ public class Cow extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 			case Constants.CHOOSE_AUDIO_FROM_LIST:
-				Cursor c = getContentResolver().query(People.CONTENT_URI, null, null, null, null);
-				startManagingCursor(c);
 
 				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_choose_sound).setSingleChoiceItems(
-						new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, c, new String[] { People.NAME }, new int[] { android.R.id.text1 }), 0,
+						new StringListAdapter(this, FileSys.listFilesInDir_asStrings(Constants.AUDIO_FILES_DIR)), 0,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 							}

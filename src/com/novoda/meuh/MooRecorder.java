@@ -16,13 +16,13 @@ import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.os.FileSys;
-import com.novoda.view.FileAdapter;
+import com.novoda.view.FileListingAdapter;
 
 public class MooRecorder extends ListActivity {
 
 	protected static final String	TAG	= "[MooRecord]:";
 	private Button					startRecording;
-	private FileAdapter				fileListAdapter;
+	private FileListingAdapter				fileListAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +40,7 @@ public class MooRecorder extends ListActivity {
 			}
 		});
 
-		fileListAdapter = new FileAdapter(this, FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR));
+		fileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR));
 		this.setListAdapter(fileListAdapter);
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {

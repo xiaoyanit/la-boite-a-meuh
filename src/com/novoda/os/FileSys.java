@@ -66,12 +66,23 @@ public class FileSys {
 	    }
     }
     
-	public static ArrayList<File> listFilesInDir(String dir) {
+	public static ArrayList<File> listFilesInDir_asFiles(String dir) {
 		
 		List<File> files = Arrays.asList(new File(dir).listFiles());
 		ArrayList<File> allFiles = new ArrayList<File>();
 		for (File file: files){
 			allFiles.add(file);
+		}
+		
+		return allFiles;
+	}
+	
+	public static ArrayList<String> listFilesInDir_asStrings(String dir) {
+		
+		List<File> files = Arrays.asList(new File(dir).listFiles());
+		ArrayList<String> allFiles = new ArrayList<String>();
+		for (File file: files){
+			allFiles.add(file.getName());
 		}
 		
 		return allFiles;
