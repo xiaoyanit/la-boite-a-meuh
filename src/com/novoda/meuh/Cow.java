@@ -250,20 +250,19 @@ public class Cow extends Activity {
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 			case Constants.CHOOSE_AUDIO_FROM_LIST:
-
-				String[] files = FileSys.fileNamesInDir(Constants.AUDIO_FILES_DIR);
-				Log.i(TAG, "Files length is: " + files.length);
-				Log.i(TAG, "File 0 is: " +files[0]);
 				
+				String[] listOfFiles = new File(Constants.AUDIO_FILES_DIR).list();
+				final ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
+
 				return new AlertDialog.Builder(Cow.this)
 				.setIcon(R.drawable.alert_dialog_icon)
 				.setTitle(R.string.title_choose_sound)
 				.setSingleChoiceItems(
-						new File(Constants.AUDIO_FILES_DIR).list(),
+						listOfFiles,
 						0,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
-								
+								SoundPoolMgr.SELECTED_MOO_FILE = files.get(whichButton).getAbsolutePath();
 							}
 						}).setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
