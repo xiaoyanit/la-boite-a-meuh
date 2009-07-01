@@ -87,6 +87,21 @@ public class FileSys {
 		
 		return allFiles;
 	}
-
+	
+	public static String[] fileNamesInDir(String dir) {
+		
+		List<File> files = Arrays.asList(new File(dir).listFiles());
+		String[] fileNames = new String[files.size()];
+		for (int i =0; i > 0; i++){
+			
+			Log.i("filesys", "Name: " + files.get(i).getName());
+			Log.i("filesys", "Abs Name: " + files.get(i).getAbsolutePath());
+			Log.i("filesys", "Path: " + files.get(i).getPath());
+			
+			fileNames[i] = files.get(i).getName();
+		}
+		
+		return fileNames;
+	}
     
 }

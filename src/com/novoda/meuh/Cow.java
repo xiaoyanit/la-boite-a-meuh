@@ -22,27 +22,22 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Contacts.People;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
 import com.novoda.os.FileSys;
-import com.novoda.view.StringListAdapter;
 
 public class Cow extends Activity {
 
@@ -223,6 +218,7 @@ public class Cow extends Activity {
 				return true;
 			case Constants.CHOOSE_AUDIO_FROM_LIST:
 				showDialog(Constants.CHOOSE_AUDIO_FROM_LIST);
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				return true;
 		}
 		return false;
@@ -255,10 +251,19 @@ public class Cow extends Activity {
 		switch (id) {
 			case Constants.CHOOSE_AUDIO_FROM_LIST:
 
-				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_choose_sound).setSingleChoiceItems(
-						new StringListAdapter(this, FileSys.listFilesInDir_asStrings(Constants.AUDIO_FILES_DIR)), 0,
+				String[] files = FileSys.fileNamesInDir(Constants.AUDIO_FILES_DIR);
+				Log.i(TAG, "Files length is: " + files.length);
+				Log.i(TAG, "File 0 is: " +files[0]);
+				
+				return new AlertDialog.Builder(Cow.this)
+				.setIcon(R.drawable.alert_dialog_icon)
+				.setTitle(R.string.title_choose_sound)
+				.setSingleChoiceItems(
+						new File(Constants.AUDIO_FILES_DIR).list(),
+						0,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
+								
 							}
 						}).setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
