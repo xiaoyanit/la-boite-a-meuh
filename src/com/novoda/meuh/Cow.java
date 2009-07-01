@@ -17,42 +17,41 @@ import java.io.File;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.provider.Contacts.People;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import com.novoda.meuh.media.MeuhSound;
 import com.novoda.meuh.media.SoundPoolMgr;
 import com.novoda.os.FileSys;
 
 public class Cow extends Activity {
 
-	private static final String	TAG						= "[Moo]:";
+	private static final String	TAG				= "[Moo]:";
 
-	private static final int	CARL_ID					= 0;
-	private static final int	KEVIN_ID				= 1;
-	private static final int	SWITCH_SOUND_MANAGER	= 2;
+	private static final int	CARL_ID			= 0;
+	private static final int	KEVIN_ID		= 1;
 
-	private boolean				soundManager			= true;
+	private boolean				soundManager	= true;
 
-	private int					mOrientation			= 0;
+	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mooOnRotationEvent;
 
 	private View				view;
@@ -62,7 +61,7 @@ public class Cow extends Activity {
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -81,7 +80,7 @@ public class Cow extends Activity {
 		mgr = new SoundPoolMgr(this);
 		mgr.init();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -197,7 +196,8 @@ public class Cow extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, CARL_ID, 0, "Carl's French meuh").setIcon(R.drawable.carl);
 		menu.add(0, KEVIN_ID, 0, "Kevin's Scottish moo").setIcon(R.drawable.kevin);
-		menu.add(0, SWITCH_SOUND_MANAGER, 0, "change sound manager").setIcon(android.R.drawable.ic_media_play);
+		menu.add(0, Constants.SWITCH_SOUND_MANAGER, 0, "change sound manager").setIcon(android.R.drawable.ic_media_play);
+		menu.add(0, Constants.CHOOSE_AUDIO_FROM_LIST, 0, "change sound manager").setIcon(android.R.drawable.btn_dropdown);
 		return true;
 	}
 
@@ -213,38 +213,63 @@ public class Cow extends Activity {
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_2;
 				isMooChanging = false;
 				return true;
-			case SWITCH_SOUND_MANAGER:
+			case Constants.SWITCH_SOUND_MANAGER:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				Intent intent = new Intent();
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooRecorder");
-				startActivityForResult( intent, Constants.PICK_SOUND_REQUEST);
+				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
+				return true;
+			case Constants.CHOOSE_AUDIO_FROM_LIST:
+				showDialog(Constants.CHOOSE_AUDIO_FROM_LIST);
 				return true;
 		}
 		return false;
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i(TAG, "Got the result" + data.getData());
-		
-		if (requestCode == Constants.PICK_SOUND_REQUEST) {
-            if (resultCode == RESULT_OK) {
 
-        		Log.i(TAG, "This is what is in data " + data.getData());
-        		Log.i(TAG, "This is the action " + data.getAction());
-        		Log.i(TAG, "This is the ID " + data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
-        		
-        		
-        		ArrayList<File> files = FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR);
-        		File file = files.get(data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
-        		Log.i(TAG, "file I want is " + file.getAbsolutePath());
+		if (requestCode == Constants.PICK_SOUND_REQUEST) {
+			if (resultCode == RESULT_OK) {
+
+				Log.i(TAG, "This is what is in data " + data.getData());
+				Log.i(TAG, "This is the action " + data.getAction());
+				Log.i(TAG, "This is the ID " + data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+
+				ArrayList<File> files = FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR);
+				File file = files.get(data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+				Log.i(TAG, "file I want is " + file.getAbsolutePath());
 				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
-				
+
 				initSoundPool();
-            }
-        }
+			}
+		}
 
 	}
-	
-	
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+			case Constants.CHOOSE_AUDIO_FROM_LIST:
+				Cursor c = getContentResolver().query(People.CONTENT_URI, null, null, null, null);
+				startManagingCursor(c);
+
+				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_choose_sound).setSingleChoiceItems(
+						new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, c, new String[] { People.NAME }, new int[] { android.R.id.text1 }), 0,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int whichButton) {
+							}
+						}).setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				}).create();
+		}
+
+		return null;
+	}
+
 }

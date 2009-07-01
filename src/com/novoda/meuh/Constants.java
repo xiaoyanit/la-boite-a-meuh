@@ -14,4 +14,6 @@ public class Constants {
 	public static final String	PICKED_AUDIO_FILE_POSITION		= null;
 	public static final Intent	CHOSEN_AUDIO_FILE				= null;
 	public static final int		CHOSEN_AUDIO_FILE_ACTION		= 40;
+	static final int			SWITCH_SOUND_MANAGER			= 2;
+	public static final int		CHOOSE_AUDIO_FROM_LIST			= 898;
 }

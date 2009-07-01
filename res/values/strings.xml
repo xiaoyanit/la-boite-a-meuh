@@ -2,4 +2,7 @@
 <resources>
 	<string name="label">Record a sound</string>
 	<string name="app_name">Meuh</string>
+	<string name="title_choose_sound">Choose your Mooo Sound!</string>
+	<string name="dialog_ok">Ok</string>
+	<string name="dialog_cancel">Cancel</string>
 </resources>
