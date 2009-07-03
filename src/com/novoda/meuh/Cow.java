@@ -263,6 +263,7 @@ public class Cow extends Activity {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								SoundPoolMgr.SELECTED_MOO_FILE = files.get(whichButton).getAbsolutePath();
+								initSoundPool();
 							}
 						}).setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
