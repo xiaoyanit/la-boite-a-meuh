@@ -18,7 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.novoda.os.FileSys;
 import com.novoda.view.FileListingAdapter;
 
-public class MooRecorder extends ListActivity {
+public class MooFileMgr extends ListActivity {
 
 	protected static final String	TAG	= "[MooRecord]:";
 	private Button					startRecording;
@@ -50,7 +50,7 @@ public class MooRecorder extends ListActivity {
 				intent.setAction(Constants.PICK_SOUND);
 				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
 				setResult(RESULT_OK, intent);
-				MooRecorder.this.finish();
+				MooFileMgr.this.finish();
 			}
 		});
 
@@ -61,7 +61,8 @@ public class MooRecorder extends ListActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		Log.i(TAG, data.toURI());
 		Intent intent = getIntent();
-		Log.i(TAG, intent.toString());
+		Log.i(TAG, "request code from recording =" + requestCode);
+		Log.i(TAG, "result code from recording =" + resultCode);
 
 		Cursor cursor = managedQuery(Uri.parse(data.toURI()), null, null, null, null);
 		startManagingCursor(cursor);

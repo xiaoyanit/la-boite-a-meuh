@@ -14,6 +14,7 @@
 package com.novoda.meuh;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -22,12 +23,15 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -189,34 +193,27 @@ public class Cow extends Activity {
 
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, Constants.MENU_CHOICE_CARL_SOUND, 0, "Carl's French meuh").setIcon(R.drawable.carl);
-		menu.add(0, Constants.MENU_CHOICE_KEVIN_KEVIN, 0, "Kevin's Scottish moo").setIcon(R.drawable.kevin);
-		menu.add(0, Constants.MENU_SOUND_MANAGER, 0, "change sound manager").setIcon(android.R.drawable.ic_media_play);
-		menu.add(0, Constants.MENU_CHOOSE_AUDIO_FROM_LIST, 0, "change sound manager").setIcon(android.R.drawable.btn_dropdown);
+		menu.add(0, Constants.MENU_RECORD_SOUND, 0, "Record").setIcon(android.R.drawable.btn_dropdown);
+		menu.add(0, Constants.MENU_CHOOSE_AUDIO_FROM_LIST, 0, "Select").setIcon(android.R.drawable.ic_media_play);
+		menu.add(0, Constants.MENU_SAVE_NEW_SOUND, 0, "Save current sound").setIcon(android.R.drawable.btn_dropdown);
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch (item.getItemId()) {
-			case Constants.MENU_CHOICE_CARL_SOUND:
-				isMooChanging = true;
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_1;
-				isMooChanging = false;
-				return true;
-			case Constants.MENU_CHOICE_KEVIN_KEVIN:
-				isMooChanging = true;
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_2;
-				isMooChanging = false;
-				return true;
-			case Constants.MENU_SOUND_MANAGER:
+			case Constants.MENU_RECORD_SOUND:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
-				Intent intent = new Intent();
-				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooRecorder");
-				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
+				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
+				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
 				return true;
 			case Constants.MENU_CHOOSE_AUDIO_FROM_LIST:
-				showDialog(Constants.MENU_CHOOSE_AUDIO_FROM_LIST);
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;				
+				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooFileMgr");
+				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
+				return true;
+			case Constants.MENU_SAVE_NEW_SOUND:
+				//popup dialog with save
 				return true;
 		}
 		return false;
@@ -225,7 +222,12 @@ public class Cow extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Log.i(TAG, "Got the result" + data.getData());
+		
+		
+		Log.i(TAG, "request code from picking a sound =" + requestCode);
+		Log.i(TAG, "result code from picking a sound =" + resultCode);
 
+		
 		if (requestCode == Constants.PICK_SOUND_REQUEST) {
 			if (resultCode == RESULT_OK) {
 
@@ -239,6 +241,28 @@ public class Cow extends Activity {
 				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
 
 				initSoundPool();
+			}
+		}
+		
+		
+		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST) {
+			if (resultCode == RESULT_OK) {
+				
+				Log.i(TAG, data.toURI());
+				Intent intent = getIntent();
+				Log.i(TAG, "request code from recording =" + requestCode);
+				Log.i(TAG, "result code from recording =" + resultCode);
+
+				Cursor cursor = managedQuery(Uri.parse(data.toURI()), null, null, null, null);
+				startManagingCursor(cursor);
+				cursor.moveToLast();
+
+				try {
+					String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
+					FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
