@@ -29,11 +29,13 @@ import android.graphics.Paint;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
@@ -42,10 +44,6 @@ import com.novoda.os.FileSys;
 public class Cow extends Activity {
 
 	private static final String	TAG				= "[Moo]:";
-
-	private static final int	CARL_ID			= 0;
-	private static final int	KEVIN_ID		= 1;
-
 	private boolean				soundManager	= true;
 
 	private int					mOrientation	= 0;
@@ -191,33 +189,33 @@ public class Cow extends Activity {
 
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, CARL_ID, 0, "Carl's French meuh").setIcon(R.drawable.carl);
-		menu.add(0, KEVIN_ID, 0, "Kevin's Scottish moo").setIcon(R.drawable.kevin);
-		menu.add(0, Constants.SWITCH_SOUND_MANAGER, 0, "change sound manager").setIcon(android.R.drawable.ic_media_play);
-		menu.add(0, Constants.CHOOSE_AUDIO_FROM_LIST, 0, "change sound manager").setIcon(android.R.drawable.btn_dropdown);
+		menu.add(0, Constants.MENU_CHOICE_CARL_SOUND, 0, "Carl's French meuh").setIcon(R.drawable.carl);
+		menu.add(0, Constants.MENU_CHOICE_KEVIN_KEVIN, 0, "Kevin's Scottish moo").setIcon(R.drawable.kevin);
+		menu.add(0, Constants.MENU_SOUND_MANAGER, 0, "change sound manager").setIcon(android.R.drawable.ic_media_play);
+		menu.add(0, Constants.MENU_CHOOSE_AUDIO_FROM_LIST, 0, "change sound manager").setIcon(android.R.drawable.btn_dropdown);
 		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case CARL_ID:
+			case Constants.MENU_CHOICE_CARL_SOUND:
 				isMooChanging = true;
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_1;
 				isMooChanging = false;
 				return true;
-			case KEVIN_ID:
+			case Constants.MENU_CHOICE_KEVIN_KEVIN:
 				isMooChanging = true;
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_2;
 				isMooChanging = false;
 				return true;
-			case Constants.SWITCH_SOUND_MANAGER:
+			case Constants.MENU_SOUND_MANAGER:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				Intent intent = new Intent();
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooRecorder");
 				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
 				return true;
-			case Constants.CHOOSE_AUDIO_FROM_LIST:
-				showDialog(Constants.CHOOSE_AUDIO_FROM_LIST);
+			case Constants.MENU_CHOOSE_AUDIO_FROM_LIST:
+				showDialog(Constants.MENU_CHOOSE_AUDIO_FROM_LIST);
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				return true;
 		}
@@ -248,30 +246,50 @@ public class Cow extends Activity {
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
+
 		switch (id) {
-			case Constants.CHOOSE_AUDIO_FROM_LIST:
-				
+			case Constants.MENU_CHOOSE_AUDIO_FROM_LIST:
+
+				view.setOnLongClickListener(new View.OnLongClickListener() {
+					public boolean onLongClick(View v) {
+						Log.i(TAG,"long click");
+						view.showContextMenu();
+						return true;
+					}
+				});
+
+				view.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+					public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+						menu.setHeaderTitle("Menu");
+						menu.add(0, 1, 0, "Add");
+						menu.add(0, 2, 0, "Delete");
+						menu.add(0, 3, 0, "Edit");
+					}
+				});
+				registerForContextMenu(view);
+
 				String[] listOfFiles = new File(Constants.AUDIO_FILES_DIR).list();
 				final ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
 
 				return new AlertDialog.Builder(Cow.this)
-				.setIcon(R.drawable.alert_dialog_icon)
-				.setTitle(R.string.title_choose_sound)
-				.setSingleChoiceItems(
-						listOfFiles,
-						0,
+					.setIcon(R.drawable.alert_dialog_icon)
+					.setTitle(R.string.title_choose_sound)
+					.setSingleChoiceItems(listOfFiles, 0,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								SoundPoolMgr.SELECTED_MOO_FILE = files.get(whichButton).getAbsolutePath();
 								initSoundPool();
 							}
-						}).setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-					}
-				}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-					}
-				}).create();
+						}
+					)
+					.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+						}
+					})
+					.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+						}
+					}).create();
 		}
 
 		return null;
