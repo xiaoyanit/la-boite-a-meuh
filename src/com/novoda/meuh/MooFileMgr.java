@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
@@ -16,8 +17,9 @@ import com.novoda.view.FileListingAdapter;
 
 public class MooFileMgr extends ListActivity {
 
-	protected static final String	TAG	= "[MooFileMgr]:";
+	protected static final String	TAG				= "[MooFileMgr]:";
 	private FileListingAdapter		fileListAdapter;
+	private int						mChosenPosition	= 9999;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,19 +36,11 @@ public class MooFileMgr extends ListActivity {
 				menu.add(0, 1, 0, "Rename");
 				menu.add(0, 2, 0, "Delete");
 				menu.add(0, 3, 0, "Email to friend");
+				
 			}
-		});
 
-		lv.setOnItemClickListener(new OnItemClickListener() {
-			public void onItemClick(AdapterView parent, View view, int position, long id) {
-
-				Intent intent = getIntent();
-				intent.setAction(Constants.PICK_SOUND);
-				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
-				setResult(RESULT_OK, intent);
-				MooFileMgr.this.finish();
-			}
 		});
+		
 
 		lv.setLongClickable(true);
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -57,15 +51,42 @@ public class MooFileMgr extends ListActivity {
 			}
 		});
 
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Log.i(TAG, "Item clicked");
+				Log.i(TAG, "Item position" + position);
+				Log.i(TAG, "Item id" + id);
+				
+				mChosenPosition = position;
+			}
+		});
+	}
+	
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	    ContextMenuInfo menuInfo = (ContextMenuInfo) item.getMenuInfo(); 
+		Log.i(TAG, "We are renaming the file =" + item);
+		Log.i(TAG, "We are renaming the file id =" + item.getItemId());
+		Log.i(TAG, "We are renaming the file id =" + item.getMenuInfo());
+		Log.i(TAG, "We are renaming the file at position =" + mChosenPosition);
+		return true;
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Log.i(TAG, data.toURI());
-		Intent intent = getIntent();
-		Log.i(TAG, "request code from recording =" + requestCode);
-		Log.i(TAG, "result code from recording =" + resultCode);
+
+		if (data != null) {
+
+			if (data.getAction() == Constants.RENAME_FILE) {
+				if (resultCode == RESULT_OK) {
+
+				}
+			}
+
+		}
+
 	}
 
 }

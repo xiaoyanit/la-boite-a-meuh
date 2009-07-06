@@ -33,13 +33,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
@@ -48,7 +46,6 @@ import com.novoda.os.FileSys;
 public class Cow extends Activity {
 
 	private static final String	TAG				= "[Moo]:";
-	private boolean				soundManager	= true;
 
 	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mooOnRotationEvent;
@@ -249,7 +246,6 @@ public class Cow extends Activity {
 			if (resultCode == RESULT_OK) {
 				
 				Log.i(TAG, data.toURI());
-				Intent intent = getIntent();
 				Log.i(TAG, "request code from recording =" + requestCode);
 				Log.i(TAG, "result code from recording =" + resultCode);
 

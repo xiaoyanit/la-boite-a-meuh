@@ -37,7 +37,7 @@ public class FileSys {
 				testPath = dir + "/" + filename + extension;
 
 			try {
-				RandomAccessFile f = new RandomAccessFile(new File(testPath), "r");
+				new RandomAccessFile(new File(testPath), "r");
 			} catch (Exception e) {
 				// Good, the file didn't exist
 				path = testPath;

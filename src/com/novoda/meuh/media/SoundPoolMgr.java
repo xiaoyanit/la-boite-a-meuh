@@ -32,7 +32,6 @@ public class SoundPoolMgr {
 	private Context						context;
 	private SoundPool					soundPool;
 	private HashMap<Integer, Integer>	soundPoolMap;
-	private String						audioDir			= null;
 
 	public static int					SELECTED_MOO_SOUND;
 	public static String				SELECTED_MOO_FILE	= null;
