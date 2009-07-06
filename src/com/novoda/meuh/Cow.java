@@ -274,24 +274,6 @@ public class Cow extends Activity {
 		switch (id) {
 			case Constants.MENU_CHOOSE_AUDIO_FROM_LIST:
 
-				view.setOnLongClickListener(new View.OnLongClickListener() {
-					public boolean onLongClick(View v) {
-						Log.i(TAG,"long click");
-						view.showContextMenu();
-						return true;
-					}
-				});
-
-				view.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-					public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-						menu.setHeaderTitle("Menu");
-						menu.add(0, 1, 0, "Add");
-						menu.add(0, 2, 0, "Delete");
-						menu.add(0, 3, 0, "Edit");
-					}
-				});
-				registerForContextMenu(view);
-
 				String[] listOfFiles = new File(Constants.AUDIO_FILES_DIR).list();
 				final ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
 

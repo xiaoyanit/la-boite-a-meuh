@@ -3,27 +3,6 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    
-  <LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="vertical" >
-        
-		<TextView  
-		    android:id="@+id/label"
-		    android:layout_width="fill_parent" 
-		    android:layout_height="wrap_content" 
-		    android:text="@string/label" />
-		    
-		<Button  
-		    android:layout_height="wrap_content" 
-		    android:id="@+id/startrecording"
-		    android:text="Start Recording"
-		    android:layout_width="120sp" />
-		    />    
-    
-  </LinearLayout>
 
   <ListView android:id="@+id/android:list"
      android:layout_width="fill_parent"

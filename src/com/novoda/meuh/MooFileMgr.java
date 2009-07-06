@@ -1,18 +1,14 @@
 package com.novoda.meuh;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.app.ListActivity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.os.FileSys;
@@ -20,37 +16,44 @@ import com.novoda.view.FileListingAdapter;
 
 public class MooFileMgr extends ListActivity {
 
-	protected static final String	TAG	= "[MooRecord]:";
-	private Button					startRecording;
-	private FileListingAdapter				fileListAdapter;
+	protected static final String	TAG	= "[MooFileMgr]:";
+	private FileListingAdapter		fileListAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.audiomgr);
-		startRecording = (Button) findViewById(R.id.startrecording);
-		
-		startRecording.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				try {
-					startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), 1);
-				} catch (Exception ee) {
-					Log.e(TAG, "Caught io exception " + ee.getMessage());
-				}
-			}
-		});
+		ListView lv = getListView();
 
 		fileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR));
 		this.setListAdapter(fileListAdapter);
 
-		getListView().setOnItemClickListener(new OnItemClickListener() {
+		lv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+				menu.setHeaderTitle("Edit sound file");
+				menu.add(0, 1, 0, "Rename");
+				menu.add(0, 2, 0, "Delete");
+				menu.add(0, 3, 0, "Email to friend");
+			}
+		});
+
+		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView parent, View view, int position, long id) {
-				
+
 				Intent intent = getIntent();
 				intent.setAction(Constants.PICK_SOUND);
 				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
 				setResult(RESULT_OK, intent);
 				MooFileMgr.this.finish();
+			}
+		});
+
+		lv.setLongClickable(true);
+		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
+				Log.i(TAG, "long click");
+				getListView().showContextMenu();
+				return true;
 			}
 		});
 
@@ -63,24 +66,6 @@ public class MooFileMgr extends ListActivity {
 		Intent intent = getIntent();
 		Log.i(TAG, "request code from recording =" + requestCode);
 		Log.i(TAG, "result code from recording =" + resultCode);
-
-		Cursor cursor = managedQuery(Uri.parse(data.toURI()), null, null, null, null);
-		startManagingCursor(cursor);
-		cursor.moveToLast();
-		// mRecordedAudio_uri = data.getData();
-		// mRecordedAudio_uri_id = cursor.getString(COLUMN_AUDIO_URI_ID);
-		// mRecordedAudio_absLoc =
-		// cursor.getString(COLUMN_RELATIVE_FILE_LOCATION);
-		// mRecordedAudio_name = cursor.getString(COLUMN_FILENAME);
-
-		try {
-			String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
-			FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
-
 
 }
