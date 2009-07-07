@@ -218,16 +218,9 @@ public class Cow extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		Log.i(TAG, "Got the result" + data.getData());
-		
-		
-		Log.i(TAG, "request code from picking a sound =" + requestCode);
-		Log.i(TAG, "result code from picking a sound =" + resultCode);
 
 		
-		if (requestCode == Constants.PICK_SOUND_REQUEST) {
-			if (resultCode == RESULT_OK) {
-
+		if (requestCode == Constants.PICK_SOUND_REQUEST && resultCode == RESULT_OK) {
 				Log.i(TAG, "This is what is in data " + data.getData());
 				Log.i(TAG, "This is the action " + data.getAction());
 				Log.i(TAG, "This is the ID " + data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
@@ -238,13 +231,10 @@ public class Cow extends Activity {
 				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
 
 				initSoundPool();
-			}
 		}
 		
 		
-		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST) {
-			if (resultCode == RESULT_OK) {
-				
+		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
 				Log.i(TAG, data.toURI());
 				Log.i(TAG, "request code from recording =" + requestCode);
 				Log.i(TAG, "result code from recording =" + resultCode);
@@ -259,7 +249,6 @@ public class Cow extends Activity {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
 		}
 
 	}

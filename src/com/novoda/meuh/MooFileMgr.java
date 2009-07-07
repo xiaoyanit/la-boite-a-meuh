@@ -112,7 +112,7 @@ public class MooFileMgr extends ListActivity {
 		switch (id) {
 			case RENAME_FILE_DIALOG:
 				LayoutInflater factory = LayoutInflater.from(this);
-				final View textEntryView = factory.inflate(R.layout.alert_dialog_text_entry, null);
+				final View textEntryView = factory.inflate(R.layout.dialog_rename, null);
 
 				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
