@@ -10,7 +10,7 @@ import android.widget.BaseAdapter;
 
 public class FileListingAdapter extends BaseAdapter {
 
-	private ArrayList<File>	files;
+	public ArrayList<File>	files;
 	private final Activity	activity;
 
 	public FileListingAdapter(Activity activity, ArrayList<File> files) {
