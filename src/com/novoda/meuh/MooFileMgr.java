@@ -95,7 +95,7 @@ public class MooFileMgr extends ListActivity {
 
 		if (item.getItemId() == OPT_DELETE_FILE) {
 			Log.i(TAG, "Deleting the file =" + mCurrFileName);
-			success = (new File(Constants.AUDIO_FILES_DIR + "/" + mCurrFileName)).delete();
+			success = (new File(Constants.AUDIO_FILES_DIR + mCurrFileName)).delete();
 			
 			if (success) {
 				Log.i(TAG, "File was renamed");
@@ -133,7 +133,7 @@ public class MooFileMgr extends ListActivity {
 								mNewFileName = editable.toString();
 
 								if (mNewFileName != null) {
-									if(fileListAdapter.files.get(mChosenPosition).renameTo(new File(Constants.AUDIO_FILES_DIR + "/" + mNewFileName + FileSys.getExtensionFromFilename(mCurrFileName)))){
+									if(fileListAdapter.files.get(mChosenPosition).renameTo(new File(Constants.AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(mCurrFileName)))){
 										Log.i(TAG, "Filename is: " + mNewFileName);
 										Log.i(TAG, "File was renamed");
 										refreshFileListAdapter();

@@ -14,7 +14,7 @@ import android.util.Log;
 
 public class FileSys {
 	
-	protected static final String	TAG								= "[NovodaFileSys]:";
+	protected static final String	TAG								= "[FileSys]:";
 	
 	public static String createFilenameWithChecks(String dir, CharSequence title, String extension) {
 		(new File(dir)).mkdirs();
@@ -32,9 +32,9 @@ public class FileSys {
 		for (int i = 0; i < 100; i++) {
 			String testPath;
 			if (i > 0)
-				testPath = dir + "/" + filename + i + extension;
+				testPath = dir + filename + i + extension;
 			else
-				testPath = dir + "/" + filename + extension;
+				testPath = dir + filename + extension;
 
 			try {
 				new RandomAccessFile(new File(testPath), "r");
