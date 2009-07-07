@@ -40,6 +40,7 @@ import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
@@ -56,6 +57,9 @@ public class Cow extends Activity {
 	private View				view;
 
 	private SoundPoolMgr		mgr;
+	
+	private Menu mMenu;
+
 
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -93,6 +97,10 @@ public class Cow extends Activity {
 	}
 
 	private boolean	isMooChanging	= false;
+
+	private Menu	mActionsMenu;
+
+	private MenuItem	mSaveItem;
 
 	private class MooOnRotationEvent extends OrientationEventListener {
 
@@ -193,10 +201,13 @@ public class Cow extends Activity {
 
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
-		
+		mMenu = menu;
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_actions, menu);
-        return super.onCreateOptionsMenu(menu);
+        this.mActionsMenu = menu;
+        mSaveItem = (MenuItem) findViewById(R.id.save);
+        return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,6 +218,8 @@ public class Cow extends Activity {
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
+
+				mMenu.findItem(R.id.save).setEnabled(true);
 				return true;
 			case R.id.select:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;				
@@ -214,6 +227,7 @@ public class Cow extends Activity {
 				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
 				return true;
 			case R.id.save:
+				mMenu.findItem(R.id.save).setEnabled(false);
 				return true;
 		}
 		return false;

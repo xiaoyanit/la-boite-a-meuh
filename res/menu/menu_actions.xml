@@ -2,5 +2,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 	<item android:title="@string/menu_action_record" android:visible="true" android:id="@+id/record" android:orderInCategory="0"></item>
 	<item android:title="@string/menu_action_select" android:visible="true" android:id="@+id/select" android:enabled="true" android:orderInCategory="1"></item>
-	<item android:title="@string/menu_action_save" android:visible="true" android:id="@+id/save" android:enabled="true" android:orderInCategory="2"></item>
+	<item android:title="@string/menu_action_save" android:visible="true" android:id="@+id/save" android:orderInCategory="2" android:enabled="false"></item>
 </menu>
