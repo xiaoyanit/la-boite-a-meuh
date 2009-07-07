@@ -107,6 +107,9 @@ public class FileSys {
     public static String getExtensionFromFilename(String filename) {
         return filename.substring(filename.lastIndexOf('.'),filename.length());
     }
-
+    
+    public static String getFilenameWithoutExtension(String filename) {
+        return filename.substring(0 ,filename.lastIndexOf('.'));
+    }
     
 }

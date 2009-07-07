@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -71,7 +72,11 @@ public class MooFileMgr extends ListActivity {
 				Log.i(TAG, "Item clicked");
 				Log.i(TAG, "Item position" + position);
 				Log.i(TAG, "Item id" + id);
-
+				
+				Intent intent = new Intent();
+				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
+				setResult(RESULT_OK, intent);
+				finish();
 			}
 		});
 	}
@@ -117,7 +122,7 @@ public class MooFileMgr extends ListActivity {
 				final View textEntryView = factory.inflate(R.layout.dialog_rename, null);
 				EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
 				
-				contents.getEditableText().append(getReadableCurrentAudioFileName());
+				contents.getEditableText().append(FileSys.getFilenameWithoutExtension(mCurrFileName));
 
 				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
@@ -147,11 +152,6 @@ public class MooFileMgr extends ListActivity {
 
 		return null;
 
-	}
-
-	private String getReadableCurrentAudioFileName() {
-		String ext = FileSys.getExtensionFromFilename(mCurrFileName);
-		return mCurrFileName.substring(0, mCurrFileName.lastIndexOf(ext));
 	}
 
 }

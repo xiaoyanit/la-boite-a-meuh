@@ -217,16 +217,16 @@ public class Cow extends Activity {
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
 		
 		if (requestCode == Constants.PICK_SOUND_REQUEST && resultCode == RESULT_OK) {
-				Log.i(TAG, "This is what is in data " + data.getData());
-				Log.i(TAG, "This is the action " + data.getAction());
-				Log.i(TAG, "This is the ID " + data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+				Log.i(TAG, "This is what is in data " + intent.getData());
+				Log.i(TAG, "This is the action " + intent.getAction());
+				Log.i(TAG, "This is the ID " + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 
 				ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
-				File file = files.get(data.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+				File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 				Log.i(TAG, "file I want is " + file.getAbsolutePath());
 				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
 
@@ -235,11 +235,11 @@ public class Cow extends Activity {
 		
 		
 		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
-				Log.i(TAG, data.toURI());
+				Log.i(TAG, intent.toURI());
 				Log.i(TAG, "request code from recording =" + requestCode);
 				Log.i(TAG, "result code from recording =" + resultCode);
 
-				Cursor cursor = managedQuery(Uri.parse(data.toURI()), null, null, null, null);
+				Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
 				startManagingCursor(cursor);
 				cursor.moveToLast();
 

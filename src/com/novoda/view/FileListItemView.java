@@ -2,6 +2,8 @@ package com.novoda.view;
 
 import java.io.File;
 
+import com.novoda.os.FileSys;
+
 import android.app.Activity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,7 +16,7 @@ public class FileListItemView extends LinearLayout {
 		super(activity);
 
 		mFileName = new TextView(activity);
-		mFileName.setText(fileItem.getName());
+		mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
 
 		this.setOrientation(VERTICAL);
 		this.setPadding(0, 8, 0, 12);
