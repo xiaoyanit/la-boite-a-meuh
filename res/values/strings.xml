@@ -5,6 +5,11 @@
 	<string name="title_choose_sound">Choose your Mooo Sound!</string>
 	<string name="dialog_ok">Ok</string>
 	<string name="dialog_cancel">Cancel</string>
-<string name="title_rename_sound_file">Rename sound File</string>
-<string name="lbl_filename">File Name</string>
+	<string name="title_rename_sound_file">Rename sound File</string>
+	<string name="lbl_filename">File Name</string>
+
+	<string name="menu_action_record">Record</string>
+	<string name="menu_action_select">Select</string>
+	<string name="menu_action_save">Save</string>
+	
 </resources>

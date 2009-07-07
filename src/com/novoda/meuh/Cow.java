@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
@@ -192,19 +193,27 @@ public class Cow extends Activity {
 
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, Constants.MENU_RECORD_SOUND, 0, "Record").setIcon(android.R.drawable.btn_dropdown);
-		menu.add(0, Constants.MENU_CHOOSE_AUDIO_FROM_LIST, 0, "Select").setIcon(android.R.drawable.ic_media_play);
-		menu.add(0, Constants.MENU_SAVE_NEW_SOUND, 0, "Save current sound").setIcon(android.R.drawable.btn_dropdown);
-		return true;
+		
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_actions, menu);
+        return super.onCreateOptionsMenu(menu);
+
+		
+//		menu.add(0, Constants.MENU_RECORD_SOUND, 0, "Record").setIcon(android.R.drawable.btn_dropdown);
+//		menu.add(0, Constants.MENU_CHOOSE_AUDIO_FROM_LIST, 1, "Select").setIcon(android.R.drawable.ic_media_play);
+//		menu.add(0, Constants.MENU_SAVE_NEW_SOUND, 2, "Save current sound").setIcon(android.R.drawable.btn_dropdown).setEnabled(false);
+//		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
+		
 		Intent intent = new Intent();
 		switch (item.getItemId()) {
 			case Constants.MENU_RECORD_SOUND:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
+				
 				return true;
 			case Constants.MENU_CHOOSE_AUDIO_FROM_LIST:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;				
