@@ -16,7 +16,6 @@ package com.novoda.meuh;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -40,7 +39,6 @@ import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
@@ -53,13 +51,9 @@ public class Cow extends Activity {
 
 	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mooOnRotationEvent;
-
 	private View				view;
-
 	private SoundPoolMgr		mgr;
-	
-	private Menu mMenu;
-
+	private Menu				mOptMenu;
 
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -97,10 +91,6 @@ public class Cow extends Activity {
 	}
 
 	private boolean	isMooChanging	= false;
-
-	private Menu	mActionsMenu;
-
-	private MenuItem	mSaveItem;
 
 	private class MooOnRotationEvent extends OrientationEventListener {
 
@@ -201,33 +191,31 @@ public class Cow extends Activity {
 
 	/*********************** Menu creation ***********************/
 	public boolean onCreateOptionsMenu(Menu menu) {
-		mMenu = menu;
+		mOptMenu = menu;
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_actions, menu);
-        this.mActionsMenu = menu;
-        mSaveItem = (MenuItem) findViewById(R.id.save);
-        return true;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_actions, menu);
+		return true;
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
+
 		Intent intent = new Intent();
 		switch (item.getItemId()) {
-            case R.id.record:
+			case R.id.record:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
 
-				mMenu.findItem(R.id.save).setEnabled(true);
+				mOptMenu.findItem(R.id.save).setEnabled(true);
 				return true;
 			case R.id.select:
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;				
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooFileMgr");
 				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
 				return true;
 			case R.id.save:
-				mMenu.findItem(R.id.save).setEnabled(false);
+				mOptMenu.findItem(R.id.save).setEnabled(false);
 				return true;
 		}
 		return false;
@@ -236,53 +224,49 @@ public class Cow extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
-		
 		if (requestCode == Constants.PICK_SOUND_REQUEST && resultCode == RESULT_OK) {
-				Log.i(TAG, "This is what is in data " + intent.getData());
-				Log.i(TAG, "This is the action " + intent.getAction());
-				Log.i(TAG, "This is the ID " + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+			Log.i(TAG, "This is what is in data " + intent.getData());
+			Log.i(TAG, "This is the action " + intent.getAction());
+			Log.i(TAG, "This is the ID " + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 
-				ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
-				File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+			ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
+			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+			Log.i(TAG, "file I want is " + file.getAbsolutePath());
+			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
+
+			initSoundPool();
+		}
+
+		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
+			Log.i(TAG, intent.toURI());
+			Log.i(TAG, "request code from recording =" + requestCode);
+			Log.i(TAG, "result code from recording =" + resultCode);
+
+			Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
+			startManagingCursor(cursor);
+			cursor.moveToLast();
+			String path = null;
+
+			try {
+				path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
+				FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			if (path != null) {
+				FileListingAdapter fileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR));
+				Log.i(TAG, "The path we're looking for is:" + path);
+				int lastindexIs = fileListAdapter.files.indexOf(new File(path));
+				Log.i(TAG, "The index for this path is: " + lastindexIs);
+
+				File file = fileListAdapter.files.get(lastindexIs);
 				Log.i(TAG, "file I want is " + file.getAbsolutePath());
 				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
 
 				initSoundPool();
-		}
-		
-		
-		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
-				Log.i(TAG, intent.toURI());
-				Log.i(TAG, "request code from recording =" + requestCode);
-				Log.i(TAG, "result code from recording =" + resultCode);
+			}
 
-				Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
-				startManagingCursor(cursor);
-				cursor.moveToLast();
-				String path =null;
-				
-				try {
-					path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
-					FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				
-				
-				if(path != null){
-					FileListingAdapter fileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR));
-					Log.i(TAG, "The path we're looking for is:" + path);
-					int lastindexIs = fileListAdapter.files.indexOf(new File(path));
-					Log.i(TAG, "The index for this path is: " + lastindexIs);
-					
-					
-					File file = fileListAdapter.files.get(lastindexIs);
-					Log.i(TAG, "file I want is " + file.getAbsolutePath());
-					SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
-					
-					initSoundPool();
-				}
-				
 		}
 
 	}
@@ -296,25 +280,19 @@ public class Cow extends Activity {
 				String[] listOfFiles = new File(Constants.AUDIO_FILES_DIR).list();
 				final ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
 
-				return new AlertDialog.Builder(Cow.this)
-					.setIcon(R.drawable.alert_dialog_icon)
-					.setTitle(R.string.title_choose_sound)
-					.setSingleChoiceItems(listOfFiles, 0,
+				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_choose_sound).setSingleChoiceItems(listOfFiles, 0,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								SoundPoolMgr.SELECTED_MOO_FILE = files.get(whichButton).getAbsolutePath();
 								initSoundPool();
 							}
-						}
-					)
-					.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-						}
-					})
-					.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int whichButton) {
-						}
-					}).create();
+						}).setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				}).create();
 		}
 
 		return null;
