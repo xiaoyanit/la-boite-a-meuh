@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -85,28 +87,20 @@ public class MooFileMgr extends ListActivity {
 		boolean success = false;
 
 		if (item.getItemId() == OPT_DELETE_FILE) {
-			Log.i(TAG, "We are deleting the file =" + fileName);
+			Log.i(TAG, "Deleting the file =" + fileName);
 			success = (new File(Constants.AUDIO_FILES_DIR + "/" + fileName)).delete();
-		}
-
-		if (item.getItemId() == OPT_RENAME_FILE) {
-			Log.i(TAG, "We are renaming the file =" + item);
-			Log.i(TAG, "We are renaming the file id =" + item.getItemId());
-			Log.i(TAG, "We are renaming the file id =" + item.getMenuInfo());
-			Log.i(TAG, "We are renaming the file at position =" + mChosenPosition);
-			Log.i(TAG, "We are renaming the file name at position =" + fileName);
-
-			showDialog(RENAME_FILE_DIALOG);
-			if (newFileName != null) {
-				success = fileListAdapter.files.get(mChosenPosition).renameTo(new File(Constants.AUDIO_FILES_DIR + "/" + newFileName));
+			
+			if (success) {
+				Log.i(TAG, "File was renamed");
+				refreshFileListAdapter();
+			} else {
+				Log.i(TAG, "File was not renamed");
 			}
 		}
 
-		if (!success) {
-			Log.i(TAG, "File was not renamed");
-		} else {
-			Log.i(TAG, "File was renamed");
-			refreshFileListAdapter();
+		if (item.getItemId() == OPT_RENAME_FILE) {
+			Log.i(TAG, "We are renaming the file name at position =" + fileName);
+			showDialog(RENAME_FILE_DIALOG);
 		}
 
 		return true;
@@ -123,9 +117,25 @@ public class MooFileMgr extends ListActivity {
 				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
+								EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
+								Editable editable = contents.getEditableText();
+								newFileName = null;
+								newFileName = editable.toString();
+
+								if (newFileName != null) {
+									if(fileListAdapter.files.get(mChosenPosition).renameTo(new File(Constants.AUDIO_FILES_DIR + "/" + newFileName))){
+										Log.i(TAG, "Filename is: " + newFileName);
+										Log.i(TAG, "File was renamed");
+										refreshFileListAdapter();
+									}else{
+										Log.i(TAG, "File was not renamed");
+									}
+								}
+
 							}
 						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
+								newFileName = null;
 							}
 						}).create();
 		}
