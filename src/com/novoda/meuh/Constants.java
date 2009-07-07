@@ -18,8 +18,5 @@ public class Constants {
 	public static final int		CHOSEN_AUDIO_FILE_ACTION		= 40;
 	public static final int		MENU_CHOICE_CARL_SOUND			= 0;
 	public static final int		MENU_CHOICE_KEVIN_KEVIN			= 1;
-	static final int			MENU_RECORD_SOUND				= 2;
-	public static final int		MENU_CHOOSE_AUDIO_FROM_LIST		= 898;
-	public static final int		MENU_SAVE_NEW_SOUND				= 88;
 
 }
