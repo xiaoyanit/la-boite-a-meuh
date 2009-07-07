@@ -24,14 +24,15 @@ import com.novoda.view.FileListingAdapter;
 
 public class MooFileMgr extends ListActivity {
 
+	protected static final String	TAG					= "[MooFileMgr]:";
 	private static final int		OPT_EMAIL_FRIEND	= 3;
 	private static final int		OPT_DELETE_FILE		= 2;
 	private static final int		OPT_RENAME_FILE		= 1;
-	protected static final String	TAG					= "[MooFileMgr]:";
 	private static final int		RENAME_FILE_DIALOG	= 22;
 	private FileListingAdapter		fileListAdapter;
 	private int						mChosenPosition		= 9999;
-	private String					newFileName			= null;
+	private String					mNewFileName			= null;
+	private String	mCurrFileName;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,12 +84,13 @@ public class MooFileMgr extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
-		String fileName = fileListAdapter.files.get(mChosenPosition).getName();
+		mCurrFileName = null;
+		mCurrFileName = fileListAdapter.files.get(mChosenPosition).getName();
 		boolean success = false;
 
 		if (item.getItemId() == OPT_DELETE_FILE) {
-			Log.i(TAG, "Deleting the file =" + fileName);
-			success = (new File(Constants.AUDIO_FILES_DIR + "/" + fileName)).delete();
+			Log.i(TAG, "Deleting the file =" + mCurrFileName);
+			success = (new File(Constants.AUDIO_FILES_DIR + "/" + mCurrFileName)).delete();
 			
 			if (success) {
 				Log.i(TAG, "File was renamed");
@@ -99,7 +101,7 @@ public class MooFileMgr extends ListActivity {
 		}
 
 		if (item.getItemId() == OPT_RENAME_FILE) {
-			Log.i(TAG, "We are renaming the file name at position =" + fileName);
+			Log.i(TAG, "We are renaming the file :" + mCurrFileName);
 			showDialog(RENAME_FILE_DIALOG);
 		}
 
@@ -113,18 +115,21 @@ public class MooFileMgr extends ListActivity {
 			case RENAME_FILE_DIALOG:
 				LayoutInflater factory = LayoutInflater.from(this);
 				final View textEntryView = factory.inflate(R.layout.dialog_rename, null);
+				EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
+				
+				contents.getEditableText().append(getReadableCurrentAudioFileName());
 
 				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
 								Editable editable = contents.getEditableText();
-								newFileName = null;
-								newFileName = editable.toString();
+								mNewFileName = null;
+								mNewFileName = editable.toString();
 
-								if (newFileName != null) {
-									if(fileListAdapter.files.get(mChosenPosition).renameTo(new File(Constants.AUDIO_FILES_DIR + "/" + newFileName))){
-										Log.i(TAG, "Filename is: " + newFileName);
+								if (mNewFileName != null) {
+									if(fileListAdapter.files.get(mChosenPosition).renameTo(new File(Constants.AUDIO_FILES_DIR + "/" + mNewFileName + FileSys.getExtensionFromFilename(mCurrFileName)))){
+										Log.i(TAG, "Filename is: " + mNewFileName);
 										Log.i(TAG, "File was renamed");
 										refreshFileListAdapter();
 									}else{
@@ -135,13 +140,18 @@ public class MooFileMgr extends ListActivity {
 							}
 						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
-								newFileName = null;
+								mNewFileName = null;
 							}
 						}).create();
 		}
 
 		return null;
 
+	}
+
+	private String getReadableCurrentAudioFileName() {
+		String ext = FileSys.getExtensionFromFilename(mCurrFileName);
+		return mCurrFileName.substring(0, mCurrFileName.lastIndexOf(ext));
 	}
 
 }
