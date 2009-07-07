@@ -16,6 +16,7 @@ package com.novoda.meuh;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -42,6 +43,7 @@ import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
 import com.novoda.os.FileSys;
+import com.novoda.view.FileListingAdapter;
 
 public class Cow extends Activity {
 
@@ -242,13 +244,30 @@ public class Cow extends Activity {
 				Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
 				startManagingCursor(cursor);
 				cursor.moveToLast();
-
+				String path =null;
+				
 				try {
-					String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
+					path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
 					FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				
+				
+				if(path != null){
+					FileListingAdapter fileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR));
+					Log.i(TAG, "The path we're looking for is:" + path);
+					int lastindexIs = fileListAdapter.files.indexOf(new File(path));
+					Log.i(TAG, "The index for this path is: " + lastindexIs);
+					
+					
+					File file = fileListAdapter.files.get(lastindexIs);
+					Log.i(TAG, "file I want is " + file.getAbsolutePath());
+					SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
+					
+					initSoundPool();
+				}
+				
 		}
 
 	}
