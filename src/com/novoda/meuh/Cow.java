@@ -46,7 +46,7 @@ import com.novoda.os.FileSys;
 
 public class Cow extends Activity {
 
-	private static final String	TMP_NAME	= "tmp_audio";
+	private static final String	TMP_NAME	= "tmpaudio";
 
 	private static final String	FILE_EXT	= ".3gpp";
 
@@ -252,8 +252,11 @@ public class Cow extends Activity {
 
 			try {
 				
+				
+				
 				do {
-					new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
+					boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
+					Log.i(TAG, "The delete has been: " + delete);
 					
 				} while (new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).exists());
 
@@ -266,7 +269,6 @@ public class Cow extends Activity {
 
 			if (path != null) {
 				SoundPoolMgr.SELECTED_MOO_FILE = Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT;
-
 				initSoundPool();
 			}
 
