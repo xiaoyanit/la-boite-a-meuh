@@ -49,7 +49,7 @@ import com.novoda.os.FileSys;
 
 public class Cow extends Activity {
 
-	private static final String	TMP_NAME	= "tmpaudio";
+	private static final String	TMP_NAME	= "myNewSound";
 
 	private static final String	FILE_EXT	= ".3gpp";
 
@@ -296,8 +296,8 @@ public class Cow extends Activity {
 						String mNewFileName = editable.toString();
 
 						try {
-														
 							String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, mNewFileName, FILE_EXT);
+							Log.i(TAG, "File Should have been created at " + path);
 							FileSys.copyViaChannels(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT), new File(path));
 						} catch (IOException e) {
 								e.printStackTrace();

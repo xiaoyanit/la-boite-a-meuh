@@ -52,7 +52,8 @@ public class FileSys {
 	//Used to retain header information during a copy
     public static void copyViaChannels(File src, File dst) throws IOException {
 
-    	Log.i(TAG, "Copying "+ src.getAbsolutePath() + "to " + dst.getAbsolutePath());
+    	Log.i(TAG, "Copying "+ src.getAbsolutePath() + " to " + dst.getAbsolutePath());
+    	Log.i(TAG, "Creating a new file: " + dst.createNewFile());
     	
 	    try {
 	        FileChannel srcChannel = new FileInputStream(src.getAbsolutePath()).getChannel();
@@ -63,13 +64,14 @@ public class FileSys {
 	        srcChannel.close();
 	        dstChannel.close();
 	    } catch (IOException e) {
+	    	Log.e(TAG, "IO Exception in copying between channeks", e);
 	    }
     }
     
 	public static ArrayList<File> listFilesInDir_asFiles(String dir) {
 		
 		List<File> files = Arrays.asList(new File(dir).listFiles());
-		ArrayList<File> allFiles = new ArrayList<File>();
+		ArrayList<File> allFiles = new ArrayList<File>();	
 		for (File file: files){
 			allFiles.add(file);
 		}
