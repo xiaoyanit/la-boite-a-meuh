@@ -32,13 +32,16 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
@@ -219,6 +222,7 @@ public class Cow extends Activity {
 				return true;
 			case R.id.save:
 				mOptMenu.findItem(R.id.save).setEnabled(false);
+				showDialog(R.layout.dialog_new);
 				return true;
 		}
 		return false;
@@ -252,14 +256,10 @@ public class Cow extends Activity {
 
 			try {
 				
-				
-				
-				do {
+				if(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).exists()) {
 					boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
-					Log.i(TAG, "The delete has been: " + delete);
-					
-				} while (new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).exists());
-
+					Log.i(TAG, "The delete has been done: " + delete);
+				}
 				
 				path = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, TMP_NAME, FILE_EXT);
 				FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
@@ -280,25 +280,35 @@ public class Cow extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 
-		switch (id) {
-			case R.id.select:
-
-				String[] listOfFiles = new File(Constants.AUDIO_FILES_DIR).list();
-				final ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
-
-				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_choose_sound).setSingleChoiceItems(listOfFiles, 0,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int whichButton) {
-								SoundPoolMgr.SELECTED_MOO_FILE = files.get(whichButton).getAbsolutePath();
-								initSoundPool();
-							}
-						}).setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+		switch (id) {		
+			case R.layout.dialog_new:
+				LayoutInflater factory = LayoutInflater.from(this);
+				final View textEntryView = factory.inflate(R.layout.dialog_new, null);
+				
+				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+				contents.getEditableText().append(TMP_NAME);
+				
+				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView)
+				.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
+						EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+						Editable editable = contents.getEditableText();
+						String mNewFileName = editable.toString();
+
+						try {
+														
+							String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, mNewFileName, FILE_EXT);
+							FileSys.copyViaChannels(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT), new File(path));
+						} catch (IOException e) {
+								e.printStackTrace();
+						}
+
 					}
 				}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 					}
-				}).create();
+				}).create();				
+				
 		}
 
 		return null;

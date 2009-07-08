@@ -106,7 +106,7 @@ public class MooFileMgr extends ListActivity {
 				
 			case R.id.rename:
 				Log.i(TAG, "We are renaming the file :" + mCurrFileName);
-				showDialog(RENAME_FILE_DIALOG);
+				showDialog(R.layout.dialog_rename);
 				break;
 				
 		}
@@ -119,7 +119,7 @@ public class MooFileMgr extends ListActivity {
 	protected Dialog onCreateDialog(int id) {
 
 		switch (id) {
-			case RENAME_FILE_DIALOG:
+			case R.layout.dialog_rename:
 				LayoutInflater factory = LayoutInflater.from(this);
 				final View textEntryView = factory.inflate(R.layout.dialog_rename, null);
 				EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);

@@ -11,6 +11,7 @@
 	<string name="menu_action_record">Record</string>
 	<string name="menu_action_select">Select</string>
 	<string name="menu_action_save">Save</string>
+	<string name="title_save_sound">Name your new sound</string>
 	
 	
 	<string name="title_ammend_files">Edit Sound File</string>
