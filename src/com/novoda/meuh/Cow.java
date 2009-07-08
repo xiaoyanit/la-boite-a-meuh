@@ -49,7 +49,7 @@ import com.novoda.os.FileSys;
 
 public class Cow extends Activity {
 
-	private static final String	TMP_NAME	= "myNewSound";
+	private static final String	TMP_NAME	= "mynewsound";
 
 	private static final String	FILE_EXT	= ".3gpp";
 

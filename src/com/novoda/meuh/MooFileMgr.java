@@ -7,7 +7,9 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -27,7 +29,6 @@ import com.novoda.view.FileListingAdapter;
 public class MooFileMgr extends ListActivity {
 
 	protected static final String	TAG					= "[MooFileMgr]:";
-	private static final int		RENAME_FILE_DIALOG	= 22;
 	private FileListingAdapter		fileListAdapter;
 	private int						mChosenPosition		= 9999;
 	private String					mNewFileName		= null;
@@ -108,6 +109,14 @@ public class MooFileMgr extends ListActivity {
 				Log.i(TAG, "We are renaming the file :" + mCurrFileName);
 				showDialog(R.layout.dialog_rename);
 				break;
+				
+			case R.id.email:
+				Log.i(TAG, "Emailing to kevin");
+				Intent sendIntent = new Intent(Intent.ACTION_SEND);
+				sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Android email with atachment");
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+ Environment.getExternalStorageDirectory()+"/la-boite-a-meuh/media/audio/tmp/mynewsound.3gpp"));
+				sendIntent.setType("audio/3gpp");
+				startActivity(Intent.createChooser(sendIntent, "Email file")); 
 				
 		}
 		
