@@ -32,7 +32,6 @@ public class MooFileMgr extends ListActivity {
 	private int						mChosenPosition		= 9999;
 	private String					mNewFileName		= null;
 	private String					mCurrFileName;
-	private ContextMenu				mOptMenu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,8 +47,6 @@ public class MooFileMgr extends ListActivity {
 		lv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-				mOptMenu = menu;
-
 		        MenuInflater inflater = getMenuInflater();
 		        inflater.inflate(R.menu.file_actions, menu);
 		        menu.setHeaderTitle(R.string.title_ammend_files);

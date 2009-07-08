@@ -43,9 +43,12 @@ import android.widget.Toast;
 
 import com.novoda.meuh.media.SoundPoolMgr;
 import com.novoda.os.FileSys;
-import com.novoda.view.FileListingAdapter;
 
 public class Cow extends Activity {
+
+	private static final String	TMP_NAME	= "tmp_audio";
+
+	private static final String	FILE_EXT	= ".3gpp";
 
 	private static final String	TAG				= "[Moo]:";
 
@@ -248,21 +251,21 @@ public class Cow extends Activity {
 			String path = null;
 
 			try {
-				path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, "user_meuh", ".3gpp");
+				
+				do {
+					new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
+					
+				} while (new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).exists());
+
+				
+				path = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, TMP_NAME, FILE_EXT);
 				FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
 			if (path != null) {
-				FileListingAdapter fileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR));
-				Log.i(TAG, "The path we're looking for is:" + path);
-				int lastindexIs = fileListAdapter.files.indexOf(new File(path));
-				Log.i(TAG, "The index for this path is: " + lastindexIs);
-
-				File file = fileListAdapter.files.get(lastindexIs);
-				Log.i(TAG, "file I want is " + file.getAbsolutePath());
-				SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
+				SoundPoolMgr.SELECTED_MOO_FILE = Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT;
 
 				initSoundPool();
 			}
@@ -270,6 +273,7 @@ public class Cow extends Activity {
 		}
 
 	}
+
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -297,5 +301,6 @@ public class Cow extends Activity {
 
 		return null;
 	}
+
 
 }
