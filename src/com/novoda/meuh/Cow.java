@@ -61,22 +61,42 @@ public class Cow extends Activity {
 	private SoundPoolMgr		mgr;
 	private Menu				mOptMenu;
 
+	private Bundle	bundle;
+
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-
+		this.bundle = bundle;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		view = new CowHeadView(this);
 		setContentView(view);
 
+		Log.i(TAG, " intent: " + getIntent().getDataString());
+		Log.i(TAG, "intent" + getIntent().describeContents());
+		Log.i(TAG, "intent" + getIntent().getAction());
+//		Log.i(TAG, "Describe contents: " + bundle.describeContents());
+//		Log.i(TAG, "to string: " + bundle.toString());
+//		Log.i(TAG, "Is empty: " + bundle.isEmpty());
+//		Log.i(TAG, "Keyset: " + bundle.keySet());
+//		
+//		for(String item : bundle.keySet()){
+//			Log.i(TAG, "item: " + item);
+//		}
+		
+		
 		initSoundPool();
 		mooOnRotationEvent = new MooOnRotationEvent(this);
 
 		if (!mooOnRotationEvent.canDetectOrientation()) {
 			Toast.makeText(this, "Can't moo :(", 1000);
 		}
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
 	}
 
 	private void initSoundPool() {
