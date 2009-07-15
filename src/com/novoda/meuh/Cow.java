@@ -92,13 +92,6 @@ public class Cow extends Activity {
 					Log.i(TAG, "path segment:  " + item);
 				}
 				
-//				File f1 = new File(getIntent().getData().getPath()); 
-//				Log.i(TAG, "File Name: " +  f1.getName());
-//				Log.i(TAG, "Path Name: " +  f1.getAbsolutePath());
-//				f1.delete();
-//				Log.i(TAG, "Path Name: deleted");
-//				String path = null;
-
 				if(new File(Constants.TMP_AUDIO_DIR + EMAILED_TMP_NAME + FILE_EXT).exists()) {
 					boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
 					Log.i(TAG, "The delete has been done: " + delete);
@@ -106,25 +99,12 @@ public class Cow extends Activity {
 				
 				try {
 					String path = FileSys.copyInputStreamToFile(getContentResolver().openInputStream(Uri.parse(getIntent().toURI())), new File(Constants.AUDIO_FILES_DIR + EMAILED_TMP_NAME + FILE_EXT));
+					//You have to make the created file readable.
 					Runtime.getRuntime().exec("chmod 666 " + path);
 					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
-				
-//				try {
-//					
-//					if(new File(Constants.TMP_AUDIO_DIR + EMAILED_TMP_NAME + FILE_EXT).exists()) {
-//						boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
-//						Log.i(TAG, "The delete has been done: " + delete);
-//					}
-//					
-//					path = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, EMAILED_TMP_NAME, FILE_EXT);
-//					FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
 			}
 			
 			
