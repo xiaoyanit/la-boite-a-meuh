@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -113,5 +115,23 @@ public class FileSys {
     public static String getFilenameWithoutExtension(String filename) {
         return filename.substring(0 ,filename.lastIndexOf('.'));
     }
+    
+
+    public static String copyInputStreamToFile(InputStream in, File dst) throws IOException {
+        OutputStream out = new FileOutputStream(dst);
+    
+        // Transfer bytes from in to out
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+        
+        return dst.getAbsolutePath();
+    }
+
+
     
 }

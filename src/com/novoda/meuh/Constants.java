@@ -19,5 +19,6 @@ public class Constants {
 	public static final int		CHOSEN_AUDIO_FILE_ACTION		= 40;
 	public static final int		MENU_CHOICE_CARL_SOUND			= 0;
 	public static final int		MENU_CHOICE_KEVIN_KEVIN			= 1;
+	public static final String	NATIVE_GMAIL_AUTHORITY			= "gmail-ls";
 
 }

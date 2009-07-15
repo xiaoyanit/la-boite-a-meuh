@@ -14,7 +14,9 @@
 package com.novoda.meuh;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -55,6 +57,8 @@ public class Cow extends Activity {
 
 	private static final String	TAG				= "[Moo]:";
 
+	private static final String	EMAILED_TMP_NAME	= "friendssound";
+
 	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mooOnRotationEvent;
 	private View				view;
@@ -73,18 +77,58 @@ public class Cow extends Activity {
 		view = new CowHeadView(this);
 		setContentView(view);
 
-		Log.i(TAG, " intent: " + getIntent().getDataString());
-		Log.i(TAG, "intent" + getIntent().describeContents());
-		Log.i(TAG, "intent" + getIntent().getAction());
-//		Log.i(TAG, "Describe contents: " + bundle.describeContents());
-//		Log.i(TAG, "to string: " + bundle.toString());
-//		Log.i(TAG, "Is empty: " + bundle.isEmpty());
-//		Log.i(TAG, "Keyset: " + bundle.keySet());
-//		
-//		for(String item : bundle.keySet()){
-//			Log.i(TAG, "item: " + item);
-//		}
+		Log.i(TAG, "Calling intent [" + getIntent().getDataString() + "], action[" + getIntent().getAction() + "]");
 		
+		if(getIntent().getData() != null){
+			Log.i(TAG, "The data within the intent: " +  getIntent().getData());
+			Log.i(TAG, "The encoded query within the intent: " +  getIntent().getData().getEncodedQuery());
+			Log.i(TAG, "The suthority within the intent: " +  getIntent().getData().getAuthority());
+			
+			if(getIntent().getData().getAuthority().equals(Constants.NATIVE_GMAIL_AUTHORITY)){
+				Log.i(TAG, "The encoded path within the intent: " +  getIntent().getData().getEncodedPath());
+				Log.i(TAG, "The decoded query within the intent: " +  getIntent().getData().getPath());
+				
+				for(String item : getIntent().getData().getPathSegments()){
+					Log.i(TAG, "path segment:  " + item);
+				}
+				
+//				File f1 = new File(getIntent().getData().getPath()); 
+//				Log.i(TAG, "File Name: " +  f1.getName());
+//				Log.i(TAG, "Path Name: " +  f1.getAbsolutePath());
+//				f1.delete();
+//				Log.i(TAG, "Path Name: deleted");
+//				String path = null;
+
+				if(new File(Constants.TMP_AUDIO_DIR + EMAILED_TMP_NAME + FILE_EXT).exists()) {
+					boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
+					Log.i(TAG, "The delete has been done: " + delete);
+				}
+				
+				try {
+					String path = FileSys.copyInputStreamToFile(getContentResolver().openInputStream(Uri.parse(getIntent().toURI())), new File(Constants.AUDIO_FILES_DIR + EMAILED_TMP_NAME + FILE_EXT));
+					Runtime.getRuntime().exec("chmod 666 " + path);
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				
+//				try {
+//					
+//					if(new File(Constants.TMP_AUDIO_DIR + EMAILED_TMP_NAME + FILE_EXT).exists()) {
+//						boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
+//						Log.i(TAG, "The delete has been done: " + delete);
+//					}
+//					
+//					path = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, EMAILED_TMP_NAME, FILE_EXT);
+//					FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+			}
+			
+			
+		}
 		
 		initSoundPool();
 		mooOnRotationEvent = new MooOnRotationEvent(this);
@@ -270,7 +314,7 @@ public class Cow extends Activity {
 			Log.i(TAG, "result code from recording =" + resultCode);
 
 			Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
-			startManagingCursor(cursor);
+			startManagingCursor(cursor);			
 			cursor.moveToLast();
 			String path = null;
 

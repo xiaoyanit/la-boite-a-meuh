@@ -113,11 +113,11 @@ public class MooFileMgr extends ListActivity {
 			case R.id.email:
 				Log.i(TAG, "Emailing to kevin");
 				Intent sendIntent = new Intent(Intent.ACTION_SEND);
+				sendIntent.setType("audio/3gpp");
 				sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Android email with atachment");
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+ Environment.getExternalStorageDirectory()+"/la-boite-a-meuh/media/audio/tmp/mynewsound.3gpp"));
-				sendIntent.setType("audio/3gpp");
+				sendIntent.putExtra(Intent.EXTRA_TEXT, "A friend has sent you a sound for the La-boite-a-meuh Android Applicaiton");
 				startActivity(Intent.createChooser(sendIntent, "Email file")); 
-				
 		}
 		
 
