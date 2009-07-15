@@ -197,7 +197,7 @@ public class Cow extends Activity {
 			int w = canvas.getWidth();
 			int h = canvas.getHeight();
 			int cx = (w / 2);
-			int cy = (h / 2) + 40;
+			int cy = (h / 2);
 
 			canvas.translate(cx, cy);
 			canvas.rotate(-1 * mOrientation);
