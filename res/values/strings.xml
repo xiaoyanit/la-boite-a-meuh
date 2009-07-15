@@ -20,4 +20,9 @@
 	<string name="menu_action_files_email">Email to friend</string>
 	<string name="menu_action_files_assign_as_ringtone">Use as Phone Ringtone</string>
 	
+	
+	<string name="title_email">Email file:</string>
+	<string name="email_subject_line">A friend has sent you a Cow Moo</string>
+	<string name="email_text">Use as Phone Ringtone</string>
+	
 </resources>

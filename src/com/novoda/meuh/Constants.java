@@ -8,6 +8,11 @@ public class Constants {
 	public static final int		COLUMN_FILENAME					= 2;
 	public static final int		COLUMN_INDEX4					= 2;
 	public static final int		COLUMN_INDEX5					= 2;
+	public static final String	MYNEWSOUND_3GPP					= "/mynewsound.3gpp";
+	public static final String	RECORDED_FILES_DIR				= "/meuhs";
+	public static final String	RINGTONES_DIR					= "/Music/ringtones/";
+	public static final String	TMP_DIR							= "/tmp";
+	public static final String	AUDIO_DIR						= "/la-boite-a-meuh/media/audio";
 	public static final String	AUDIO_FILES_DIR					= "/sdcard/la-boite-a-meuh/media/audio/meuhs/";
 	public static final String	TMP_AUDIO_DIR					= "/sdcard/la-boite-a-meuh/media/audio/tmp/";
 	public static final int		PICK_SOUND_REQUEST				= 33;
