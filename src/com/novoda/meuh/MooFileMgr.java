@@ -1,15 +1,24 @@
 package com.novoda.meuh;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -23,16 +32,18 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.novoda.meuh.media.SoundPoolMgr;
 import com.novoda.os.FileSys;
 import com.novoda.view.FileListingAdapter;
 
 public class MooFileMgr extends ListActivity {
 
-	protected static final String	TAG					= "[MooFileMgr]:";
+	protected static final String	TAG				= "[MooFileMgr]:";
 	private FileListingAdapter		fileListAdapter;
-	private int						mChosenPosition		= 9999;
-	private String					mNewFileName		= null;
+	private int						mChosenPosition	= 9999;
+	private String					mNewFileName	= null;
 	private String					mCurrFileName;
+	private SoundPoolMgr			mSoundPoolMgr;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,9 +59,9 @@ public class MooFileMgr extends ListActivity {
 		lv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		        MenuInflater inflater = getMenuInflater();
-		        inflater.inflate(R.menu.file_actions, menu);
-		        menu.setHeaderTitle(R.string.title_ammend_files);
+				MenuInflater inflater = getMenuInflater();
+				inflater.inflate(R.menu.file_actions, menu);
+				menu.setHeaderTitle(R.string.title_ammend_files);
 			}
 
 		});
@@ -89,6 +100,7 @@ public class MooFileMgr extends ListActivity {
 
 		mCurrFileName = null;
 		mCurrFileName = fileListAdapter.files.get(mChosenPosition).getName();
+		Log.i(TAG, "Name of file=" + mCurrFileName);
 		boolean success = false;
 
 		
@@ -118,6 +130,21 @@ public class MooFileMgr extends ListActivity {
 				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://"+ Environment.getExternalStorageDirectory()+"/la-boite-a-meuh/media/audio/tmp/mynewsound.3gpp"));
 				sendIntent.putExtra(Intent.EXTRA_TEXT, "A friend has sent you a sound for the La-boite-a-meuh Android Applicaiton");
 				startActivity(Intent.createChooser(sendIntent, "Email file")); 
+				
+			case R.id.set_ringtone:		
+				String path = null;
+				try {
+					path = FileSys.createFilenameWithChecks(Environment.getExternalStorageDirectory() + "/Music/ringtones/", mCurrFileName);
+					FileSys.copyViaChannels( new File(Environment.getExternalStorageDirectory()+"/la-boite-a-meuh/media/audio/meuhs/" + mCurrFileName), new File(path));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+//				Uri newUri=Uri.parse("file://"+ path);
+				Uri newUri= addToMediaDB(new File(path)); 
+				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri); 
+				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, newUri.toString());  				
+				
 		}
 		
 
@@ -166,4 +193,38 @@ public class MooFileMgr extends ListActivity {
 
 	}
 
-}
+	private Uri addToMediaDB(File file) {
+        ContentValues cv = new ContentValues();
+        long current = System.currentTimeMillis();
+        long modDate = file.lastModified();
+        
+        String title = "la-sound";
+
+        // Lets label the recorded audio file as NON-MUSIC so that the file
+        // won't be displayed automatically, except for in theplaylist.
+        cv.put(MediaStore.Audio.Media.IS_MUSIC, "0");
+        cv.put(MediaStore.Audio.Media.TITLE, title);
+        Log.d(MediaStore.Audio.Media.TRACK.toString(),MediaStore.Audio.Media.TRACK.toString());
+        cv.put(MediaStore.Audio.Media.DATA, file.getAbsolutePath());
+        cv.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current /1000));
+        cv.put(MediaStore.Audio.Media.DATE_MODIFIED, (int) (modDate /1000));
+//        cv.put(MediaStore.Audio.MediaColumns.DURATION,mRecordingLength);
+        cv.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
+        cv.put(MediaStore.Audio.Media.ARTIST, "kevin");
+        cv.put(MediaStore.Audio.Media.ALBUM, "kevin");
+        Log.d(TAG, "Inserting audio record: " + cv.toString());
+        ContentResolver resolver = getContentResolver();
+        Uri base = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Log.d(TAG, "ContentURI: " + base);
+        Uri result = resolver.insert(base, cv);
+        Log.e(TAG, result.toString());
+
+        if (result == null) {
+        	Log.i(TAG, "intent is null");
+        }
+
+        // Notify those applications such as Music listening to the
+        // scanner events that a recorded audio file just created.
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, result));
+        return result;
+    }}

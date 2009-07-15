@@ -20,7 +20,7 @@ public class FileSys {
 	
 	public static String createFilenameWithChecks(String dir, CharSequence title, String extension) {
 		(new File(dir)).mkdirs();
-
+		
 		// Turn the title into a filename
 		String filename = "";
 		for (int i = 0; i < title.length(); i++) {
@@ -49,6 +49,43 @@ public class FileSys {
 		}
 
 		return path;
+	}
+	
+	public static String createFilenameWithChecks(String dir, CharSequence title) {
+		(new File(dir)).mkdirs();
+
+		String ext = getExtensionFromFilename(title.toString());
+		String justFileName = title.toString().substring(0, title.toString().indexOf(ext));
+		
+		
+		// Turn the title into a filename
+		String filename = "";
+		for (int i = 0; i < justFileName.length(); i++) {
+			if (Character.isLetterOrDigit(justFileName.charAt(i))) {
+				filename += justFileName.charAt(i);
+			}
+		}
+		
+		// Try to make the filename unique
+		String path = null;
+		for (int i = 0; i < 100; i++) {
+			String testPath;
+			if (i > 0)
+				testPath = dir + filename + i;
+			else
+				testPath = dir + filename;
+			
+			try {
+				new RandomAccessFile(new File(testPath), "r");
+			} catch (Exception e) {
+				// Good, the file didn't exist
+				path = testPath;
+				Log.i(TAG, "Created new dir for saved files");
+				break;
+			}
+		}
+		
+		return path + ext;
 	}
     
 	//Used to retain header information during a copy

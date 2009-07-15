@@ -18,5 +18,6 @@
 	<string name="menu_action_files_rename">Rename</string>
 	<string name="menu_action_files_delete">Delete</string>
 	<string name="menu_action_files_email">Email to friend</string>
+	<string name="menu_action_files_assign_as_ringtone">Use as Phone Ringtone</string>
 	
 </resources>
