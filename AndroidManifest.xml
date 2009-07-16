@@ -14,7 +14,7 @@
 	<application android:label="@string/app_name" android:icon="@drawable/icon">
 		
 		<activity
-			android:name=".Cow" 
+			android:name=".CowHead" 
 			android:label="@string/app_name"
 			android:screenOrientation="portrait">
 			
@@ -54,7 +54,7 @@
 		</activity>
 		
 		<activity 
-			android:name=".MooFileMgr" 
+			android:name=".FileMgr" 
 			android:label="@string/app_name"
 			android:screenOrientation="portrait">
 

@@ -50,7 +50,7 @@ import android.widget.Toast;
 import com.novoda.meuh.media.SoundPoolMgr;
 import com.novoda.os.FileSys;
 
-public class Cow extends Activity {
+public class CowHead extends Activity {
 
 	private static final String	TAG				= "[Moo]:";
 
@@ -123,7 +123,7 @@ public class Cow extends Activity {
 				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
 				contents.getEditableText().append(TMP_FILE);
 
-				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView).setPositiveButton(
+				return new AlertDialog.Builder(CowHead.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView).setPositiveButton(
 						R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
@@ -148,7 +148,7 @@ public class Cow extends Activity {
 		mOptMenu = menu;
 
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main_actions, menu);
+		inflater.inflate(R.menu.cow_head_actions, menu);
 		return true;
 	}
 
@@ -159,7 +159,7 @@ public class Cow extends Activity {
 			case R.id.record:
 				Log.v(TAG, "User selected to Record a new sound");
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
-				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
+				intent.setClassName(getBaseContext(), "com.novoda.meuh.CowHead");
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
 				mOptMenu.findItem(R.id.save).setEnabled(true);
 				return true;
@@ -167,7 +167,7 @@ public class Cow extends Activity {
 			case R.id.select:
 				Log.v(TAG, "User selected to select a listed sound");
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
-				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooFileMgr");
+				intent.setClassName(getBaseContext(), "com.novoda.meuh.FileMgr");
 				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
 				return true;
 

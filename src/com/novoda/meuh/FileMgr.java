@@ -31,7 +31,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.novoda.os.FileSys;
 import com.novoda.view.FileListingAdapter;
 
-public class MooFileMgr extends ListActivity {
+public class FileMgr extends ListActivity {
 
 	private static final String	TAG				= "[MooFileMgr]:";
 	private FileListingAdapter	mFileListAdapter;
@@ -117,7 +117,7 @@ public class MooFileMgr extends ListActivity {
 
 				contents.getEditableText().append(FileSys.getFilenameWithoutExtension(sCurrFileName));
 
-				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
+				return new AlertDialog.Builder(FileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
@@ -154,8 +154,8 @@ public class MooFileMgr extends ListActivity {
 		lv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 				MenuInflater inflater = getMenuInflater();
-				inflater.inflate(R.menu.file_actions, menu);
-				menu.setHeaderTitle(R.string.title_ammend_files);
+				inflater.inflate(R.menu.file_mgr_file_actions, menu);
+				menu.setHeaderTitle(R.string.title_ammend_file);
 			}
 		});
 
