@@ -16,41 +16,17 @@ import android.util.Log;
 
 public class FileSys {
 	
-	protected static final String	TAG								= "[FileSys]:";
-	
-	public static String createFilenameWithChecks(String dir, CharSequence title, String extension) {
-		(new File(dir)).mkdirs();
-		
-		// Turn the title into a filename
-		String filename = "";
-		for (int i = 0; i < title.length(); i++) {
-			if (Character.isLetterOrDigit(title.charAt(i))) {
-				filename += title.charAt(i);
-			}
-		}
-
-		// Try to make the filename unique
-		String path = null;
-		for (int i = 0; i < 100; i++) {
-			String testPath;
-			if (i > 0)
-				testPath = dir + filename + i + extension;
-			else
-				testPath = dir + filename + extension;
-
-			try {
-				new RandomAccessFile(new File(testPath), "r");
-			} catch (Exception e) {
-				// Good, the file didn't exist
-				path = testPath;
-				Log.i(TAG, "Created new dir for saved files");
-				break;
-			}
-		}
-
-		return path;
-	}
-	
+	private static final String	TAG								= "[FileSys]:";
+	/**
+	 * Helper for dealing with exceptions in creating files any
+	 * conventions/logic which may pertain to the files.
+	 * Makes sure that a filename is unique and also make sure 
+	 * that it has appropriate letters/digits in the title.
+	 * 
+	 * @param dir
+	 * @param title
+	 * @return
+	 */
 	public static String createFilenameWithChecks(String dir, CharSequence title) {
 		(new File(dir)).mkdirs();
 
@@ -85,10 +61,14 @@ public class FileSys {
 			}
 		}
 		
-		return path + ext;
+		return (path + ext);
 	}
     
-	//Used to retain header information during a copy
+	/***
+	 * Retains header information during a copy
+	 * @param src
+	 * @param dst
+	 */
     public static void copyViaChannels(File src, File dst) {
 
     	Log.i(TAG, "Copying "+ src.getAbsolutePath() + " to " + dst.getAbsolutePath());
@@ -112,7 +92,7 @@ public class FileSys {
 	    }
     }
     
-	public static ArrayList<File> listFilesInDir_asFiles(String dir) {
+	public static ArrayList<File> listFilesInDir(String dir) {
 		
 		List<File> files = Arrays.asList(new File(dir).listFiles());
 		ArrayList<File> allFiles = new ArrayList<File>();	
@@ -123,7 +103,7 @@ public class FileSys {
 		return allFiles;
 	}
 	
-	public static ArrayList<String> listFilesInDir_asStrings(String dir) {
+	public static ArrayList<String> listFileNamesInDir(String dir) {
 		
 		List<File> files = Arrays.asList(new File(dir).listFiles());
 		ArrayList<String> allFiles = new ArrayList<String>();
@@ -132,22 +112,6 @@ public class FileSys {
 		}
 		
 		return allFiles;
-	}
-	
-	public static String[] fileNamesInDir(String dir) {
-		
-		List<File> files = Arrays.asList(new File(dir).listFiles());
-		String[] fileNames = new String[files.size()];
-		for (int i =0; i > 0; i++){
-			
-			Log.i("filesys", "Name: " + files.get(i).getName());
-			Log.i("filesys", "Abs Name: " + files.get(i).getAbsolutePath());
-			Log.i("filesys", "Path: " + files.get(i).getPath());
-			
-			fileNames[i] = files.get(i).getName();
-		}
-		
-		return fileNames;
 	}
 	
     public static String getExtensionFromFilename(String filename) {
@@ -172,8 +136,4 @@ public class FileSys {
         out.close();
         
         return dst.getAbsolutePath();
-    }
-
-
-    
-}
+    }}

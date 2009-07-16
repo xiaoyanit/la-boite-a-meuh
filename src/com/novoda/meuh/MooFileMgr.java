@@ -1,7 +1,6 @@
 package com.novoda.meuh;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,11 +33,11 @@ import com.novoda.view.FileListingAdapter;
 
 public class MooFileMgr extends ListActivity {
 
-	protected static final String	TAG				= "[MooFileMgr]:";
-	private FileListingAdapter		fileListAdapter;
-	private int						mChosenPosition	= 9999;
-	private String					mNewFileName	= null;
-	private String					mCurrFileName;
+	private static final String	TAG				= "[MooFileMgr]:";
+	private FileListingAdapter	mFileListAdapter;
+	private int					mChosenPosition	= 9999;
+	private String				mNewFileName	= null;
+	private static String		sCurrFileName;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,6 @@ public class MooFileMgr extends ListActivity {
 				inflater.inflate(R.menu.file_actions, menu);
 				menu.setHeaderTitle(R.string.title_ammend_files);
 			}
-
 		});
 
 		lv.setLongClickable(true);
@@ -86,22 +84,22 @@ public class MooFileMgr extends ListActivity {
 	}
 
 	private void refreshFileListAdapter() {
-		fileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR));
-		this.setListAdapter(fileListAdapter);
+		mFileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR));
+		this.setListAdapter(mFileListAdapter);
 	}
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 
-		mCurrFileName = null;
-		mCurrFileName = fileListAdapter.files.get(mChosenPosition).getName();
-		Log.i(TAG, "Name of file=" + mCurrFileName);
+		sCurrFileName = null;
+		sCurrFileName = mFileListAdapter.files.get(mChosenPosition).getName();
+		Log.i(TAG, "Name of file=" + sCurrFileName);
 		boolean success = false;
 
 		switch (item.getItemId()) {
 			case R.id.delete:
-				Log.i(TAG, "Deleting the file =" + mCurrFileName);
-				success = (new File(Constants.AUDIO_FILES_DIR + mCurrFileName)).delete();
+				Log.i(TAG, "Deleting the file =" + sCurrFileName);
+				success = (new File(Constants.AUDIO_FILES_DIR + sCurrFileName)).delete();
 
 				if (success) {
 					Log.i(TAG, "File was renamed");
@@ -112,7 +110,7 @@ public class MooFileMgr extends ListActivity {
 				break;
 
 			case R.id.rename:
-				Log.i(TAG, "We are renaming the file :" + mCurrFileName);
+				Log.i(TAG, "We are renaming the file :" + sCurrFileName);
 				showDialog(R.layout.dialog_rename);
 				break;
 
@@ -121,15 +119,17 @@ public class MooFileMgr extends ListActivity {
 				Intent sendIntent = new Intent(Intent.ACTION_SEND);
 				sendIntent.setType("audio/3gpp");
 				sendIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.email_subject_line));
-				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/" + mCurrFileName));
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/"
+						+ sCurrFileName));
 				sendIntent.putExtra(Intent.EXTRA_TEXT, this.getString(R.string.email_text));
 				startActivity(Intent.createChooser(sendIntent, this.getString(R.string.title_email)));
 				break;
-				
+
 			case R.id.set_ringtone:
 				String path = null;
-				path = FileSys.createFilenameWithChecks(Environment.getExternalStorageDirectory() + Constants.RINGTONES_DIR, mCurrFileName);
-				FileSys.copyViaChannels(new File(Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/" + mCurrFileName), new File(path));
+				path = FileSys.createFilenameWithChecks(Environment.getExternalStorageDirectory() + Constants.RINGTONES_DIR, sCurrFileName);
+				FileSys.copyViaChannels(new File(Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/" + sCurrFileName), new File(
+						path));
 
 				Uri newUri = addToMediaDB(new File(path));
 				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri);
@@ -149,7 +149,7 @@ public class MooFileMgr extends ListActivity {
 				final View textEntryView = factory.inflate(R.layout.dialog_rename, null);
 				EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
 
-				contents.getEditableText().append(FileSys.getFilenameWithoutExtension(mCurrFileName));
+				contents.getEditableText().append(FileSys.getFilenameWithoutExtension(sCurrFileName));
 
 				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
@@ -160,8 +160,8 @@ public class MooFileMgr extends ListActivity {
 								mNewFileName = editable.toString();
 
 								if (mNewFileName != null) {
-									if (fileListAdapter.files.get(mChosenPosition).renameTo(
-											new File(Constants.AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(mCurrFileName)))) {
+									if (mFileListAdapter.files.get(mChosenPosition).renameTo(
+											new File(Constants.AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(sCurrFileName)))) {
 										Log.i(TAG, "Filename is: " + mNewFileName);
 										Log.i(TAG, "File was renamed");
 										refreshFileListAdapter();
@@ -187,7 +187,7 @@ public class MooFileMgr extends ListActivity {
 		long current = System.currentTimeMillis();
 		long modDate = file.lastModified();
 
-		String title = "la-sound";
+		String title = file.getName();
 
 		// Lets label the recorded audio file as NON-MUSIC so that the file
 		// won't be displayed automatically, except for in theplaylist.

@@ -51,19 +51,14 @@ import com.novoda.os.FileSys;
 
 public class Cow extends Activity {
 
-	private static final String	TMP_NAME	= "mynewsound";
-
-	private static final String	FILE_EXT	= ".3gpp";
-
 	private static final String	TAG				= "[Moo]:";
 
-	private static final String	EMAILED_TMP_NAME	= "friendssound";
-
 	private int					mOrientation	= 0;
-	private MooOnRotationEvent	mooOnRotationEvent;
-	private View				view;
-	private SoundPoolMgr		mgr;
+	private MooOnRotationEvent	mOnRotationEvent;
+	private View				mView;
+	private SoundPoolMgr		mMgr;
 	private Menu				mOptMenu;
+	private boolean				mIsMooChanging	= false;
 
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -71,126 +66,189 @@ public class Cow extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
-		view = new CowHeadView(this);
-		setContentView(view);
+		mView = new CowHeadView(this);
+		setContentView(mView);
 
 		Log.i(TAG, "Calling intent [" + getIntent().getDataString() + "], action[" + getIntent().getAction() + "]");
-		
-		if(getIntent().getData() != null){
-			Log.i(TAG, "The data within the intent: " +  getIntent().getData());
-			Log.i(TAG, "The encoded query within the intent: " +  getIntent().getData().getEncodedQuery());
-			Log.i(TAG, "The suthority within the intent: " +  getIntent().getData().getAuthority());
-			
-			if(getIntent().getData().getAuthority().equals(Constants.NATIVE_GMAIL_AUTHORITY)){
-				copyAttachmentToTmpDir();
-			}
-			
-		}
-		
-		initSoundPool();
-		mooOnRotationEvent = new MooOnRotationEvent(this);
 
-		if (!mooOnRotationEvent.canDetectOrientation()) {
+		if (getIntent().getData() != null) {
+			Log.i(TAG, "The data within the intent: " + getIntent().getData());
+			Log.i(TAG, "The encoded query within the intent: " + getIntent().getData().getEncodedQuery());
+			Log.i(TAG, "The suthority within the intent: " + getIntent().getData().getAuthority());
+
+			if (getIntent().getData().getAuthority().equals(Constants.NATIVE_GMAIL_AUTHORITY)) {
+				copyAttachmentToTmpDir(getIntent().toURI(), Constants.AUDIO_FILES_DIR + Constants.EMAILED_TMP_NAME + Constants.FILE_EXT);
+			}
+
+		}
+
+		initSoundPool();
+		mOnRotationEvent = new MooOnRotationEvent(this);
+
+		if (!mOnRotationEvent.canDetectOrientation()) {
 			Toast.makeText(this, "Can't moo :(", 1000);
 		}
-	}
-
-	private void copyAttachmentToTmpDir() {
-		Log.i(TAG, "The encoded path within the intent: " +  getIntent().getData().getEncodedPath());
-		Log.i(TAG, "The decoded query within the intent: " +  getIntent().getData().getPath());
-		
-		for(String item : getIntent().getData().getPathSegments()){
-			Log.i(TAG, "path segment:  " + item);
-		}
-		
-		if(new File(Constants.TMP_AUDIO_DIR + EMAILED_TMP_NAME + FILE_EXT).exists()) {
-			boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
-			Log.i(TAG, "The delete has been done: " + delete);
-		}
-		
-		try {
-			String path = FileSys.copyInputStreamToFile(getContentResolver().openInputStream(Uri.parse(getIntent().toURI())), new File(Constants.AUDIO_FILES_DIR + EMAILED_TMP_NAME + FILE_EXT));
-			//You have to make the created file readable.
-			Runtime.getRuntime().exec("chmod 666 " + path);
-			
-		} catch (IOException e) {
-			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
-		}
-	}
-
-	private void initSoundPool() {
-		mgr = new SoundPoolMgr(this);
-		mgr.init();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mooOnRotationEvent.enable();
+		mOnRotationEvent.enable();
 	}
 
 	@Override
 	protected void onStop() {
-		mooOnRotationEvent.disable();
+		mOnRotationEvent.disable();
 		super.onStop();
 	}
 
-	private boolean	isMooChanging	= false;
+	@Override
+	protected Dialog onCreateDialog(int id) {
 
-	private class MooOnRotationEvent extends OrientationEventListener {
+		switch (id) {
+			case R.layout.dialog_new:
+				LayoutInflater factory = LayoutInflater.from(this);
+				final View textEntryView = factory.inflate(R.layout.dialog_new, null);
 
-		private boolean	isMooing;
-		private int		mooPower;
+				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+				contents.getEditableText().append(Constants.TMP_NAME);
 
-		public MooOnRotationEvent(Context context) {
-			super(context);
-		}
+				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView).setPositiveButton(
+						R.string.dialog_ok, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int whichButton) {
+								EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+								Editable editable = contents.getEditableText();
+								String mNewFileName = editable.toString();
 
-		@Override
-		public void onOrientationChanged(int orientation) {
+								String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
+								FileSys.copyViaChannels(new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT), new File(path));
 
-			mOrientation = orientation;
-			if (view != null) {
-				view.invalidate();
-			}
-
-			if (orientation > 60 && orientation < 300) {
-				isMooing = true;
-				mooPower++;
-			} else {
-				isMooing = false;
-			}
-
-			if (!isMooing && mooPower > 0) {
-
-				Log.i(TAG, "Power " + mooPower);
-				float speed = 1.0f;
-
-				if (mooPower > 15)
-					speed = 0.5f;
-				else if (mooPower > 13)
-					speed = 0.7f;
-				else if (mooPower > 10)
-					speed = 1.0f;
-				else if (mooPower > 5)
-					speed = 1.5f;
-				else if (mooPower > 3)
-					speed = 1.9f;
-
-				moo(speed);
-			}
+							}
+						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				}).create();
 
 		}
 
-		public void moo(float speed) {
-			if (!isMooChanging) {
-				mgr.playSound(speed);
-			}
-			mooPower = 0;
+		return null;
+	}
 
+	public boolean onCreateOptionsMenu(Menu menu) {
+		mOptMenu = menu;
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main_actions, menu);
+		return true;
+	}
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		Intent intent = new Intent();
+		switch (item.getItemId()) {
+			case R.id.record:
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
+				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
+				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
+				mOptMenu.findItem(R.id.save).setEnabled(true);
+				return true;
+
+			case R.id.select:
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
+				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooFileMgr");
+				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
+				return true;
+
+			case R.id.save:
+				mOptMenu.findItem(R.id.save).setEnabled(false);
+				showDialog(R.layout.dialog_new);
+				return true;
+		}
+		return false;
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+		if (requestCode == Constants.PICK_SOUND_REQUEST && resultCode == RESULT_OK) {
+			Log.i(TAG, "This is what is in data " + intent.getData());
+			Log.i(TAG, "This is the action " + intent.getAction());
+			Log.i(TAG, "This is the ID " + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+
+			ArrayList<File> files = FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR);
+			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+			Log.i(TAG, "file I want is " + file.getAbsolutePath());
+			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
+
+			initSoundPool();
+		}
+
+		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
+			Log.i(TAG, intent.toURI());
+			Log.i(TAG, "request code from recording =" + requestCode);
+			Log.i(TAG, "result code from recording =" + resultCode);
+
+			Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
+			startManagingCursor(cursor);
+			cursor.moveToLast();
+
+			if (copyToAudioDir(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION))) {
+				SoundPoolMgr.SELECTED_MOO_FILE = Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT;
+				initSoundPool();
+			}
+		}
+
+	}
+
+	private void initSoundPool() {
+		mMgr = new SoundPoolMgr(this);
+		mMgr.init();
+	}
+
+	private void copyAttachmentToTmpDir(String attachmentURI, String dst) {
+		Log.i(TAG, "The encoded path within the intent: " + getIntent().getData().getEncodedPath());
+		Log.i(TAG, "The decoded query within the intent: " + getIntent().getData().getPath());
+
+		for (String item : getIntent().getData().getPathSegments()) {
+			Log.i(TAG, "path segment:  " + item);
+		}
+
+		if (new File(Constants.TMP_AUDIO_DIR + Constants.EMAILED_TMP_NAME + Constants.FILE_EXT).exists()) {
+			boolean delete = new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT).delete();
+			Log.i(TAG, "The delete has been done: " + delete);
+		}
+
+		try {
+			String path = FileSys.copyInputStreamToFile(getContentResolver().openInputStream(Uri.parse(attachmentURI)), new File(dst));
+			// You have to make the created file readable.
+			Runtime.getRuntime().exec("chmod 666 " + path);
+
+		} catch (IOException e) {
+			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
 		}
 	}
 
+	private boolean copyToAudioDir(String src) {
+		if (new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT).exists()) {
+			boolean delete = new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT).delete();
+			Log.i(TAG, "The delete has been done: " + delete);
+		}
+
+		String dst = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, Constants.TMP_NAME + Constants.FILE_EXT);
+
+		if (dst == null) {
+			return false;
+		} else {
+			FileSys.copyViaChannels(new File(src), new File(dst));
+		}
+
+		return true;
+	}
+
+/***
+ * Draws the cow head depending on the orientation
+ *
+ */
 	private class CowHeadView extends View {
 		private Paint	mPaint	= new Paint();
 		private Bitmap	bg;
@@ -225,125 +283,63 @@ public class Cow extends Activity {
 
 	}
 
-	/*********************** Menu creation ***********************/
-	public boolean onCreateOptionsMenu(Menu menu) {
-		mOptMenu = menu;
+/***
+ * Used for interpreting the movements of the device into 'mooPower'
+ * The sound is distorted depending on the amount of 'mooPower'
+ *
+ */
+	private class MooOnRotationEvent extends OrientationEventListener {
 
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.main_actions, menu);
-		return true;
-	}
+		private boolean	isMooing;
+		private int		mooPower;
 
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		Intent intent = new Intent();
-		switch (item.getItemId()) {
-			case R.id.record:
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
-				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
-				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
-				mOptMenu.findItem(R.id.save).setEnabled(true);
-				return true;
-				
-			case R.id.select:
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
-				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooFileMgr");
-				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
-				return true;
-				
-			case R.id.save:
-				mOptMenu.findItem(R.id.save).setEnabled(false);
-				showDialog(R.layout.dialog_new);
-				return true;
-		}
-		return false;
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-
-		if (requestCode == Constants.PICK_SOUND_REQUEST && resultCode == RESULT_OK) {
-			Log.i(TAG, "This is what is in data " + intent.getData());
-			Log.i(TAG, "This is the action " + intent.getAction());
-			Log.i(TAG, "This is the ID " + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
-
-			ArrayList<File> files = FileSys.listFilesInDir_asFiles(Constants.AUDIO_FILES_DIR);
-			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
-			Log.i(TAG, "file I want is " + file.getAbsolutePath());
-			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
-
-			initSoundPool();
+		public MooOnRotationEvent(Context context) {
+			super(context);
 		}
 
-		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
-			Log.i(TAG, intent.toURI());
-			Log.i(TAG, "request code from recording =" + requestCode);
-			Log.i(TAG, "result code from recording =" + resultCode);
+		@Override
+		public void onOrientationChanged(int orientation) {
 
-			Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
-			startManagingCursor(cursor);			
-			cursor.moveToLast();
-			String path = null;
+			mOrientation = orientation;
+			if (mView != null) {
+				mView.invalidate();
+			}
 
-			if (copyToAudioDir(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION))) {
-				SoundPoolMgr.SELECTED_MOO_FILE = Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT;
-				initSoundPool();
-			}else{
+			if (orientation > 60 && orientation < 300) {
+				isMooing = true;
+				mooPower++;
+			} else {
+				isMooing = false;
+			}
+
+			if (!isMooing && mooPower > 0) {
+
+				Log.i(TAG, "Power " + mooPower);
+				float speed = 1.0f;
+
+				if (mooPower > 15)
+					speed = 0.5f;
+				else if (mooPower > 13)
+					speed = 0.7f;
+				else if (mooPower > 10)
+					speed = 1.0f;
+				else if (mooPower > 5)
+					speed = 1.5f;
+				else if (mooPower > 3)
+					speed = 1.9f;
+
+				moo(speed);
 			}
 
 		}
 
-	}
+		public void moo(float speed) {
+			if (!mIsMooChanging) {
+				mMgr.playSound(speed);
+			}
+			mooPower = 0;
 
-	private boolean copyToAudioDir(String src) {
-		if(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).exists()) {
-			boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
-			Log.i(TAG, "The delete has been done: " + delete);
 		}
-
-		String dst = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, TMP_NAME, FILE_EXT);
-		
-		if(dst == null){
-			return false;
-		}else{
-			FileSys.copyViaChannels(new File(src), new File(dst));
-		}
-
-		return true;
 	}
-
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-
-		switch (id) {		
-			case R.layout.dialog_new:
-				LayoutInflater factory = LayoutInflater.from(this);
-				final View textEntryView = factory.inflate(R.layout.dialog_new, null);
-				
-				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
-				contents.getEditableText().append(TMP_NAME);
-				
-				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView)
-				.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-						EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
-						Editable editable = contents.getEditableText();
-						String mNewFileName = editable.toString();
-
-						String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, mNewFileName, FILE_EXT);
-						FileSys.copyViaChannels(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT), new File(path));
-
-					}
-				}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-					}
-				}).create();				
-				
-		}
-
-		return null;
-	}
-
 
 }
