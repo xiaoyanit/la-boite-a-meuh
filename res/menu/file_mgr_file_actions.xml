@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:visible="true" android:id="@+id/rename" android:menuCategory="secondary" android:orderInCategory="2" android:title="@string/menu_action_file_rename"></item>
-	<item android:visible="true" android:id="@+id/delete" android:menuCategory="secondary" android:orderInCategory="3" android:title="@string/menu_action_file_delete"></item>
-	<item android:visible="true" android:id="@+id/email" android:menuCategory="secondary" android:orderInCategory="4" android:title="@string/menu_action_file_email"></item><item android:id="@+id/set_ringtone" android:orderInCategory="1" android:menuCategory="secondary" android:visible="true" android:title="@string/menu_action_file_assign_as_ringtone"></item>
+	<item android:visible="true" android:id="@+id/rename" android:menuCategory="secondary" android:title="@string/menu_action_file_rename" android:orderInCategory="3"></item>
+	<item android:visible="true" android:id="@+id/delete" android:menuCategory="secondary" android:title="@string/menu_action_file_delete" android:orderInCategory="4"></item>
+	<item android:visible="true" android:id="@+id/email" android:menuCategory="secondary" android:title="@string/menu_action_file_email" android:orderInCategory="2"></item><item android:id="@+id/set_ringtone" android:orderInCategory="1" android:menuCategory="secondary" android:visible="true" android:title="@string/menu_action_file_assign_as_ringtone"></item>
 
 
 </menu>

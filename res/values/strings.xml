@@ -20,6 +20,13 @@
 	<string name="menu_action_file_email">Email to friend</string>
 	<string name="menu_action_file_assign_as_ringtone">Use as Phone Ringtone</string>
 	
+	<string name="menu_action_help">Help</string>
+	<string name="title_help">Choosing Sounds!</string>
+	<string name="text_dialogue_help">
+        You can save funny sounds!
+        Select 'save' from the menu after you make a recording.
+        By 'long pressing' a sound name you can set a Ringtone or email your sound to a friend.</string>
+
 	
 	<string name="title_email">Email file:</string>
 	<string name="email_subject_line">A friend has sent you a Cow Moo</string>
@@ -30,5 +37,6 @@
 	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
 	<string name="filename_tmp">mynewsound</string>
 	<string name="filename_emailed_tmp">friendssound</string>
+	
 	
 </resources>

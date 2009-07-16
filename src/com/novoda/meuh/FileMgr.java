@@ -19,6 +19,7 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,6 +38,7 @@ public class FileMgr extends ListActivity {
 	private FileListingAdapter	mFileListAdapter;
 	private int					mChosenPosition	= 9999;
 	private String				mNewFileName	= null;
+	private Menu				mOptMenu;
 	private static String		sCurrFileName;
 
 	public static String		RINGTONES_DIR;
@@ -46,7 +48,7 @@ public class FileMgr extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.audiomgr);
+		setContentView(R.layout.filemgr);
 
 		AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
 		RINGTONES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_ringtones);
@@ -69,20 +71,20 @@ public class FileMgr extends ListActivity {
 				success = (new File(AUDIO_FILES_DIR + sCurrFileName)).delete();
 
 				if (success) {
-					Log.i(TAG, "File ["+sCurrFileName+"] was deleted");
+					Log.i(TAG, "File [" + sCurrFileName + "] was deleted");
 					refreshFileListAdapter();
 				} else {
-					Log.e(TAG, "File  ["+sCurrFileName+"] was not deleted");
+					Log.e(TAG, "File  [" + sCurrFileName + "] was not deleted");
 				}
 				break;
 
 			case R.id.rename:
-				Log.d(TAG, "Renaming file [" + sCurrFileName+"]");
+				Log.d(TAG, "Renaming file [" + sCurrFileName + "]");
 				showDialog(R.layout.dialog_rename);
 				break;
 
 			case R.id.email:
-				Log.i(TAG, "Sending file["+sCurrFileName+"] file as attachment in email");
+				Log.i(TAG, "Sending file[" + sCurrFileName + "] file as attachment in email");
 				Intent sendIntent = new Intent(Intent.ACTION_SEND);
 				sendIntent.setType("audio/3gpp");
 				sendIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.email_subject_line));
@@ -92,7 +94,7 @@ public class FileMgr extends ListActivity {
 				break;
 
 			case R.id.set_ringtone:
-				Log.i(TAG, "Making file["+sCurrFileName+"] default system Ringtone");
+				Log.i(TAG, "Making file[" + sCurrFileName + "] default system Ringtone");
 				String path = null;
 				path = FileSys.createFilenameWithChecks(RINGTONES_DIR, sCurrFileName);
 				FileSys.copyViaChannels(new File(AUDIO_FILES_DIR + sCurrFileName), new File(path));
@@ -128,10 +130,10 @@ public class FileMgr extends ListActivity {
 								if (mNewFileName != null) {
 									if (mFileListAdapter.files.get(mChosenPosition).renameTo(
 											new File(AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(sCurrFileName)))) {
-										Log.d(TAG, "Filename[" + sCurrFileName +"] was renamed to ["+ mNewFileName +"] from dialog contents" );
+										Log.d(TAG, "Filename[" + sCurrFileName + "] was renamed to [" + mNewFileName + "] from dialog contents");
 										refreshFileListAdapter();
 									} else {
-										Log.e(TAG, "Filename[" + sCurrFileName +"] could not be renamed to ["+ mNewFileName +"] from dialog contents" );
+										Log.e(TAG, "Filename[" + sCurrFileName + "] could not be renamed to [" + mNewFileName + "] from dialog contents");
 									}
 								}
 
@@ -141,12 +143,49 @@ public class FileMgr extends ListActivity {
 								mNewFileName = null;
 							}
 						}).create();
+				
+				
+			case R.layout.dialog_help:
+				LayoutInflater factory2 = LayoutInflater.from(this);
+				final View textEntryView2 = factory2.inflate(R.layout.dialog_help, null);
+
+				return new AlertDialog.Builder(FileMgr.this)
+				.setIcon(R.drawable.alert_dialog_icon)
+				.setTitle(R.string.title_help)
+				.setView(textEntryView2).setPositiveButton(
+						R.string.dialog_ok, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int whichButton) {
+							}
+						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				}).create();
+				
 		}
 
 		return null;
-
 	}
 
+	public boolean onCreateOptionsMenu(Menu menu) {
+		mOptMenu = menu;
+
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.file_mgr_actions, menu);
+		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+			case R.id.help:
+				Log.v(TAG, "User selected Help");
+				showDialog(R.layout.dialog_help);
+				return true;
+
+		}
+		return false;
+	}
+	
 	private void initFileListing() {
 		ListView lv = getListView();
 		refreshFileListAdapter();
@@ -162,7 +201,7 @@ public class FileMgr extends ListActivity {
 		lv.setLongClickable(true);
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
-				Log.v(TAG, "List item["+pos+"] has been long clicked");
+				Log.v(TAG, "List item[" + pos + "] has been long clicked");
 				mChosenPosition = pos;
 				getListView().showContextMenu();
 				return true;
@@ -171,7 +210,7 @@ public class FileMgr extends ListActivity {
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Log.v(TAG, "List item["+position+"] has been clicked with ID of["+ id +"]");
+				Log.v(TAG, "List item[" + position + "] has been clicked with ID of[" + id + "]");
 
 				Intent intent = new Intent();
 				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
@@ -187,10 +226,10 @@ public class FileMgr extends ListActivity {
 	}
 
 	/***
-	 * Adds to the Media DB so as it can be retrieved by URI.
-	 * This file is intended as a funny noise notification so it is marked as
-	 * not being MUSIC so mediaplayers can avoid it.
-	 * After it is entere applications are notified by a Media Scanner broadcast.
+	 * Adds to the Media DB so as it can be retrieved by URI. This file is
+	 * intended as a funny noise notification so it is marked as not being MUSIC
+	 * so mediaplayers can avoid it. After it is entere applications are
+	 * notified by a Media Scanner broadcast.
 	 * 
 	 * @param file
 	 * @return
@@ -208,20 +247,19 @@ public class FileMgr extends ListActivity {
 		cv.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current / 1000));
 		cv.put(MediaStore.Audio.Media.DATE_MODIFIED, (int) (modDate / 1000));
 		cv.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
-		cv.put(MediaStore.Audio.Media.ARTIST, "kevin");
-		cv.put(MediaStore.Audio.Media.ALBUM, "kevin");
+		cv.put(MediaStore.Audio.Media.ARTIST, "la-boite-a-meuh");
+		cv.put(MediaStore.Audio.Media.ALBUM, "la-boite-a-meuh");
 		Log.d(TAG, "Inserting audio record for:[" + file.getName() + "] ContentValues:[" + cv.toString() + "]");
 		Uri result = resolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cv);
 
 		if (result == null) {
-			Log.e(TAG, "File:["+ file.getName() +"] was not inserted into the Media DB correctly as an external file");
+			Log.e(TAG, "File:[" + file.getName() + "] was not inserted into the Media DB correctly as an external file");
 			return null;
 		}
-		
+
 		Log.i(TAG, result.toString());
 		sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, result));
 		return result;
 	}
 
 }
-

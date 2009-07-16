@@ -116,9 +116,9 @@ public class CowHead extends Activity {
 	protected Dialog onCreateDialog(int id) {
 
 		switch (id) {
-			case R.layout.dialog_new:
+			case R.layout.dialog_save_new_sound:
 				LayoutInflater factory = LayoutInflater.from(this);
-				final View textEntryView = factory.inflate(R.layout.dialog_new, null);
+				final View textEntryView = factory.inflate(R.layout.dialog_save_new_sound, null);
 
 				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
 				contents.getEditableText().append(TMP_FILE);
@@ -174,7 +174,7 @@ public class CowHead extends Activity {
 			case R.id.save:
 				Log.v(TAG, "User selected to save a sound");
 				mOptMenu.findItem(R.id.save).setEnabled(false);
-				showDialog(R.layout.dialog_new);
+				showDialog(R.layout.dialog_save_new_sound);
 				return true;
 		}
 		return false;
