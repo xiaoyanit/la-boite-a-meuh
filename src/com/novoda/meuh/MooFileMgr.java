@@ -46,6 +46,100 @@ public class MooFileMgr extends ListActivity {
 		initFileListing();
 	}
 
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+	
+		sCurrFileName = null;
+		sCurrFileName = mFileListAdapter.files.get(mChosenPosition).getName();
+		Log.i(TAG, "Name of file=" + sCurrFileName);
+		boolean success = false;
+	
+		switch (item.getItemId()) {
+			case R.id.delete:
+				Log.i(TAG, "Deleting the file =" + sCurrFileName);
+				success = (new File(Constants.AUDIO_FILES_DIR + sCurrFileName)).delete();
+	
+				if (success) {
+					Log.i(TAG, "File was renamed");
+					refreshFileListAdapter();
+				} else {
+					Log.i(TAG, "File was not renamed");
+				}
+				break;
+	
+			case R.id.rename:
+				Log.i(TAG, "We are renaming the file :" + sCurrFileName);
+				showDialog(R.layout.dialog_rename);
+				break;
+	
+			case R.id.email:
+				Log.i(TAG, "Emailing to kevin");
+				Intent sendIntent = new Intent(Intent.ACTION_SEND);
+				sendIntent.setType("audio/3gpp");
+				sendIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.email_subject_line));
+				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/"
+						+ sCurrFileName));
+				sendIntent.putExtra(Intent.EXTRA_TEXT, this.getString(R.string.email_text));
+				startActivity(Intent.createChooser(sendIntent, this.getString(R.string.title_email)));
+				break;
+	
+			case R.id.set_ringtone:
+				String path = null;
+				path = FileSys.createFilenameWithChecks(Environment.getExternalStorageDirectory() + Constants.RINGTONES_DIR, sCurrFileName);
+				FileSys.copyViaChannels(new File(Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/" + sCurrFileName), new File(
+						path));
+	
+				Uri newUri = addToMediaDB(new File(path));
+				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri);
+				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, newUri.toString());
+	
+		}
+	
+		return true;
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+	
+		switch (id) {
+			case R.layout.dialog_rename:
+				LayoutInflater factory = LayoutInflater.from(this);
+				final View textEntryView = factory.inflate(R.layout.dialog_rename, null);
+				EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
+	
+				contents.getEditableText().append(FileSys.getFilenameWithoutExtension(sCurrFileName));
+	
+				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
+						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int whichButton) {
+								EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
+								Editable editable = contents.getEditableText();
+								mNewFileName = null;
+								mNewFileName = editable.toString();
+	
+								if (mNewFileName != null) {
+									if (mFileListAdapter.files.get(mChosenPosition).renameTo(
+											new File(Constants.AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(sCurrFileName)))) {
+										Log.i(TAG, "Filename is: " + mNewFileName);
+										Log.i(TAG, "File was renamed");
+										refreshFileListAdapter();
+									} else {
+										Log.i(TAG, "File was not renamed");
+									}
+								}
+	
+							}
+						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int whichButton) {
+								mNewFileName = null;
+							}
+						}).create();
+		}
+	
+		return null;
+	
+	}
+
 	private void initFileListing() {
 		ListView lv = getListView();
 		refreshFileListAdapter();
@@ -86,100 +180,6 @@ public class MooFileMgr extends ListActivity {
 	private void refreshFileListAdapter() {
 		mFileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR));
 		this.setListAdapter(mFileListAdapter);
-	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-
-		sCurrFileName = null;
-		sCurrFileName = mFileListAdapter.files.get(mChosenPosition).getName();
-		Log.i(TAG, "Name of file=" + sCurrFileName);
-		boolean success = false;
-
-		switch (item.getItemId()) {
-			case R.id.delete:
-				Log.i(TAG, "Deleting the file =" + sCurrFileName);
-				success = (new File(Constants.AUDIO_FILES_DIR + sCurrFileName)).delete();
-
-				if (success) {
-					Log.i(TAG, "File was renamed");
-					refreshFileListAdapter();
-				} else {
-					Log.i(TAG, "File was not renamed");
-				}
-				break;
-
-			case R.id.rename:
-				Log.i(TAG, "We are renaming the file :" + sCurrFileName);
-				showDialog(R.layout.dialog_rename);
-				break;
-
-			case R.id.email:
-				Log.i(TAG, "Emailing to kevin");
-				Intent sendIntent = new Intent(Intent.ACTION_SEND);
-				sendIntent.setType("audio/3gpp");
-				sendIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.email_subject_line));
-				sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/"
-						+ sCurrFileName));
-				sendIntent.putExtra(Intent.EXTRA_TEXT, this.getString(R.string.email_text));
-				startActivity(Intent.createChooser(sendIntent, this.getString(R.string.title_email)));
-				break;
-
-			case R.id.set_ringtone:
-				String path = null;
-				path = FileSys.createFilenameWithChecks(Environment.getExternalStorageDirectory() + Constants.RINGTONES_DIR, sCurrFileName);
-				FileSys.copyViaChannels(new File(Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/" + sCurrFileName), new File(
-						path));
-
-				Uri newUri = addToMediaDB(new File(path));
-				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri);
-				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, newUri.toString());
-
-		}
-
-		return true;
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id) {
-
-		switch (id) {
-			case R.layout.dialog_rename:
-				LayoutInflater factory = LayoutInflater.from(this);
-				final View textEntryView = factory.inflate(R.layout.dialog_rename, null);
-				EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
-
-				contents.getEditableText().append(FileSys.getFilenameWithoutExtension(sCurrFileName));
-
-				return new AlertDialog.Builder(MooFileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
-						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int whichButton) {
-								EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
-								Editable editable = contents.getEditableText();
-								mNewFileName = null;
-								mNewFileName = editable.toString();
-
-								if (mNewFileName != null) {
-									if (mFileListAdapter.files.get(mChosenPosition).renameTo(
-											new File(Constants.AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(sCurrFileName)))) {
-										Log.i(TAG, "Filename is: " + mNewFileName);
-										Log.i(TAG, "File was renamed");
-										refreshFileListAdapter();
-									} else {
-										Log.i(TAG, "File was not renamed");
-									}
-								}
-
-							}
-						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int whichButton) {
-								mNewFileName = null;
-							}
-						}).create();
-		}
-
-		return null;
-
 	}
 
 	private Uri addToMediaDB(File file) {
