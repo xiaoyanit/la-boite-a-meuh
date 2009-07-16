@@ -79,17 +79,17 @@ public class Cow extends Activity {
 		TMP_FILE = this.getString(R.string.filename_tmp);
 		EMAIL_TMP =  this.getString(R.string.filename_emailed_tmp);
 
-		Log.i(TAG, "Calling intent [" + getIntent().getDataString() + "], action[" + getIntent().getAction() + "]");
+		Log.i(TAG, "Intent passed to CowHead: Data String[" + getIntent().getDataString() + "], Action[" + getIntent().getAction() + "]");
 
 		if (getIntent().getData() != null) {
-			Log.i(TAG, "The data within the intent: " + getIntent().getData());
-			Log.i(TAG, "The encoded query within the intent: " + getIntent().getData().getEncodedQuery());
-			Log.i(TAG, "The suthority within the intent: " + getIntent().getData().getAuthority());
+			Log.d(TAG, "Intent passed to CowHead: Data[" + getIntent().getData() + "]");
+			Log.d(TAG, "Intent passed to CowHead: Encoded query[ " + getIntent().getData().getEncodedQuery() +"]");
+			Log.d(TAG, "Intent passed to CowHead: authority [" + getIntent().getData().getAuthority() +"]");
 
 			if (getIntent().getData().getAuthority().equals(Constants.NATIVE_GMAIL_AUTHORITY)) {
+				Log.d(TAG, "Intention originates from GMail, URI["+getIntent().toURI()+"]");
 				copyAttachmentToTmpDir(getIntent().toURI(), AUDIO_FILES_DIR + EMAIL_TMP + Constants.FILE_EXT);
 			}
-
 		}
 
 		initSoundPool();
@@ -132,7 +132,7 @@ public class Cow extends Activity {
 
 								String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
 								FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
-
+								Log.i(TAG, "Saved new sound called ["+mNewFileName + Constants.FILE_EXT+"] to ["+path+"]");
 							}
 						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
@@ -157,19 +157,22 @@ public class Cow extends Activity {
 		Intent intent = new Intent();
 		switch (item.getItemId()) {
 			case R.id.record:
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
+				Log.v(TAG, "User selected to Record a new sound");
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
 				mOptMenu.findItem(R.id.save).setEnabled(true);
 				return true;
 
 			case R.id.select:
-				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
+				Log.v(TAG, "User selected to select a listed sound");
+				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooFileMgr");
 				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
 				return true;
 
 			case R.id.save:
+				Log.v(TAG, "User selected to save a sound");
 				mOptMenu.findItem(R.id.save).setEnabled(false);
 				showDialog(R.layout.dialog_new);
 				return true;
@@ -181,22 +184,19 @@ public class Cow extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
 		if (requestCode == Constants.PICK_SOUND_REQUEST && resultCode == RESULT_OK) {
-			Log.i(TAG, "This is what is in data " + intent.getData());
-			Log.i(TAG, "This is the action " + intent.getAction());
-			Log.i(TAG, "This is the ID " + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
+			Log.v(TAG, "A sound has selected ID["+ intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999) + "] with Data[" + intent.getData() +"]");
+			Log.d(TAG, "Intent URI["+intent.toURI()+"]");
 
 			ArrayList<File> files = FileSys.listFilesInDir(AUDIO_FILES_DIR);
 			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
-			Log.i(TAG, "file I want is " + file.getAbsolutePath());
+			Log.v(TAG, "The selected file I is[" + file.getAbsolutePath() +"]");
 			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
-
 			initSoundPool();
 		}
 
 		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
-			Log.i(TAG, intent.toURI());
-			Log.i(TAG, "request code from recording =" + requestCode);
-			Log.i(TAG, "result code from recording =" + resultCode);
+			Log.v(TAG, "A new sound has been recorded ID["+ intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999) + "] with Data[" + intent.getData() +"]");
+			Log.d(TAG, "Intent URI["+intent.toURI()+"]");
 
 			Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
 			startManagingCursor(cursor);
@@ -214,14 +214,15 @@ public class Cow extends Activity {
 		mMgr = new SoundPoolMgr(this);
 		mMgr.init();
 	}
-
+	
+	/***
+	 * Copy across the atachment and then ammend the Read/Write privs.
+	 * 
+	 * @param attachmentURI
+	 * @param dst
+	 */
 	private void copyAttachmentToTmpDir(String attachmentURI, String dst) {
-		Log.i(TAG, "The encoded path within the intent: " + getIntent().getData().getEncodedPath());
-		Log.i(TAG, "The decoded query within the intent: " + getIntent().getData().getPath());
-
-		for (String item : getIntent().getData().getPathSegments()) {
-			Log.i(TAG, "path segment:  " + item);
-		}
+		Log.v(TAG, "Copying an attachment  to tmp dir Data[" + getIntent().getData().getPath() +"]");
 
 		if (new File(TMP_AUDIO_DIR + EMAIL_TMP + Constants.FILE_EXT).exists()) {
 			boolean delete = new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).delete();
@@ -230,9 +231,7 @@ public class Cow extends Activity {
 
 		try {
 			String path = FileSys.copyInputStreamToFile(getContentResolver().openInputStream(Uri.parse(attachmentURI)), new File(dst));
-			// You have to make the created file readable.
 			Runtime.getRuntime().exec("chmod 666 " + path);
-
 		} catch (IOException e) {
 			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
 		}

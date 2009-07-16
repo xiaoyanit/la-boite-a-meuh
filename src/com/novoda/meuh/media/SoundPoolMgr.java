@@ -26,7 +26,7 @@ public class SoundPoolMgr {
 
 	public static final int				MOO_SOUND_1			= 1;
 	public static final int				MOO_SOUND_2			= 2;
-	public static final int				MOO_SOUND_3			= 3;
+	public static final int				CUSTOM_MOO_SOUND			= 3;
 
 	private boolean						mEnabled				= true;
 	private Context						mContext;
@@ -42,28 +42,29 @@ public class SoundPoolMgr {
 		if(SELECTED_MOO_FILE==null){
 			SELECTED_MOO_SOUND = MOO_SOUND_1;
 		}
-		
 	}
 
 	public void init() {
 		if (mEnabled) {
 			Log.d(TAG, "Initializing new SoundPool");
 
-			release(); // re-init sound pool to work around bugs
+			release(); 
 			mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
 			mSoundPoolMap = new HashMap<Integer, Integer>();
 			mSoundPoolMap.put(MOO_SOUND_1, mSoundPool.load(mContext, R.raw.carlthecow, 1));
 			mSoundPoolMap.put(MOO_SOUND_2, mSoundPool.load(mContext, R.raw.kevinthecow, 1));
 			
-			// custom moo
-			if (SELECTED_MOO_SOUND == MOO_SOUND_3) {
-				mSoundPoolMap.put(MOO_SOUND_3, mSoundPool.load(SELECTED_MOO_FILE, 1));
+			if (SELECTED_MOO_SOUND == CUSTOM_MOO_SOUND) {
+				mSoundPoolMap.put(CUSTOM_MOO_SOUND, mSoundPool.load(SELECTED_MOO_FILE, 1));
 			}
 
 			Log.d(TAG, "SoundPool initialized");
 		}
 	}
 
+	/***
+	 * The Sound pool needs to be continually reinitialised after use.
+	 */
 	public void release() {
 		if (mSoundPool != null) {
 			Log.d(TAG, "Closing SoundPool");
@@ -75,7 +76,6 @@ public class SoundPoolMgr {
 	}
 
 	public void playSound(float speed) {
-
 		if (mSoundPool != null) {
 			Log.d(TAG, "Playing Sound [" + SELECTED_MOO_SOUND + "]");
 			AudioManager mgr = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);

@@ -55,7 +55,7 @@ public class FileSys {
 			try {
 				new RandomAccessFile(new File(testPath), "r");
 			} catch (IOException e) {
-				Log.i(TAG, "A checked filename testpath does not exist and can be used");
+				Log.d(TAG, "Filename ["+ testPath + "] does not currently exist and so can now be used");
 				path = testPath;
 				break;
 			}
@@ -71,10 +71,10 @@ public class FileSys {
 	 */
     public static void copyViaChannels(File src, File dst) {
 
-    	Log.i(TAG, "Copying "+ src.getAbsolutePath() + " to " + dst.getAbsolutePath());
+    	Log.d(TAG, "Copying "+ src.getAbsolutePath() + " to " + dst.getAbsolutePath());
     	
     	try {
-			Log.i(TAG, "Creating a new file: " + dst.createNewFile());
+			Log.d(TAG, "Creating a new file: " + dst.createNewFile());
 		} catch (IOException e) {
 			Log.e(TAG, "Could not create destination file [" + dst.getAbsolutePath() + "]", e);
 		}

@@ -65,24 +65,24 @@ public class MooFileMgr extends ListActivity {
 
 		switch (item.getItemId()) {
 			case R.id.delete:
-				Log.i(TAG, "Deleting the file =" + sCurrFileName);
+				Log.d(TAG, "Deleting file [" + sCurrFileName + "]");
 				success = (new File(AUDIO_FILES_DIR + sCurrFileName)).delete();
 
 				if (success) {
-					Log.i(TAG, "File was renamed");
+					Log.i(TAG, "File ["+sCurrFileName+"] was deleted");
 					refreshFileListAdapter();
 				} else {
-					Log.i(TAG, "File was not renamed");
+					Log.e(TAG, "File  ["+sCurrFileName+"] was not deleted");
 				}
 				break;
 
 			case R.id.rename:
-				Log.i(TAG, "We are renaming the file :" + sCurrFileName);
+				Log.d(TAG, "Renaming file [" + sCurrFileName+"]");
 				showDialog(R.layout.dialog_rename);
 				break;
 
 			case R.id.email:
-				Log.i(TAG, "Emailing to kevin");
+				Log.i(TAG, "Sending file["+sCurrFileName+"] file as attachment in email");
 				Intent sendIntent = new Intent(Intent.ACTION_SEND);
 				sendIntent.setType("audio/3gpp");
 				sendIntent.putExtra(Intent.EXTRA_SUBJECT, this.getString(R.string.email_subject_line));
@@ -92,11 +92,12 @@ public class MooFileMgr extends ListActivity {
 				break;
 
 			case R.id.set_ringtone:
+				Log.i(TAG, "Making file["+sCurrFileName+"] default system Ringtone");
 				String path = null;
 				path = FileSys.createFilenameWithChecks(RINGTONES_DIR, sCurrFileName);
 				FileSys.copyViaChannels(new File(AUDIO_FILES_DIR + sCurrFileName), new File(path));
 
-				Uri newUri = addToMediaDB(new File(path));
+				Uri newUri = addExternalFileToMediaDB(new File(path));
 				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri);
 				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, newUri.toString());
 
@@ -127,11 +128,10 @@ public class MooFileMgr extends ListActivity {
 								if (mNewFileName != null) {
 									if (mFileListAdapter.files.get(mChosenPosition).renameTo(
 											new File(AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(sCurrFileName)))) {
-										Log.i(TAG, "Filename is: " + mNewFileName);
-										Log.i(TAG, "File was renamed");
+										Log.d(TAG, "Filename[" + sCurrFileName +"] was renamed to ["+ mNewFileName +"] from dialog contents" );
 										refreshFileListAdapter();
 									} else {
-										Log.i(TAG, "File was not renamed");
+										Log.e(TAG, "Filename[" + sCurrFileName +"] could not be renamed to ["+ mNewFileName +"] from dialog contents" );
 									}
 								}
 
@@ -152,7 +152,6 @@ public class MooFileMgr extends ListActivity {
 		refreshFileListAdapter();
 
 		lv.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-
 			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 				MenuInflater inflater = getMenuInflater();
 				inflater.inflate(R.menu.file_actions, menu);
@@ -163,7 +162,7 @@ public class MooFileMgr extends ListActivity {
 		lv.setLongClickable(true);
 		lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
-				Log.i(TAG, "long click");
+				Log.v(TAG, "List item["+pos+"] has been long clicked");
 				mChosenPosition = pos;
 				getListView().showContextMenu();
 				return true;
@@ -172,9 +171,7 @@ public class MooFileMgr extends ListActivity {
 
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Log.i(TAG, "Item clicked");
-				Log.i(TAG, "Item position" + position);
-				Log.i(TAG, "Item id" + id);
+				Log.v(TAG, "List item["+position+"] has been clicked with ID of["+ id +"]");
 
 				Intent intent = new Intent();
 				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
@@ -189,40 +186,42 @@ public class MooFileMgr extends ListActivity {
 		this.setListAdapter(mFileListAdapter);
 	}
 
-	private Uri addToMediaDB(File file) {
+	/***
+	 * Adds to the Media DB so as it can be retrieved by URI.
+	 * This file is intended as a funny noise notification so it is marked as
+	 * not being MUSIC so mediaplayers can avoid it.
+	 * After it is entere applications are notified by a Media Scanner broadcast.
+	 * 
+	 * @param file
+	 * @return
+	 */
+	private Uri addExternalFileToMediaDB(File file) {
 		ContentValues cv = new ContentValues();
+		ContentResolver resolver = getContentResolver();
+
 		long current = System.currentTimeMillis();
 		long modDate = file.lastModified();
 
-		String title = file.getName();
-
-		// Lets label the recorded audio file as NON-MUSIC so that the file
-		// won't be displayed automatically, except for in theplaylist.
+		cv.put(MediaStore.Audio.Media.TITLE, file.getName());
 		cv.put(MediaStore.Audio.Media.IS_MUSIC, "0");
-		cv.put(MediaStore.Audio.Media.TITLE, title);
-		Log.d(MediaStore.Audio.Media.TRACK.toString(), MediaStore.Audio.Media.TRACK.toString());
 		cv.put(MediaStore.Audio.Media.DATA, file.getAbsolutePath());
 		cv.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current / 1000));
 		cv.put(MediaStore.Audio.Media.DATE_MODIFIED, (int) (modDate / 1000));
-		// cv.put(MediaStore.Audio.MediaColumns.DURATION,mRecordingLength);
 		cv.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
 		cv.put(MediaStore.Audio.Media.ARTIST, "kevin");
 		cv.put(MediaStore.Audio.Media.ALBUM, "kevin");
-		Log.d(TAG, "Inserting audio record: " + cv.toString());
-		ContentResolver resolver = getContentResolver();
-		Uri base = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-		Log.d(TAG, "ContentURI: " + base);
-		Uri result = resolver.insert(base, cv);
-		Log.e(TAG, result.toString());
+		Log.d(TAG, "Inserting audio record for:[" + file.getName() + "] ContentValues:[" + cv.toString() + "]");
+		Uri result = resolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cv);
 
 		if (result == null) {
-			Log.i(TAG, "intent is null");
+			Log.e(TAG, "File:["+ file.getName() +"] was not inserted into the Media DB correctly as an external file");
+			return null;
 		}
-
-		// Notify those applications such as Music listening to the
-		// scanner events that a recorded audio file just created.
+		
+		Log.i(TAG, result.toString());
 		sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, result));
 		return result;
 	}
 
 }
+
