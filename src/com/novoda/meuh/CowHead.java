@@ -161,7 +161,7 @@ public class CowHead extends Activity {
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.CowHead");
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
-				mOptMenu.findItem(R.id.save).setEnabled(true);
+				mOptMenu.findItem(R.id.save).setVisible(true);
 				return true;
 
 			case R.id.select:
@@ -173,7 +173,7 @@ public class CowHead extends Activity {
 
 			case R.id.save:
 				Log.v(TAG, "User selected to save a sound");
-				mOptMenu.findItem(R.id.save).setEnabled(false);
+				mOptMenu.findItem(R.id.save).setVisible(false);
 				showDialog(R.layout.dialog_save_new_sound);
 				return true;
 		}
