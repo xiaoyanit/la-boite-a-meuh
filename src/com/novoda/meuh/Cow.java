@@ -1,5 +1,7 @@
 /**********************************************
  * 
+ *  Copyright (C) 2009 Novoda
+ *  
  *  la-boite-a-meuh
  *  :Cow
  *  
@@ -14,9 +16,7 @@
 package com.novoda.meuh;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -65,12 +65,9 @@ public class Cow extends Activity {
 	private SoundPoolMgr		mgr;
 	private Menu				mOptMenu;
 
-	private Bundle	bundle;
-
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-		this.bundle = bundle;
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
@@ -85,28 +82,8 @@ public class Cow extends Activity {
 			Log.i(TAG, "The suthority within the intent: " +  getIntent().getData().getAuthority());
 			
 			if(getIntent().getData().getAuthority().equals(Constants.NATIVE_GMAIL_AUTHORITY)){
-				Log.i(TAG, "The encoded path within the intent: " +  getIntent().getData().getEncodedPath());
-				Log.i(TAG, "The decoded query within the intent: " +  getIntent().getData().getPath());
-				
-				for(String item : getIntent().getData().getPathSegments()){
-					Log.i(TAG, "path segment:  " + item);
-				}
-				
-				if(new File(Constants.TMP_AUDIO_DIR + EMAILED_TMP_NAME + FILE_EXT).exists()) {
-					boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
-					Log.i(TAG, "The delete has been done: " + delete);
-				}
-				
-				try {
-					String path = FileSys.copyInputStreamToFile(getContentResolver().openInputStream(Uri.parse(getIntent().toURI())), new File(Constants.AUDIO_FILES_DIR + EMAILED_TMP_NAME + FILE_EXT));
-					//You have to make the created file readable.
-					Runtime.getRuntime().exec("chmod 666 " + path);
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				copyAttachmentToTmpDir();
 			}
-			
 			
 		}
 		
@@ -117,10 +94,28 @@ public class Cow extends Activity {
 			Toast.makeText(this, "Can't moo :(", 1000);
 		}
 	}
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
+
+	private void copyAttachmentToTmpDir() {
+		Log.i(TAG, "The encoded path within the intent: " +  getIntent().getData().getEncodedPath());
+		Log.i(TAG, "The decoded query within the intent: " +  getIntent().getData().getPath());
+		
+		for(String item : getIntent().getData().getPathSegments()){
+			Log.i(TAG, "path segment:  " + item);
+		}
+		
+		if(new File(Constants.TMP_AUDIO_DIR + EMAILED_TMP_NAME + FILE_EXT).exists()) {
+			boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
+			Log.i(TAG, "The delete has been done: " + delete);
+		}
+		
+		try {
+			String path = FileSys.copyInputStreamToFile(getContentResolver().openInputStream(Uri.parse(getIntent().toURI())), new File(Constants.AUDIO_FILES_DIR + EMAILED_TMP_NAME + FILE_EXT));
+			//You have to make the created file readable.
+			Runtime.getRuntime().exec("chmod 666 " + path);
+			
+		} catch (IOException e) {
+			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
+		}
 	}
 
 	private void initSoundPool() {
@@ -228,15 +223,6 @@ public class Cow extends Activity {
 			canvas.drawBitmap(cowHead, -cowHeadXOffset, -cowHeadYOffset, paint);
 		}
 
-		@Override
-		protected void onAttachedToWindow() {
-			super.onAttachedToWindow();
-		}
-
-		@Override
-		protected void onDetachedFromWindow() {
-			super.onDetachedFromWindow();
-		}
 	}
 
 	/*********************** Menu creation ***********************/
@@ -256,14 +242,15 @@ public class Cow extends Activity {
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.Cow");
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
-
 				mOptMenu.findItem(R.id.save).setEnabled(true);
 				return true;
+				
 			case R.id.select:
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.MOO_SOUND_3;
 				intent.setClassName(getBaseContext(), "com.novoda.meuh.MooFileMgr");
 				startActivityForResult(intent, Constants.PICK_SOUND_REQUEST);
 				return true;
+				
 			case R.id.save:
 				mOptMenu.findItem(R.id.save).setEnabled(false);
 				showDialog(R.layout.dialog_new);
@@ -298,26 +285,31 @@ public class Cow extends Activity {
 			cursor.moveToLast();
 			String path = null;
 
-			try {
-				
-				if(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).exists()) {
-					boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
-					Log.i(TAG, "The delete has been done: " + delete);
-				}
-				
-				path = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, TMP_NAME, FILE_EXT);
-				FileSys.copyViaChannels(new File(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION)), new File(path));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			if (path != null) {
+			if (copyToAudioDir(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION))) {
 				SoundPoolMgr.SELECTED_MOO_FILE = Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT;
 				initSoundPool();
+			}else{
 			}
 
 		}
 
+	}
+
+	private boolean copyToAudioDir(String src) {
+		if(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).exists()) {
+			boolean delete = new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT).delete();
+			Log.i(TAG, "The delete has been done: " + delete);
+		}
+
+		String dst = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, TMP_NAME, FILE_EXT);
+		
+		if(dst == null){
+			return false;
+		}else{
+			FileSys.copyViaChannels(new File(src), new File(dst));
+		}
+
+		return true;
 	}
 
 
@@ -339,13 +331,8 @@ public class Cow extends Activity {
 						Editable editable = contents.getEditableText();
 						String mNewFileName = editable.toString();
 
-						try {
-							String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, mNewFileName, FILE_EXT);
-							Log.i(TAG, "File Should have been created at " + path);
-							FileSys.copyViaChannels(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT), new File(path));
-						} catch (IOException e) {
-								e.printStackTrace();
-						}
+						String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, mNewFileName, FILE_EXT);
+						FileSys.copyViaChannels(new File(Constants.TMP_AUDIO_DIR + TMP_NAME + FILE_EXT), new File(path));
 
 					}
 				}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {

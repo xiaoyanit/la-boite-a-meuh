@@ -70,17 +70,17 @@ public class FileSys {
 		String path = null;
 		for (int i = 0; i < 100; i++) {
 			String testPath;
-			if (i > 0)
+			if (i > 0){
 				testPath = dir + filename + i;
-			else
+			}else{
 				testPath = dir + filename;
+			}
 			
 			try {
 				new RandomAccessFile(new File(testPath), "r");
-			} catch (Exception e) {
-				// Good, the file didn't exist
+			} catch (IOException e) {
+				Log.i(TAG, "A checked filename testpath does not exist and can be used");
 				path = testPath;
-				Log.i(TAG, "Created new dir for saved files");
 				break;
 			}
 		}
@@ -89,10 +89,15 @@ public class FileSys {
 	}
     
 	//Used to retain header information during a copy
-    public static void copyViaChannels(File src, File dst) throws IOException {
+    public static void copyViaChannels(File src, File dst) {
 
     	Log.i(TAG, "Copying "+ src.getAbsolutePath() + " to " + dst.getAbsolutePath());
-    	Log.i(TAG, "Creating a new file: " + dst.createNewFile());
+    	
+    	try {
+			Log.i(TAG, "Creating a new file: " + dst.createNewFile());
+		} catch (IOException e) {
+			Log.e(TAG, "Could not create destination file [" + dst.getAbsolutePath() + "]", e);
+		}
     	
 	    try {
 	        FileChannel srcChannel = new FileInputStream(src.getAbsolutePath()).getChannel();
@@ -103,7 +108,7 @@ public class FileSys {
 	        srcChannel.close();
 	        dstChannel.close();
 	    } catch (IOException e) {
-	    	Log.e(TAG, "IO Exception in copying between channeks", e);
+	    	Log.e(TAG, "Problem in copying files["+src.getAbsolutePath()+"] to ["+dst.getAbsolutePath()+"]", e);
 	    }
     }
     

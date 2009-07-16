@@ -10,7 +10,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -129,12 +128,8 @@ public class MooFileMgr extends ListActivity {
 				
 			case R.id.set_ringtone:
 				String path = null;
-				try {
-					path = FileSys.createFilenameWithChecks(Environment.getExternalStorageDirectory() + Constants.RINGTONES_DIR, mCurrFileName);
-					FileSys.copyViaChannels(new File(Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/" + mCurrFileName), new File(path));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				path = FileSys.createFilenameWithChecks(Environment.getExternalStorageDirectory() + Constants.RINGTONES_DIR, mCurrFileName);
+				FileSys.copyViaChannels(new File(Environment.getExternalStorageDirectory() + Constants.AUDIO_DIR + Constants.RECORDED_FILES_DIR + "/" + mCurrFileName), new File(path));
 
 				Uri newUri = addToMediaDB(new File(path));
 				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri);
