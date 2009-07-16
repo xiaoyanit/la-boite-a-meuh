@@ -24,5 +24,11 @@
 	<string name="title_email">Email file:</string>
 	<string name="email_subject_line">A friend has sent you a Cow Moo</string>
 	<string name="email_text">Use as Phone Ringtone</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
 	
 </resources>

@@ -33,6 +33,7 @@ import android.graphics.Paint;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
@@ -60,14 +61,23 @@ public class Cow extends Activity {
 	private Menu				mOptMenu;
 	private boolean				mIsMooChanging	= false;
 
+	public static String		AUDIO_FILES_DIR;
+	public static String		TMP_AUDIO_DIR;
+	private static String		TMP_FILE;
+	private static String		EMAIL_TMP;
+
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
 		mView = new CowHeadView(this);
 		setContentView(mView);
+
+		AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
+		TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
+		TMP_FILE = this.getString(R.string.filename_tmp);
+		EMAIL_TMP =  this.getString(R.string.filename_emailed_tmp);
 
 		Log.i(TAG, "Calling intent [" + getIntent().getDataString() + "], action[" + getIntent().getAction() + "]");
 
@@ -77,7 +87,7 @@ public class Cow extends Activity {
 			Log.i(TAG, "The suthority within the intent: " + getIntent().getData().getAuthority());
 
 			if (getIntent().getData().getAuthority().equals(Constants.NATIVE_GMAIL_AUTHORITY)) {
-				copyAttachmentToTmpDir(getIntent().toURI(), Constants.AUDIO_FILES_DIR + Constants.EMAILED_TMP_NAME + Constants.FILE_EXT);
+				copyAttachmentToTmpDir(getIntent().toURI(), AUDIO_FILES_DIR + EMAIL_TMP + Constants.FILE_EXT);
 			}
 
 		}
@@ -111,7 +121,7 @@ public class Cow extends Activity {
 				final View textEntryView = factory.inflate(R.layout.dialog_new, null);
 
 				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
-				contents.getEditableText().append(Constants.TMP_NAME);
+				contents.getEditableText().append(TMP_FILE);
 
 				return new AlertDialog.Builder(Cow.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView).setPositiveButton(
 						R.string.dialog_ok, new DialogInterface.OnClickListener() {
@@ -120,8 +130,8 @@ public class Cow extends Activity {
 								Editable editable = contents.getEditableText();
 								String mNewFileName = editable.toString();
 
-								String path = FileSys.createFilenameWithChecks(Constants.AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
-								FileSys.copyViaChannels(new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT), new File(path));
+								String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
+								FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
 
 							}
 						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
@@ -175,7 +185,7 @@ public class Cow extends Activity {
 			Log.i(TAG, "This is the action " + intent.getAction());
 			Log.i(TAG, "This is the ID " + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 
-			ArrayList<File> files = FileSys.listFilesInDir(Constants.AUDIO_FILES_DIR);
+			ArrayList<File> files = FileSys.listFilesInDir(AUDIO_FILES_DIR);
 			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 			Log.i(TAG, "file I want is " + file.getAbsolutePath());
 			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
@@ -193,7 +203,7 @@ public class Cow extends Activity {
 			cursor.moveToLast();
 
 			if (copyToAudioDir(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION))) {
-				SoundPoolMgr.SELECTED_MOO_FILE = Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT;
+				SoundPoolMgr.SELECTED_MOO_FILE = TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT;
 				initSoundPool();
 			}
 		}
@@ -213,8 +223,8 @@ public class Cow extends Activity {
 			Log.i(TAG, "path segment:  " + item);
 		}
 
-		if (new File(Constants.TMP_AUDIO_DIR + Constants.EMAILED_TMP_NAME + Constants.FILE_EXT).exists()) {
-			boolean delete = new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT).delete();
+		if (new File(TMP_AUDIO_DIR + EMAIL_TMP + Constants.FILE_EXT).exists()) {
+			boolean delete = new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).delete();
 			Log.i(TAG, "The delete has been done: " + delete);
 		}
 
@@ -229,12 +239,12 @@ public class Cow extends Activity {
 	}
 
 	private boolean copyToAudioDir(String src) {
-		if (new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT).exists()) {
-			boolean delete = new File(Constants.TMP_AUDIO_DIR + Constants.TMP_NAME + Constants.FILE_EXT).delete();
+		if (new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).exists()) {
+			boolean delete = new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).delete();
 			Log.i(TAG, "The delete has been done: " + delete);
 		}
 
-		String dst = FileSys.createFilenameWithChecks(Constants.TMP_AUDIO_DIR, Constants.TMP_NAME + Constants.FILE_EXT);
+		String dst = FileSys.createFilenameWithChecks(TMP_AUDIO_DIR, TMP_FILE + Constants.FILE_EXT);
 
 		if (dst == null) {
 			return false;
@@ -245,10 +255,10 @@ public class Cow extends Activity {
 		return true;
 	}
 
-/***
- * Draws the cow head depending on the orientation
- *
- */
+	/***
+	 * Draws the cow head depending on the orientation
+	 * 
+	 */
 	private class CowHeadView extends View {
 		private Paint	mPaint	= new Paint();
 		private Bitmap	bg;
@@ -283,11 +293,11 @@ public class Cow extends Activity {
 
 	}
 
-/***
- * Used for interpreting the movements of the device into 'mooPower'
- * The sound is distorted depending on the amount of 'mooPower'
- *
- */
+	/***
+	 * Used for interpreting the movements of the device into 'mooPower' The
+	 * sound is distorted depending on the amount of 'mooPower'
+	 * 
+	 */
 	private class MooOnRotationEvent extends OrientationEventListener {
 
 		private boolean	isMooing;

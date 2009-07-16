@@ -9,13 +9,6 @@ public class Constants {
 	public static final int		COLUMN_INDEX4					= 2;
 	public static final int		COLUMN_INDEX5					= 2;
 
-	public static final String	MYNEWSOUND_3GPP					= "/mynewsound.3gpp";
-	public static final String	RECORDED_FILES_DIR				= "/meuhs";
-	public static final String	RINGTONES_DIR					= "/Music/ringtones/";
-	public static final String	TMP_DIR							= "/tmp";
-	public static final String	AUDIO_DIR						= "/la-boite-a-meuh/media/audio";
-	public static final String	AUDIO_FILES_DIR					= "/sdcard/la-boite-a-meuh/media/audio/meuhs/";
-	public static final String	TMP_AUDIO_DIR					= "/sdcard/la-boite-a-meuh/media/audio/tmp/";
 
 	public static final int		PICK_SOUND_REQUEST				= 33;
 	public static final int		PICK_NEW_SOUND_REQUEST			= 43;
@@ -27,8 +20,5 @@ public class Constants {
 	public static final String	PICKED_AUDIO_FILE_POSITION		= "AUDIO_FILE_POSTION";
 	public static final Intent	CHOSEN_AUDIO_FILE				= null;
 	public static final String	NATIVE_GMAIL_AUTHORITY			= "gmail-ls";
-	public static final String	TMP_NAME						= "mynewsound";
 	public static final String	FILE_EXT						= ".3gpp";
-	public static final String	EMAILED_TMP_NAME				= "friendssound";
-
 }
