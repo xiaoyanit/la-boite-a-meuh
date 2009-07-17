@@ -4,32 +4,44 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content">
     
-	<ImageView android:id="@+id/row_icon"
-		android:gravity="center_vertical"
-		android:scaleType="center"
-		android:layout_marginLeft="8px"
-		android:layout_width="40px"
-		android:layout_height="fill_parent" />
+	    <LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+    		android:layout_marginTop="8px"
+    		android:layout_marginBottom="8px"
+    		android:layout_marginLeft="12px"
+    		android:layout_marginRight="12px">
+	    
+			<ImageView android:id="@+id/row_icon"
+				android:src="@drawable/ic_song" 
+				android:orientation="vertical"
+				android:layout_width="wrap_content"
+				android:layout_marginLeft="8px"
+				android:layout_height="fill_parent" /> 
+	        
+	    </LinearLayout>    	
      
-     
-    <LinearLayout
-		android:orientation="vertical"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-    	android:layout_marginTop="8px"
-    	android:layout_marginBottom="8px"
-    	android:layout_marginLeft="12px"
-    	android:layout_marginRight="12px">
+    	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+    		android:layout_marginTop="8px"
+    		android:layout_marginBottom="8px"
+    		android:layout_marginLeft="12px"
+    		android:layout_marginRight="12px">
 
-	      <TextView android:id="@+id/row_title"
-    	     android:textColor="#ffff99"
-        	 android:textSize="12sp"
-         	android:layout_marginLeft="12px"
-         	android:layout_width="wrap_content"
-         	android:layout_height="wrap_content"
-         	android:layout_weight="1"/>
+		      <TextView android:id="@+id/row_title"
+	    	     android:textColor="#ffff99"
+	        	 android:textSize="12sp"
+	         	android:layout_marginLeft="12px"
+	         	android:layout_width="wrap_content"
+	         	android:layout_height="wrap_content"
+	         	android:layout_weight="1"/>
 
 
-	 </LinearLayout>
+		 </LinearLayout>
      
 </LinearLayout>
+			
+			

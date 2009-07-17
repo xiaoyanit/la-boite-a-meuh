@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.graphics.BitmapFactory;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -49,18 +50,14 @@ public class AudioFileListAdapter extends BaseAdapter {
 
 		public AudioFileListAdapterView(Activity activity, File fileItem) {
 			super(activity);
-			this.setOrientation(HORIZONTAL);
-			this.setPadding(0, 8, 0, 12);
-
-			ImageView songIcon = new ImageView(activity);
-			songIcon.setImageResource(R.drawable.ic_song);
-			addView(songIcon, new LinearLayout.LayoutParams(48, LayoutParams.WRAP_CONTENT));
 			
-						
-			mFileName = new TextView(activity);
+			LayoutInflater factory = LayoutInflater.from(activity);
+			final View itemInListView = factory.inflate(R.layout.row_item_file, null);
+			
+			mFileName = (TextView) itemInListView.findViewById(R.id.row_title);
 			mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
-			addView(mFileName, new LinearLayout.LayoutParams(100, LayoutParams.WRAP_CONTENT));
-
+			
+			addView(itemInListView);
 		}
 
 	}
