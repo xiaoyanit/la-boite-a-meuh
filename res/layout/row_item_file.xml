@@ -2,7 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#46a215">
     
 	    <LinearLayout
 			android:orientation="horizontal"
@@ -24,17 +25,19 @@
      
     	<LinearLayout
 			android:orientation="vertical"
-			android:layout_width="wrap_content"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
     		android:layout_marginTop="8px"
     		android:layout_marginBottom="8px"
     		android:layout_marginLeft="0px"
-    		android:layout_marginRight="0px">
+    		android:layout_marginRight="24px"
+    		android:background="#78d148" >
 
 		      <TextView android:id="@+id/row_title"
 	    	     android:textColor="#ffff99"
 	        	 android:textSize="18sp"
 	         	android:layout_marginLeft="12px"
+	         	android:layout_marginRight="12px"
 	         	android:layout_width="wrap_content"
 	         	android:layout_height="wrap_content"
 	         	android:layout_weight="1"/>
@@ -44,10 +47,10 @@
 	        	android:textSize="12sp"
 				android:text="@string/time"
 	         	android:layout_marginLeft="12px"
+	         	android:layout_marginBottom="6px"
 	         	android:layout_width="wrap_content"
 	         	android:layout_height="wrap_content"
 	         	android:layout_weight="1"/>
-
 
 		 </LinearLayout>
      
