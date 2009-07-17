@@ -9,8 +9,8 @@
 	<string name="lbl_filename">File Name</string>
 
 	<string name="menu_action_record">Record</string>
-	<string name="menu_action_select">Select</string>
-	<string name="menu_action_save">Save</string>
+	<string name="menu_action_select">Sounds</string>
+	<string name="menu_action_save">Save Recorded Sound</string>
 	<string name="title_save_sound">Name your new sound</string>
 	
 	
@@ -20,7 +20,7 @@
 	<string name="menu_action_file_email">Email to friend</string>
 	<string name="menu_action_file_assign_as_ringtone">Use as Phone Ringtone</string>
 	
-	<string name="menu_action_help">Help</string>
+	<string name="menu_action_help">What is this?</string>
 	<string name="title_help">Choosing Sounds!</string>
 	<string name="text_dialogue_help">
         You can save funny sounds!
