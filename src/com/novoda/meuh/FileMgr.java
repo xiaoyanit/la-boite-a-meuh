@@ -30,12 +30,12 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.os.FileSys;
-import com.novoda.view.FileListingAdapter;
+import com.novoda.view.AudioFileListAdapter;
 
 public class FileMgr extends ListActivity {
 
 	private static final String	TAG				= "[MooFileMgr]";
-	private FileListingAdapter	mFileListAdapter;
+	private AudioFileListAdapter	mFileListAdapter;
 	private int					mChosenPosition	= 9999;
 	private String				mNewFileName	= null;
 	private Menu				mOptMenu;
@@ -221,7 +221,7 @@ public class FileMgr extends ListActivity {
 	}
 
 	private void refreshFileListAdapter() {
-		mFileListAdapter = new FileListingAdapter(this, FileSys.listFilesInDir(AUDIO_FILES_DIR));
+		mFileListAdapter = new AudioFileListAdapter(this, FileSys.listFilesInDir(AUDIO_FILES_DIR));
 		this.setListAdapter(mFileListAdapter);
 	}
 
