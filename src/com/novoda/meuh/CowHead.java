@@ -52,7 +52,7 @@ import com.novoda.os.FileSys;
 
 public class CowHead extends Activity {
 
-	private static final String	TAG				= "[Moo]:";
+	private static final String	TAG				= "[CowHead]";
 
 	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mOnRotationEvent;

@@ -34,7 +34,7 @@ import com.novoda.view.FileListingAdapter;
 
 public class FileMgr extends ListActivity {
 
-	private static final String	TAG				= "[MooFileMgr]:";
+	private static final String	TAG				= "[MooFileMgr]";
 	private FileListingAdapter	mFileListAdapter;
 	private int					mChosenPosition	= 9999;
 	private String				mNewFileName	= null;
@@ -150,7 +150,7 @@ public class FileMgr extends ListActivity {
 				final View textEntryView2 = factory2.inflate(R.layout.dialog_help, null);
 
 				return new AlertDialog.Builder(FileMgr.this)
-				.setIcon(R.drawable.alert_dialog_icon)
+				.setIcon(android.R.drawable.ic_dialog_info)
 				.setTitle(R.string.title_help)
 				.setView(textEntryView2).setPositiveButton(
 						R.string.dialog_ok, new DialogInterface.OnClickListener() {
