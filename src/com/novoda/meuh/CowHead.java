@@ -33,6 +33,7 @@ import android.graphics.Paint;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -69,25 +70,29 @@ public class CowHead extends Activity {
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
+
+//		try {
+//			String path = "/sdcard/la-boite-a-meuh/media/audio/meuhs/cowhead_trace.trace";
+//			Runtime.getRuntime().exec("chmod 666 " + path);
+//		} catch (IOException e) {
+//			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
+//		}
+		
+		Debug.startMethodTracing("cowhead_trace");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		mView = new CowHeadView(this);
 		setContentView(mView);
 
-		AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
-		TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
-		TMP_FILE = this.getString(R.string.filename_tmp);
-		EMAIL_TMP =  this.getString(R.string.filename_emailed_tmp);
-
 		Log.i(TAG, "Intent passed to CowHead: Data String[" + getIntent().getDataString() + "], Action[" + getIntent().getAction() + "]");
 
 		if (getIntent().getData() != null) {
 			Log.d(TAG, "Intent passed to CowHead: Data[" + getIntent().getData() + "]");
-			Log.d(TAG, "Intent passed to CowHead: Encoded query[ " + getIntent().getData().getEncodedQuery() +"]");
-			Log.d(TAG, "Intent passed to CowHead: authority [" + getIntent().getData().getAuthority() +"]");
+			Log.d(TAG, "Intent passed to CowHead: Encoded query[ " + getIntent().getData().getEncodedQuery() + "]");
+			Log.d(TAG, "Intent passed to CowHead: authority [" + getIntent().getData().getAuthority() + "]");
 
 			if (getIntent().getData().getAuthority().equals(Constants.NATIVE_GMAIL_AUTHORITY)) {
-				Log.d(TAG, "Intention originates from GMail, URI["+getIntent().toURI()+"]");
+				Log.d(TAG, "Intention originates from GMail, URI[" + getIntent().toURI() + "]");
 				copyAttachmentToTmpDir(getIntent().toURI(), AUDIO_FILES_DIR + EMAIL_TMP + Constants.FILE_EXT);
 			}
 		}
@@ -98,6 +103,15 @@ public class CowHead extends Activity {
 		if (!mOnRotationEvent.canDetectOrientation()) {
 			Toast.makeText(this, "Can't moo :(", 1000);
 		}
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
+		TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
+		TMP_FILE = this.getString(R.string.filename_tmp);
+		EMAIL_TMP = this.getString(R.string.filename_emailed_tmp);
 	}
 
 	@Override
@@ -132,7 +146,7 @@ public class CowHead extends Activity {
 
 								String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
 								FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
-								Log.i(TAG, "Saved new sound called ["+mNewFileName + Constants.FILE_EXT+"] to ["+path+"]");
+								Log.i(TAG, "Saved new sound called [" + mNewFileName + Constants.FILE_EXT + "] to [" + path + "]");
 							}
 						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
@@ -184,19 +198,19 @@ public class CowHead extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
 		if (requestCode == Constants.PICK_SOUND_REQUEST && resultCode == RESULT_OK) {
-			Log.v(TAG, "A sound has selected ID["+ intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999) + "] with Data[" + intent.getData() +"]");
-			Log.d(TAG, "Intent URI["+intent.toURI()+"]");
+			Log.v(TAG, "A sound has selected ID[" + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999) + "] with Data[" + intent.getData() + "]");
+			Log.d(TAG, "Intent URI[" + intent.toURI() + "]");
 
 			ArrayList<File> files = FileSys.listFilesInDir(AUDIO_FILES_DIR);
 			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
-			Log.v(TAG, "The selected file I is[" + file.getAbsolutePath() +"]");
+			Log.v(TAG, "The selected file I is[" + file.getAbsolutePath() + "]");
 			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
 			initSoundPool();
 		}
 
 		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
-			Log.v(TAG, "A new sound has been recorded ID["+ intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999) + "] with Data[" + intent.getData() +"]");
-			Log.d(TAG, "Intent URI["+intent.toURI()+"]");
+			Log.v(TAG, "A new sound has been recorded ID[" + intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999) + "] with Data[" + intent.getData() + "]");
+			Log.d(TAG, "Intent URI[" + intent.toURI() + "]");
 
 			Cursor cursor = managedQuery(Uri.parse(intent.toURI()), null, null, null, null);
 			startManagingCursor(cursor);
@@ -209,12 +223,18 @@ public class CowHead extends Activity {
 		}
 
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Debug.stopMethodTracing();
+	}
 
 	private void initSoundPool() {
 		mMgr = new SoundPoolMgr(this);
 		mMgr.init();
 	}
-	
+
 	/***
 	 * Copy across the atachment and then ammend the Read/Write privs.
 	 * 
@@ -222,7 +242,7 @@ public class CowHead extends Activity {
 	 * @param dst
 	 */
 	private void copyAttachmentToTmpDir(String attachmentURI, String dst) {
-		Log.v(TAG, "Copying an attachment  to tmp dir Data[" + getIntent().getData().getPath() +"]");
+		Log.v(TAG, "Copying an attachment  to tmp dir Data[" + getIntent().getData().getPath() + "]");
 
 		if (new File(TMP_AUDIO_DIR + EMAIL_TMP + Constants.FILE_EXT).exists()) {
 			boolean delete = new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).delete();
