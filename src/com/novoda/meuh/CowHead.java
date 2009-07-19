@@ -314,24 +314,7 @@ public class CowHead extends Activity {
 		}
 
 	}
-	
-//	private Bitmap mBitmap; 
-//	private Canvas mCanvas;
-//	private Paint mPaint = new Paint();
-//
-//	private void createSurface() { 
-//		Bitmap bmp = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB8888);
-//		Canvas c = new Canvas(bmp);
-//		mBitmap = bmp;
-//		mCanvas = c; 
-//		mPaint.setColor(0xffff0000); 
-//	}
-//
-//	private void drawLine(float x1, float y1, float x2, float y2, Paint p) { 
-//		mCanvas.drawLine(x1,y1,x2,y2,p); 
-//	} 
-//	
-	
+		
 
 	/***
 	 * Used for interpreting the movements of the device into 'mooPower' The
@@ -347,6 +330,12 @@ public class CowHead extends Activity {
 			super(context);
 		}
 
+		/***
+		 * Invalidation is constrained so only the head is redrawn
+		 * and not the background.
+		 * CowHead bounds: 30, 70, 300, 360
+		 * 
+		 */
 		@Override
 		public void onOrientationChanged(int orientation) {
 
