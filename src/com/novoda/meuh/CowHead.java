@@ -279,35 +279,37 @@ public class CowHead extends Activity {
 	 * 
 	 */
 	private class CowHeadView extends View {
-		private Paint	mPaint	= new Paint();
 		private Bitmap	bg;
-
 		private Bitmap	cowHead;
-		private int		cowHeadXOffset;
-		private int		cowHeadYOffset;
 
 		public CowHeadView(Context context) {
 			super(context);
 
 			bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
 			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
-			cowHeadXOffset = cowHead.getWidth() / 2;
-			cowHeadYOffset = cowHead.getHeight() / 2;
 		}
 
+		/***
+		 * 	
+		 * This function is called upon each rotation Event
+		 * and so is a bottle neck.
+		 * 
+		 * The logic has been cut down to involve less references.
+		 * 160 = BG width 320 / 2
+		 * 228 = BG height 456 / 2 
+		 * 115 = CowHead width 230 / 2
+		 * 85 = CowHead 170 / 2
+		 */
 		@Override
 		protected void onDraw(Canvas canvas) {
-			Paint paint = mPaint;
+			
+			Paint paint	= new Paint();
 			canvas.drawBitmap(bg, 0, 0, paint);
 			paint.setAntiAlias(true);
-			int w = canvas.getWidth();
-			int h = canvas.getHeight();
-			int cx = (w / 2);
-			int cy = (h / 2);
-
-			canvas.translate(cx, cy);
+			
+			canvas.translate(160, 228);
 			canvas.rotate(-1 * mOrientation);
-			canvas.drawBitmap(cowHead, -cowHeadXOffset, -cowHeadYOffset, paint);
+           	canvas.drawBitmap(cowHead, -115, -85, paint);
 		}
 
 	}

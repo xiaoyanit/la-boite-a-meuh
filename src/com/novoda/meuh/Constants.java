@@ -9,7 +9,6 @@ public class Constants {
 	public static final int		COLUMN_INDEX4					= 2;
 	public static final int		COLUMN_INDEX5					= 2;
 
-
 	public static final int		PICK_SOUND_REQUEST				= 33;
 	public static final int		PICK_NEW_SOUND_REQUEST			= 43;
 	public static final int		CHOSEN_AUDIO_FILE_ACTION		= 40;
@@ -21,4 +20,5 @@ public class Constants {
 	public static final Intent	CHOSEN_AUDIO_FILE				= null;
 	public static final String	NATIVE_GMAIL_AUTHORITY			= "gmail-ls";
 	public static final String	FILE_EXT						= ".3gpp";
+
 }
