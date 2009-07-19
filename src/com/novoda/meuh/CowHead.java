@@ -33,7 +33,6 @@ import android.graphics.Paint;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -70,18 +69,10 @@ public class CowHead extends Activity {
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-
-//		try {
-//			String path = "/sdcard/la-boite-a-meuh/media/audio/meuhs/cowhead_trace.trace";
-//			Runtime.getRuntime().exec("chmod 666 " + path);
-//		} catch (IOException e) {
-//			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
-//		}
-		
-		Debug.startMethodTracing("cowhead_trace");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		mView = new CowHeadView(this);
+		mOnRotationEvent = new MooOnRotationEvent(this);
 		setContentView(mView);
 
 		Log.i(TAG, "Intent passed to CowHead: Data String[" + getIntent().getDataString() + "], Action[" + getIntent().getAction() + "]");
@@ -98,7 +89,6 @@ public class CowHead extends Activity {
 		}
 
 		initSoundPool();
-		mOnRotationEvent = new MooOnRotationEvent(this);
 
 		if (!mOnRotationEvent.canDetectOrientation()) {
 			Toast.makeText(this, "Can't moo :(", 1000);
@@ -222,12 +212,6 @@ public class CowHead extends Activity {
 			}
 		}
 
-	}
-	
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		Debug.stopMethodTracing();
 	}
 
 	private void initSoundPool() {

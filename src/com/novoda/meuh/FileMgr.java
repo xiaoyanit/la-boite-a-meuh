@@ -34,16 +34,15 @@ import com.novoda.view.AudioFileListAdapter;
 
 public class FileMgr extends ListActivity {
 
-	private static final String	TAG				= "[MooFileMgr]";
+	private static final String		TAG				= "[MooFileMgr]";
 	private AudioFileListAdapter	mFileListAdapter;
-	private int					mChosenPosition	= 9999;
-	private String				mNewFileName	= null;
-	private Menu				mOptMenu;
-	private static String		sCurrFileName;
+	private int						mChosenPosition	= 9999;
+	private String					mNewFileName	= null;
+	private static String			sCurrFileName;
 
-	public static String		RINGTONES_DIR;
-	public static String		AUDIO_FILES_DIR;
-	public static String		TMP_AUDIO_DIR;
+	public static String			RINGTONES_DIR;
+	public static String			AUDIO_FILES_DIR;
+	public static String			TMP_AUDIO_DIR;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -143,16 +142,12 @@ public class FileMgr extends ListActivity {
 								mNewFileName = null;
 							}
 						}).create();
-				
-				
+
 			case R.layout.dialog_help:
 				LayoutInflater factory2 = LayoutInflater.from(this);
 				final View textEntryView2 = factory2.inflate(R.layout.dialog_help, null);
 
-				return new AlertDialog.Builder(FileMgr.this)
-				.setIcon(android.R.drawable.ic_dialog_info)
-				.setTitle(R.string.title_help)
-				.setView(textEntryView2).setPositiveButton(
+				return new AlertDialog.Builder(FileMgr.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_help).setView(textEntryView2).setPositiveButton(
 						R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 							}
@@ -160,20 +155,18 @@ public class FileMgr extends ListActivity {
 					public void onClick(DialogInterface dialog, int whichButton) {
 					}
 				}).create();
-				
+
 		}
 
 		return null;
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
-		mOptMenu = menu;
-
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.file_mgr_actions, menu);
 		return true;
 	}
-	
+
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		switch (item.getItemId()) {
@@ -185,7 +178,7 @@ public class FileMgr extends ListActivity {
 		}
 		return false;
 	}
-	
+
 	private void initFileListing() {
 		ListView lv = getListView();
 		refreshFileListAdapter();
