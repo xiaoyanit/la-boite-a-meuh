@@ -281,12 +281,14 @@ public class CowHead extends Activity {
 	private class CowHeadView extends View {
 		private Bitmap	bg;
 		private Bitmap	cowHead;
-
+		Paint mPaint;
+		
 		public CowHeadView(Context context) {
 			super(context);
 
 			bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
 			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
+			mPaint	= new Paint();
 		}
 
 		/***
@@ -302,17 +304,34 @@ public class CowHead extends Activity {
 		 */
 		@Override
 		protected void onDraw(Canvas canvas) {
-			
-			Paint paint	= new Paint();
-			canvas.drawBitmap(bg, 0, 0, paint);
-			paint.setAntiAlias(true);
+			canvas.drawBitmap(bg, 0, 0, mPaint);
+			mPaint.setAntiAlias(true);
 			
 			canvas.translate(160, 228);
 			canvas.rotate(-1 * mOrientation);
-           	canvas.drawBitmap(cowHead, -115, -85, paint);
+           	canvas.drawBitmap(cowHead, -115, -85, mPaint);
+           	mPaint.setAntiAlias(false);
 		}
 
 	}
+	
+//	private Bitmap mBitmap; 
+//	private Canvas mCanvas;
+//	private Paint mPaint = new Paint();
+//
+//	private void createSurface() { 
+//		Bitmap bmp = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB8888);
+//		Canvas c = new Canvas(bmp);
+//		mBitmap = bmp;
+//		mCanvas = c; 
+//		mPaint.setColor(0xffff0000); 
+//	}
+//
+//	private void drawLine(float x1, float y1, float x2, float y2, Paint p) { 
+//		mCanvas.drawLine(x1,y1,x2,y2,p); 
+//	} 
+//	
+	
 
 	/***
 	 * Used for interpreting the movements of the device into 'mooPower' The
@@ -333,7 +352,7 @@ public class CowHead extends Activity {
 
 			mOrientation = orientation;
 			if (mView != null) {
-				mView.invalidate();
+				mView.invalidate(30, 70, 300, 360);
 			}
 
 			if (orientation > 60 && orientation < 300) {
