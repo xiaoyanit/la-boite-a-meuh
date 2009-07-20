@@ -57,7 +57,7 @@ public class CowHead extends Activity {
 	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mOnRotationEvent;
 	private View				mView;
-	private SoundPoolMgr		mMgr;
+	private SoundPoolMgr		mSoundPoolMgr;
 	private Menu				mOptMenu;
 	private boolean				mIsMooChanging	= false;
 
@@ -73,6 +73,7 @@ public class CowHead extends Activity {
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		mView = new CowHeadView(this);
 		mOnRotationEvent = new MooOnRotationEvent(this);
+		mSoundPoolMgr = new SoundPoolMgr(this);
 		setContentView(mView);
 
 		Log.i(TAG, "Intent passed to CowHead: Data String[" + getIntent().getDataString() + "], Action[" + getIntent().getAction() + "]");
@@ -88,7 +89,7 @@ public class CowHead extends Activity {
 			}
 		}
 
-		initSoundPool();
+		mSoundPoolMgr.init();
 
 		if (!mOnRotationEvent.canDetectOrientation()) {
 			Toast.makeText(this, "Can't moo :(", 1000);
@@ -195,7 +196,7 @@ public class CowHead extends Activity {
 			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 			Log.v(TAG, "The selected file I is[" + file.getAbsolutePath() + "]");
 			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
-			initSoundPool();
+			mSoundPoolMgr.init();
 		}
 
 		if (requestCode == Constants.PICK_NEW_SOUND_REQUEST && resultCode == RESULT_OK) {
@@ -208,15 +209,10 @@ public class CowHead extends Activity {
 
 			if (copyToAudioDir(cursor.getString(Constants.COLUMN_RELATIVE_FILE_LOCATION))) {
 				SoundPoolMgr.SELECTED_MOO_FILE = TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT;
-				initSoundPool();
+				mSoundPoolMgr.init();
 			}
 		}
 
-	}
-
-	private void initSoundPool() {
-		mMgr = new SoundPoolMgr(this);
-		mMgr.init();
 	}
 
 	/***
@@ -358,7 +354,7 @@ public class CowHead extends Activity {
 
 		public void moo(float speed) {
 			if (!mIsMooChanging) {
-				mMgr.playSound(speed);
+				mSoundPoolMgr.playSound(speed);
 			}
 			mooPower = 0;
 
