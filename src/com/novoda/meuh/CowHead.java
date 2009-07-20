@@ -261,40 +261,37 @@ public class CowHead extends Activity {
 	private class CowHeadView extends View {
 		private Bitmap	bg;
 		private Bitmap	cowHead;
-		private Paint mPaint;
-		
+		private Paint	mPaint;
+
 		public CowHeadView(Context context) {
 			super(context);
 
 			bg = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
 			cowHead = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
-			mPaint	= new Paint();
+			mPaint = new Paint();
 		}
 
 		/***
-		 * 	
-		 * This function is called upon each rotation Event
-		 * and so is a bottle neck.
 		 * 
-		 * The logic has been cut down to involve less references.
-		 * 160 = BG width 320 / 2
-		 * 228 = BG height 456 / 2 
-		 * 115 = CowHead width 230 / 2
-		 * 85 = CowHead 170 / 2
+		 * This function is called upon each rotation Event and so is a bottle
+		 * neck.
+		 * 
+		 * The logic has been cut down to involve less references. 160 = BG
+		 * width 320 / 2 228 = BG height 456 / 2 115 = CowHead width 230 / 2 85
+		 * = CowHead 170 / 2
 		 */
 		@Override
 		protected void onDraw(Canvas canvas) {
 			canvas.drawBitmap(bg, 0, 0, mPaint);
-//			mPaint.setAntiAlias(true);
-			
+			// mPaint.setAntiAlias(true);
+
 			canvas.translate(160, 228);
 			canvas.rotate(-1 * mOrientation);
-           	canvas.drawBitmap(cowHead, -115, -85, mPaint);
-//         	mPaint.setAntiAlias(false);
+			canvas.drawBitmap(cowHead, -115, -85, mPaint);
+			// mPaint.setAntiAlias(false);
 		}
 
 	}
-		
 
 	/***
 	 * Used for interpreting the movements of the device into 'mooPower' The
@@ -303,50 +300,72 @@ public class CowHead extends Activity {
 	 */
 	private class MooOnRotationEvent extends OrientationEventListener {
 
-		private boolean	isMooing;
-		private int		mooPower;
+		private boolean	isTilted;
+		private long	mStartTime;
 
 		public MooOnRotationEvent(Context context) {
 			super(context);
 		}
 
 		/***
-		 * Invalidation is constrained so only the head is redrawn
-		 * and not the background.
-		 * CowHead bounds: 30, 70, 300, 360
+		 * Invalidation is constrained so only the head is redrawn and not the
+		 * background. CowHead bounds: 30, 70, 300, 360
 		 * 
 		 */
 		@Override
 		public void onOrientationChanged(int orientation) {
 
 			mOrientation = orientation;
+
+			if (!isTilted && (orientation < 350 && orientation > 10)) {
+				mStartTime = System.currentTimeMillis();
+			}
+
 			if (mView != null) {
 				mView.invalidate(30, 70, 300, 360);
 			}
 
-			if (orientation > 60 && orientation < 300) {
-				isMooing = true;
-				mooPower++;
+			if (orientation < 350 && orientation > 10) {
+				isTilted = true;
 			} else {
-				isMooing = false;
+				isTilted = false;
 			}
 
-			if (!isMooing && mooPower > 0) {
+			if (!isTilted && mStartTime != 0) {
+				float speed = 1f;
+				long elapsedTimeMillis = System.currentTimeMillis() - mStartTime;
+				float elapsedTimeSec = elapsedTimeMillis / 1000F;
 
-				Log.i(TAG, "Power " + mooPower);
-				float speed = 1.0f;
+				Log.i(TAG, "Time[" + elapsedTimeSec + "]");
 
-				if (mooPower > 15)
+				if (elapsedTimeSec < 0.9)
+					speed = 2.9f;
+				else if (elapsedTimeSec > 0.9 && elapsedTimeSec < 1.2)
+					speed = 2.5f;
+				else if (elapsedTimeSec > 1.2 && elapsedTimeSec < 1.4)
+					speed = 2.0f;
+				else if (elapsedTimeSec > 1.4 && elapsedTimeSec < 1.6)
+					speed = 1.8f;
+				else if (elapsedTimeSec > 1.6 && elapsedTimeSec < 1.8)
+					speed = 1.7f;
+				else if (elapsedTimeSec > 1.8 && elapsedTimeSec < 2.0)
+					speed = 1.4f;
+				else if (elapsedTimeSec > 2.0 && elapsedTimeSec < 2.3)
+					speed = 1.2f;
+				else if (elapsedTimeSec > 2.3 && elapsedTimeSec < 2.6)
+					speed = 0.9f;
+				else if (elapsedTimeSec > 2.6 && elapsedTimeSec < 3.0)
+					speed = 0.8f;
+				else if (elapsedTimeSec > 3.0 && elapsedTimeSec < 3.3)
+					speed = 0.8f;
+				else if (elapsedTimeSec > 3.3 && elapsedTimeSec < 3.6)
 					speed = 0.5f;
-				else if (mooPower > 13)
-					speed = 0.7f;
-				else if (mooPower > 10)
-					speed = 1.0f;
-				else if (mooPower > 5)
-					speed = 1.5f;
-				else if (mooPower > 3)
-					speed = 1.9f;
+				else if (elapsedTimeSec > 3.6 && elapsedTimeSec < 4.0)
+					speed = 0.5f;
+				else if (elapsedTimeSec > 4.0)
+					speed = 0.4f;
 
+				Log.i(TAG, "Speed: " + speed);
 				moo(speed);
 			}
 
@@ -356,7 +375,7 @@ public class CowHead extends Activity {
 			if (!mIsMooChanging) {
 				mSoundPoolMgr.playSound(speed);
 			}
-			mooPower = 0;
+			mStartTime = 0;
 
 		}
 	}

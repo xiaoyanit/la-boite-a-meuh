@@ -49,7 +49,7 @@ public class SoundPoolMgr {
 			Log.d(TAG, "Initializing new SoundPool");
 
 			release();
-			mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+			mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 100);
 			mSoundPoolMap = new HashMap<Integer, Integer>();
 			mSoundPoolMap.put(MOO_SOUND_1, mSoundPool.load(mContext, R.raw.carlthecow, 1));
 			mSoundPoolMap.put(MOO_SOUND_2, mSoundPool.load(mContext, R.raw.kevinthecow, 1));
