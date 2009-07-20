@@ -338,30 +338,14 @@ public class CowHead extends Activity {
 
 				Log.i(TAG, "Time[" + elapsedTimeSec + "]");
 
-				if (elapsedTimeSec < 0.9)
-					speed = 2.9f;
-				else if (elapsedTimeSec > 0.9 && elapsedTimeSec < 1.2)
-					speed = 2.5f;
-				else if (elapsedTimeSec > 1.2 && elapsedTimeSec < 1.4)
-					speed = 2.0f;
-				else if (elapsedTimeSec > 1.4 && elapsedTimeSec < 1.6)
-					speed = 1.8f;
-				else if (elapsedTimeSec > 1.6 && elapsedTimeSec < 1.8)
-					speed = 1.7f;
-				else if (elapsedTimeSec > 1.8 && elapsedTimeSec < 2.0)
+				if (elapsedTimeSec < 0.7)
+					speed = 2.4f;
+				else if (elapsedTimeSec > 0.7 && elapsedTimeSec < 0.9)
 					speed = 1.4f;
-				else if (elapsedTimeSec > 2.0 && elapsedTimeSec < 2.3)
-					speed = 1.2f;
-				else if (elapsedTimeSec > 2.3 && elapsedTimeSec < 2.6)
-					speed = 0.9f;
-				else if (elapsedTimeSec > 2.6 && elapsedTimeSec < 3.0)
+				else if (elapsedTimeSec > 0.9 && elapsedTimeSec < 2.5)
+					speed = 1.0f;
+				else if (elapsedTimeSec > 2.5 && elapsedTimeSec < 3.3)
 					speed = 0.8f;
-				else if (elapsedTimeSec > 3.0 && elapsedTimeSec < 3.3)
-					speed = 0.8f;
-				else if (elapsedTimeSec > 3.3 && elapsedTimeSec < 3.6)
-					speed = 0.5f;
-				else if (elapsedTimeSec > 3.6 && elapsedTimeSec < 4.0)
-					speed = 0.5f;
 				else if (elapsedTimeSec > 4.0)
 					speed = 0.4f;
 
