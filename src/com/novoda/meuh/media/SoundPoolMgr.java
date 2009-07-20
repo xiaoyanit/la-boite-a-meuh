@@ -22,13 +22,13 @@ import android.util.Log;
 import com.novoda.meuh.R;
 
 public class SoundPoolMgr {
-	private static final String			TAG					= "[Moo-SoundPoolMgr]:";
+	private static final String			TAG					= "[SoundPoolMgr]:";
 
 	public static final int				MOO_SOUND_1			= 1;
 	public static final int				MOO_SOUND_2			= 2;
-	public static final int				CUSTOM_MOO_SOUND			= 3;
+	public static final int				CUSTOM_MOO_SOUND	= 3;
 
-	private boolean						mEnabled				= true;
+	private boolean						mEnabled			= true;
 	private Context						mContext;
 	private SoundPool					mSoundPool;
 	private HashMap<Integer, Integer>	mSoundPoolMap;
@@ -38,8 +38,8 @@ public class SoundPoolMgr {
 
 	public SoundPoolMgr(Context context) {
 		this.mContext = context;
-		
-		if(SELECTED_MOO_FILE==null){
+
+		if (SELECTED_MOO_FILE == null) {
 			SELECTED_MOO_SOUND = MOO_SOUND_1;
 		}
 	}
@@ -48,12 +48,12 @@ public class SoundPoolMgr {
 		if (mEnabled) {
 			Log.d(TAG, "Initializing new SoundPool");
 
-			release(); 
+			release();
 			mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
 			mSoundPoolMap = new HashMap<Integer, Integer>();
 			mSoundPoolMap.put(MOO_SOUND_1, mSoundPool.load(mContext, R.raw.carlthecow, 1));
 			mSoundPoolMap.put(MOO_SOUND_2, mSoundPool.load(mContext, R.raw.kevinthecow, 1));
-			
+
 			if (SELECTED_MOO_SOUND == CUSTOM_MOO_SOUND) {
 				mSoundPoolMap.put(CUSTOM_MOO_SOUND, mSoundPool.load(SELECTED_MOO_FILE, 1));
 			}
@@ -85,7 +85,6 @@ public class SoundPoolMgr {
 			}
 		}
 	}
-	
 
 	public void setEnabled(boolean enabled) {
 		this.mEnabled = enabled;

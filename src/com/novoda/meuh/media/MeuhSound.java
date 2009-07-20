@@ -27,7 +27,7 @@ public class MeuhSound {
 
 	private static final int	DEFAULT_RATE	= 22050;
 
-	private static final String	TAG				= "meuh:";
+	private static final String	TAG				= "[MeuhSound]";
 
 	// Have to be cast to int as we won't play huge files
 	private int					fileLength;
