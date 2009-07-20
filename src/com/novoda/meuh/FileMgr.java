@@ -221,7 +221,7 @@ public class FileMgr extends ListActivity {
 	/***
 	 * Adds to the Media DB so as it can be retrieved by URI. This file is
 	 * intended as a funny noise notification so it is marked as not being MUSIC
-	 * so mediaplayers can avoid it. After it is entere applications are
+	 * so mediaplayers can avoid it. After it is entered applications are
 	 * notified by a Media Scanner broadcast.
 	 * 
 	 * @param file
