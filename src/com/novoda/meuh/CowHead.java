@@ -283,12 +283,12 @@ public class CowHead extends Activity {
 		@Override
 		protected void onDraw(Canvas canvas) {
 			canvas.drawBitmap(bg, 0, 0, mPaint);
-			// mPaint.setAntiAlias(true);
+			mPaint.setAntiAlias(true);
 
 			canvas.translate(160, 228);
 			canvas.rotate(-1 * mOrientation);
 			canvas.drawBitmap(cowHead, -115, -85, mPaint);
-			// mPaint.setAntiAlias(false);
+			mPaint.setAntiAlias(false);
 		}
 
 	}
