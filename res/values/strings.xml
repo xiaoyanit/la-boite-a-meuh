@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Record a sound</string>
-	<string name="app_name">la-boite-a-meuh</string>
+	<string name="app_name">Can of Cow</string>
 	<string name="title_choose_sound">Choose your Mooo Sound!</string>
 	<string name="dialog_ok">Ok</string>
 	<string name="dialog_cancel">Cancel</string>
