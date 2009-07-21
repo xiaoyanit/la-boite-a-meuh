@@ -34,6 +34,7 @@ import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
@@ -65,6 +66,8 @@ public class CowHead extends Activity {
 	public static String		TMP_AUDIO_DIR;
 	private static String		TMP_FILE;
 	private static String		EMAIL_TMP;
+	
+	private PowerManager.WakeLock wl;
 
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -76,6 +79,9 @@ public class CowHead extends Activity {
 		mSoundPoolMgr = new SoundPoolMgr(this);
 		setContentView(mView);
 
+		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, TAG);
+		
 		Log.i(TAG, "Intent passed to CowHead: Data String[" + getIntent().getDataString() + "], Action[" + getIntent().getAction() + "]");
 
 		if (getIntent().getData() != null) {
@@ -99,6 +105,7 @@ public class CowHead extends Activity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+		wl.acquire();
 		AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
 		TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
 		TMP_FILE = this.getString(R.string.filename_tmp);
@@ -108,13 +115,21 @@ public class CowHead extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		wl.acquire();
 		mOnRotationEvent.enable();
 	}
 
 	@Override
 	protected void onStop() {
+		wl.release();
 		mOnRotationEvent.disable();
 		super.onStop();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		wl.release();
 	}
 
 	@Override
