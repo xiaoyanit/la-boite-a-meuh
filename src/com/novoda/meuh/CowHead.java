@@ -152,6 +152,7 @@ public class CowHead extends Activity {
 
 								String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
 								FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
+								//TODO: INSERT new sound into Media DB via URI
 								Log.i(TAG, "Saved new sound called [" + mNewFileName + Constants.FILE_EXT + "] to [" + path + "]");
 							}
 						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
@@ -251,8 +252,17 @@ public class CowHead extends Activity {
 			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
 		}
 	}
-
+	
+	
+/**
+ * TODO: INSERT new sound into Media DB via URI
+ * get the name of the imported attachment file then use it as the filename 
+ * and make a copy directly in the audio folder.
+ * Then add it to media database and update the currently selected track. 
+ * @param attachmentURI
+ */
 	private boolean copyToAudioDir(String src) {
+				
 		if (new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).exists()) {
 			boolean delete = new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).delete();
 			Log.i(TAG, "The delete has been done: " + delete);

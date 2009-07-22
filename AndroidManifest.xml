@@ -51,7 +51,6 @@
                 <data android:mimeType="vnd.android.cursor.dir/audio"/>
             </intent-filter>
 			
-			
 		</activity>
 		
 		<activity 

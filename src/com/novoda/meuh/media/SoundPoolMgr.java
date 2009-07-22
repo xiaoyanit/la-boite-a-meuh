@@ -22,19 +22,20 @@ import android.util.Log;
 import com.novoda.meuh.R;
 
 public class SoundPoolMgr {
-	private static final String			TAG					= "[SoundPoolMgr]:";
+	private static final String			TAG							= "[SoundPoolMgr]:";
 
-	public static final int				MOO_SOUND_1			= 1;
-	public static final int				MOO_SOUND_2			= 2;
-	public static final int				CUSTOM_MOO_SOUND	= 3;
+	public static final int				MOO_SOUND_1					= 1;
+	public static final int				MOO_SOUND_2					= 2;
+	public static final int				CUSTOM_MOO_SOUND			= 3;
 
-	private boolean						mEnabled			= true;
+	private boolean						mEnabled					= true;
 	private Context						mContext;
 	private SoundPool					mSoundPool;
 	private HashMap<Integer, Integer>	mSoundPoolMap;
 
 	public static int					SELECTED_MOO_SOUND;
-	public static String				SELECTED_MOO_FILE	= null;
+	public static String				SELECTED_MOO_FILE			= null;
+	public static String				URI_currently_selected_file	= null;
 
 	public SoundPoolMgr(Context context) {
 		this.mContext = context;

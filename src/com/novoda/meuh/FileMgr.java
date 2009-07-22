@@ -69,7 +69,8 @@ public class FileMgr extends ListActivity {
 				Log.d(TAG, "Deleting file [" + sCurrFileName + "]");
 				success = (new File(AUDIO_FILES_DIR + sCurrFileName)).delete();
 
-				if (success) {
+				if (success) {							
+					//TODO: DELETE entry in Media DB via URI
 					Log.i(TAG, "File [" + sCurrFileName + "] was deleted");
 					refreshFileListAdapter();
 				} else {
@@ -130,6 +131,7 @@ public class FileMgr extends ListActivity {
 									if (mFileListAdapter.files.get(mChosenPosition).renameTo(
 											new File(AUDIO_FILES_DIR + mNewFileName + FileSys.getExtensionFromFilename(sCurrFileName)))) {
 										Log.d(TAG, "Filename[" + sCurrFileName + "] was renamed to [" + mNewFileName + "] from dialog contents");
+										//	TODO: UPDATE name in Media DB via URI
 										refreshFileListAdapter();
 									} else {
 										Log.e(TAG, "Filename[" + sCurrFileName + "] could not be renamed to [" + mNewFileName + "] from dialog contents");
