@@ -201,6 +201,7 @@ public class CowHead extends Activity {
 		return false;
 	}
 
+	//TODO: UPDATE actions of copying files with use of providers
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 

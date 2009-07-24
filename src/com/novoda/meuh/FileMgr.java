@@ -244,6 +244,8 @@ public class FileMgr extends ListActivity {
 		cv.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
 		cv.put(MediaStore.Audio.Media.ARTIST, "la-boite-a-meuh");
 		cv.put(MediaStore.Audio.Media.ALBUM, "la-boite-a-meuh");
+		cv.put(MediaStore.Audio.Media.COMPOSER, "CANOFCOW");
+		
 		Log.d(TAG, "Inserting audio record for:[" + file.getName() + "] ContentValues:[" + cv.toString() + "]");
 		Uri result = resolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cv);
 
