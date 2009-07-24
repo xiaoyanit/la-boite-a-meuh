@@ -2,7 +2,8 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#00000000">
     
 	    <LinearLayout
 			android:orientation="horizontal"
@@ -11,14 +12,16 @@
     		android:layout_marginTop="6px"
     		android:layout_marginBottom="8px"
     		android:layout_marginLeft="8px"
-    		android:layout_marginRight="8px">
+    		android:layout_marginRight="8px"
+    		android:background="#00000000">
 	    
 			<ImageView android:id="@+id/row_icon"
 				android:src="@drawable/ic_menu_category_song" 
 				android:orientation="vertical"
 				android:layout_width="wrap_content"
 				android:layout_marginLeft="8px"
-				android:layout_height="fill_parent" /> 
+				android:layout_height="fill_parent" 
+				android:background="#00000000" /> 
 	        
 	    </LinearLayout>    	
      
@@ -30,7 +33,7 @@
     		android:layout_marginBottom="8px"
     		android:layout_marginLeft="0px"
     		android:layout_marginRight="28px"
-    		android:background="#78d148" >
+    		android:background="#cccccc" >
 
 		      <TextView android:id="@+id/row_title"
 	    	     android:textColor="#020905"
