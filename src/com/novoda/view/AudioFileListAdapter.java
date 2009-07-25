@@ -1,6 +1,7 @@
 package com.novoda.view;
 
 import java.io.File;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -40,21 +41,32 @@ public class AudioFileListAdapter extends BaseAdapter {
 		AudioFileListAdapterView todayView = new AudioFileListAdapterView(activity, files.get(position));
 		return todayView;
 	}
-	
-	
+
+/***
+ * This calc will not be needed when the URI based interaction is 
+ * timeCalc is approx (frameSize-1024 * mDefaultRate-22050 ) 
+ */
 	public class AudioFileListAdapterView extends LinearLayout {
 
-		private TextView	mFileName;
+		private TextView			mFileName;
+		private TextView			mFileLength;
+		private double				timeCalc		= 2257.0; 
 
 		public AudioFileListAdapterView(Activity activity, File fileItem) {
 			super(activity);
-			
+
 			LayoutInflater factory = LayoutInflater.from(activity);
 			final View itemInListView = factory.inflate(R.layout.row_item_file, null);
-			
+
 			mFileName = (TextView) itemInListView.findViewById(R.id.row_title);
 			mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
-			
+
+			NumberFormat nf = NumberFormat.getInstance();
+			nf.setMaximumFractionDigits(2);
+
+			mFileLength = (TextView) itemInListView.findViewById(R.id.row_item_length);
+			mFileLength.setText(nf.format(new Double(fileItem.length() / timeCalc)) + "secs");
+
 			addView(itemInListView);
 		}
 
