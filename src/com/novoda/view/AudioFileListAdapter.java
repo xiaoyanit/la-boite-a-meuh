@@ -45,6 +45,7 @@ public class AudioFileListAdapter extends BaseAdapter {
 /***
  * This calc will not be needed when the URI based interaction is 
  * timeCalc is approx (frameSize-1024 * mDefaultRate-22050 ) 
+ * TODO: Once all file access is done via URI the duration can be obtained form the MEDIA_DB
  */
 	public class AudioFileListAdapterView extends LinearLayout {
 
