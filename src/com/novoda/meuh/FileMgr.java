@@ -49,11 +49,19 @@ public class FileMgr extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filemgr);
 
-		AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
-		RINGTONES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_ringtones);
-		TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
-
-		initFileListing();
+		
+		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){  
+		    Log.i(TAG, "SDCard installed");
+		    AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
+		    RINGTONES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_ringtones);
+		    TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
+		    
+		    initFileListing();
+		}else{
+		    Log.i(TAG, "No SDCard installed");
+            showDialog(R.layout.dialog_sdcard_warning);
+		}
+		
 	}
 
 	@Override
@@ -157,7 +165,20 @@ public class FileMgr extends ListActivity {
 					public void onClick(DialogInterface dialog, int whichButton) {
 					}
 				}).create();
+				
+				
+			case R.layout.dialog_sdcard_warning:
+                LayoutInflater factory3 = LayoutInflater.from(this);
+                final View textEntryView3 = factory3.inflate(R.layout.dialog_sdcard_warning, null);
 
+                return new AlertDialog.Builder(FileMgr.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_sdcard_warning).setView(textEntryView3).setPositiveButton(
+                        R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                }).create();
 		}
 
 		return null;
