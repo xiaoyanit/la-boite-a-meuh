@@ -39,6 +39,7 @@ Met 'lang indrukken van' een goede naam kan je een ringtone of uw geluidskaart e
 	<string name="filename_emailed_tmp">friendssound</string>
 	
 	
-<string name="title_sdcard_warning">Geen SDCard gedetecteerd!</string>
-<string name="text_dialogue_sdcard_warning">Geen SDCard gedetecteerd! Je moet ergens moeten slaan Moo Sounds!</string>
+	<string name="title_sdcard_warning">Geen SDCard gedetecteerd!</string>
+	<string name="text_dialogue_sdcard_warning">Geen SDCard gedetecteerd! Je moet ergens moeten slaan Moo Sounds!</string>
+	<string name="label_activity_filemanager">Kies een Sound</string>
 </resources>

@@ -39,7 +39,7 @@ Med "lång trycka på" ett bra namn som du kan ställa in en ringsignal eller e-
 	<string name="filename_tmp">minnyasound</string>
 	<string name="filename_emailed_tmp">friendssound</string>
 	
-	
-<string name="title_sdcard_warning">Nej SDCard upptäckt!</string>
-<string name="text_dialogue_sdcard_warning">Nej SDCard upptäckt! Du måste ha någonstans att lagra dina Moo Sounds!</string>
+	<string name="title_sdcard_warning">Nej SDCard upptäckt!</string>
+	<string name="text_dialogue_sdcard_warning">Nej SDCard upptäckt! Du måste ha någonstans att lagra dina Moo Sounds!</string>
+	<string name="label_activity_filemanager">Välj ett ljud</string>		
 </resources>

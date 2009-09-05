@@ -42,4 +42,5 @@ Mit dem "langen Druck auf" eine solide Namen können Sie einen Klingelton festle
 	
 <string name="title_sdcard_warning">Nr. SDCard detected!</string>
 <string name="text_dialogue_sdcard_warning">Sie müssen sich irgendwo zu speichern Sie Ihre Moo Sounds!</string>
+	<string name="label_activity_filemanager">Wählen Sie einen Sound</string>
 </resources>

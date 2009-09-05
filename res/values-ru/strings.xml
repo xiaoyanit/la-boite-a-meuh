@@ -38,7 +38,7 @@
 	<string name="filename_tmp">mynewsound</string>
 	<string name="filename_emailed_tmp">friendssound</string>
 	
-	
-<string name="title_sdcard_warning">Нет SDCard обнаружено!</string>
-<string name="text_dialogue_sdcard_warning">Нет SDCard обнаружено! Вы должны иметь где-то хранить ваши Му Sounds!</string>
+	<string name="title_sdcard_warning">Нет SDCard обнаружено!</string>
+	<string name="text_dialogue_sdcard_warning">Нет SDCard обнаружено! Вы должны иметь где-то хранить ваши Му Sounds!</string>
+	<string name="label_activity_filemanager">Выберите звук</string>	
 </resources>

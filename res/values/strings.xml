@@ -42,4 +42,5 @@
 	
 <string name="title_sdcard_warning">No SDCard detected!</string>
 <string name="text_dialogue_sdcard_warning">No SDCard was detected! You need to have somewhere to store your Moo Sounds!</string>
+<string name="label_activity_filemanager">Choose a Sound</string>
 </resources>

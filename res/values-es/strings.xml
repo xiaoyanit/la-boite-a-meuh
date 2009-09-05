@@ -39,6 +39,7 @@ Por 'presión larga "un nombre de sonido se puede establecer un tono de llamada 
 	<string name="filename_emailed_tmp">losamigosdesonido</string>
 	
 	
-<string name="title_sdcard_warning">N SDCard detected!</string>
-<string name="text_dialogue_sdcard_warning">N SDCard detected! Usted necesita tener un lugar para almacenar sus Moo Sounds!</string>
+	<string name="title_sdcard_warning">N SDCard detected!</string>
+	<string name="text_dialogue_sdcard_warning">N SDCard detected! Usted necesita tener un lugar para almacenar sus Moo Sounds!</string>
+	<string name="label_activity_filemanager">Elegir un sonido</string>
 </resources>

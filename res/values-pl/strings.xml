@@ -39,6 +39,7 @@ Przez "długie naciśnięcie" dźwięk nazwy można ustawić dzwonek lub e-mail 
 	<string name="filename_emailed_tmp">friendssound</string>
 	
 	
-<string name="title_sdcard_warning">Nr SDCard detected!</string>
-<string name="text_dialogue_sdcard_warning">Nr SDCard detected! Musisz mieć gdzieś zapisać Moo Sounds!</string>
+	<string name="title_sdcard_warning">Nr SDCard detected!</string>
+	<string name="text_dialogue_sdcard_warning">Nr SDCard detected! Musisz mieć gdzieś zapisać Moo Sounds!</string>
+	<string name="label_activity_filemanager">Wybierz Sound</string>	
 </resources>

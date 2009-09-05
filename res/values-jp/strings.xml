@@ -40,6 +40,7 @@
 	<string name="filename_emailed_tmp">friendssound</string>
 	
 	
-<string name="title_sdcard_warning">いいえSDCard検出された！</string>
-<string name="text_dialogue_sdcard_warning">いいえSDCard検出された！ どこか武あなたのサウンドを格納する必要がありますする必要があります！</string>
+	<string name="title_sdcard_warning">いいえSDCard検出された！</string>
+	<string name="text_dialogue_sdcard_warning">いいえSDCard検出された！ どこか武あなたのサウンドを格納する必要がありますする必要があります！</string>
+	<string name="label_activity_filemanager">サウンドを選択します</string>		
 </resources>

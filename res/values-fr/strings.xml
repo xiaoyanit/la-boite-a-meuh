@@ -40,6 +40,7 @@ Par 'de long en appuyant sur' un nom de son que vous pouvez définir une sonneri
 	<string name="filename_emailed_tmp">sonami</string>
 	
 	
-<string name="title_sdcard_warning">N SDCard détecté!</string>
-<string name="text_dialogue_sdcard_warning">N SDCard détecté! Vous devez avoir un endroit pour stocker vos Meuh Sounds!</string>
+	<string name="title_sdcard_warning">N SDCard détecté!</string>
+	<string name="text_dialogue_sdcard_warning">N SDCard détecté! Vous devez avoir un endroit pour stocker vos Meuh Sounds!</string>
+	<string name="label_activity_filemanager">Sélectionnez un son</string>
 </resources>

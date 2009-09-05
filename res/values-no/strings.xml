@@ -39,6 +39,7 @@ Ved lange trykke 'en lyd navn du kan angi en ringetone eller en e-lyden til en v
 	<string name="filename_emailed_tmp">friendssound</string>
 	
 	
-<string name="title_sdcard_warning">Ingen SDCard oppdaget!</string>
-<string name="text_dialogue_sdcard_warning">Ingen SDCard oppdaget! Du må ha et sted å lagre Moo Høres!</string>
+	<string name="title_sdcard_warning">Ingen SDCard oppdaget!</string>
+	<string name="text_dialogue_sdcard_warning">Ingen SDCard oppdaget! Du må ha et sted å lagre Moo Høres!</string>
+	<string name="label_activity_filemanager">Velg et Sound</string>		
 </resources>

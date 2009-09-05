@@ -41,4 +41,5 @@ Od 'dlouhý stisk' zvuk jména můžete nastavit vyzvánění nebo e-mail vaší
 	
 	<string name="title_sdcard_warning">Ne SDCard detected!</string>
 	<string name="text_dialogue_sdcard_warning">Ne SDCard detected! Musíte mít někde k ukládání vašich Moo Sounds!</string>
+	<string name="label_activity_filemanager">Vyberte Zvuk</string>
 </resources>

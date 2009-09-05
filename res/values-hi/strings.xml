@@ -39,6 +39,7 @@
 	<string name="filename_emailed_tmp">friendssound</string>
 	
 	
-<string name="title_sdcard_warning">SDCard नहीं पता!</string>
-<string name="text_dialogue_sdcard_warning">SDCard नहीं पता! तुम कहीं है की दुकान अपने Moo लगता है की जरूरत है!</string>
+	<string name="title_sdcard_warning">SDCard नहीं पता!</string>
+	<string name="text_dialogue_sdcard_warning">SDCard नहीं पता! तुम कहीं है की दुकान अपने Moo लगता है की जरूरत है!</string>
+				<string name="label_activity_filemanager">एक ध्वनि चुनें</string>	
 </resources>
