@@ -55,7 +55,7 @@
 		
 		<activity 
 			android:name=".FileMgr" 
-			android:label="@string/app_name"
+			android:label="@string/label_activity_filemanager"
 			android:screenOrientation="portrait">
 
         	

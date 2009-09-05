@@ -37,7 +37,6 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.style.SuperscriptSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,7 +45,6 @@ import android.view.MenuItem;
 import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnTouchListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
