@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">Neem een geluid</string>
+	<string name="app_name">Kan van Koe</string>
+	<string name="title_choose_sound">Kies uw Mooo Sound!</string>
+	<string name="dialog_ok">Oke</string>
+	<string name="dialog_cancel">Annuleren</string>
+	<string name="title_rename_sound_file">Hernoemen Sound File</string>
+	<string name="lbl_filename">Bestandsnaam</string>
+
+	<string name="menu_action_record">Record</string>
+	<string name="menu_action_select">Geluiden</string>
+	<string name="menu_action_save">Opslaan Recorded Sound</string>
+	<string name="title_save_sound">Geef uw nieuw geluid</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">Edit Sound File</string>
+	<string name="menu_action_file_rename">Rename</string>
+	<string name="menu_action_file_delete">Wissen</string>
+	<string name="menu_action_file_email">E-mailen naar vriend / vriendin</string>
+	<string name="menu_action_file_assign_as_ringtone">Gebruik als Phone Ringtone</string>
+	
+	<string name="menu_action_help">Wat is dit?</string>
+	<string name="title_help">Kiezen Sounds!</string>
+	<string name="text_dialogue_help">U kunt funny sounds!
+Selecteer 'te redden van het menu nadat u een opname te maken.
+Met 'lang indrukken van' een goede naam kan je een ringtone of uw geluidskaart e-mail naar een vriend.</string>
+
+	
+	<string name="title_email">E-mail bestand:</string>
+	<string name="email_subject_line">Een vriend heeft je een Moo Cow</string>
+	<string name="email_text">Gebruik als Phone Ringtone</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
+	
+	
+<string name="title_sdcard_warning">Geen SDCard gedetecteerd!</string>
+<string name="text_dialogue_sdcard_warning">Geen SDCard gedetecteerd! Je moet ergens moeten slaan Moo Sounds!</string>
+</resources>

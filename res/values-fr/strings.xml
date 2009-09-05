@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">Enregistrer un son</string>
+	<string name="app_name">La boite a Moo</string>
+	<string name="title_choose_sound">Choisissez votre Meuh Sound!</string>
+	<string name="dialog_ok">D'accord</string>
+	<string name="dialog_cancel">Annuler</string>
+	<string name="title_rename_sound_file">Renommer fichier audio</string>
+	<string name="lbl_filename">File Name</string>
+
+	<string name="menu_action_record">Compte rendu</string>
+	<string name="menu_action_select">Sons</string>
+	<string name="menu_action_save">Sauvegarder Recorded Sound</string>
+	<string name="title_save_sound">Nommez votre nouveau son</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">Modifier Sound File</string>
+	<string name="menu_action_file_rename">Renommer</string>
+	<string name="menu_action_file_delete">Supprimer</string>
+	<string name="menu_action_file_email">Envoyer à un ami</string>
+	<string name="menu_action_file_assign_as_ringtone">Utiliser comme Phone Ringtone</string>
+	
+	<string name="menu_action_help">What is this?</string>
+	<string name="title_help">Choosing Sounds!</string>
+	<string name="text_dialogue_help">
+        Vous pouvez enregistrer des sons funny!
+Sélectionnez "Enregistrer" dans le menu une fois que vous effectuez un enregistrement.
+Par 'de long en appuyant sur' un nom de son que vous pouvez définir une sonnerie ou un e-mail de votre son à un ami.</string>
+
+	
+	<string name="title_email">Email le fichier:</string>
+	<string name="email_subject_line">Un ami vous a envoyé un Moo Cow</string>
+	<string name="email_text">Utiliser comme Phone Ringtone</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">monnouveauson</string>
+	<string name="filename_emailed_tmp">sonami</string>
+	
+	
+<string name="title_sdcard_warning">N SDCard détecté!</string>
+<string name="text_dialogue_sdcard_warning">N SDCard détecté! Vous devez avoir un endroit pour stocker vos Meuh Sounds!</string>
+</resources>

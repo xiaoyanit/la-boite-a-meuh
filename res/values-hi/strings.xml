@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+				<string name="label">एक आवाज़ रिकार्ड</string>
+	<string name="app_name">गाय के सकता है</string>
+				<string name="title_choose_sound">अपने Mooo ध्वनि चुनें!</string>
+	<string name="dialog_ok">ठीक है</string>
+	<string name="dialog_cancel">रद्द करें</string>
+				<string name="title_rename_sound_file">ध्वनि फ़ाइल का नाम बदलें</string>
+	<string name="lbl_filename">फ़ाइल का नाम</string>
+
+				<string name="menu_action_record">रिकॉर्ड</string>
+	<string name="menu_action_select">लगता है</string>
+				<string name="menu_action_save">सहेजें रिकॉर्डेड आवाज़</string>
+				<string name="title_save_sound">नाम आपके नए ध्वनि</string>
+	
+	
+	<string name="time">0:00</string>
+				<string name="title_ammend_file">संपादित करें ध्वनि फाइल</string>
+	<string name="menu_action_file_rename">नाम बदलें</string>
+				<string name="menu_action_file_delete">मिटाना</string>
+				<string name="menu_action_file_email">मित्र को ईमेल</string>
+				<string name="menu_action_file_assign_as_ringtone">फोन रिंगटोन्स के रूप में प्रयोग करें</string>
+	
+	<string name="menu_action_help">यह क्या है?</string>
+	<string name="title_help">चुनने लगता है!</string>
+	<string name="text_dialogue_help">तुम अजीब लग रहा है बचा सकता है!
+चुनें 'मेनू से बचाने के लिए' के बाद एक रिकॉर्ड है.
+'लंबे समय तक उपयोग' एक ध्वनि नाम तुम एक रिंगटोन्स सेट या एक दोस्त के लिए आपके ध्वनि ईमेल कर सकते हैं.</string>
+
+	
+	<string name="title_email">ईमेल फ़ाइल:</string>
+	<string name="email_subject_line">एक दोस्त तुम्हें भेजा है एक गाय Moo</string>
+				<string name="email_text">फोन रिंगटोन्स के रूप में प्रयोग करें</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
+	
+	
+<string name="title_sdcard_warning">SDCard नहीं पता!</string>
+<string name="text_dialogue_sdcard_warning">SDCard नहीं पता! तुम कहीं है की दुकान अपने Moo लगता है की जरूरत है!</string>
+</resources>

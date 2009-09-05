@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">Nehmen Sie einen Sound</string>
+	<string name="app_name">Kann von Kuh</string>
+	<string name="title_choose_sound">Wählen Sie Ihre Mooo Sound!</string>
+	<string name="dialog_ok">Ok</string>
+	<string name="dialog_cancel">Abbrechen</string>
+	<string name="title_rename_sound_file">Benennen Sie Audio-Datei</string>
+	<string name="lbl_filename">Dateiname</string>
+
+	<string name="menu_action_record">Record</string>
+	<string name="menu_action_select">Sounds</string>
+	<string name="menu_action_save">Speichern Recorded Sound</string>
+	<string name="title_save_sound">Benennen Sie Ihre neue Sound</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">Edit Audio-Datei</string>
+	<string name="menu_action_file_rename">Umbenennen</string>
+	<string name="menu_action_file_delete">Löschen</string>
+	<string name="menu_action_file_email">E-Mail an Freund</string>
+	<string name="menu_action_file_assign_as_ringtone">Verwendung als Telefon Ringtone</string>
+	
+	<string name="menu_action_help">Was ist das?</string>
+	<string name="title_help">Auswahl Sounds!</string>
+	<string name="text_dialogue_help">
+        Sie können lustige Töne!
+Wählen Sie "Speichern" aus dem Menü, nachdem Sie eine Aufnahme machen.
+Mit dem "langen Druck auf" eine solide Namen können Sie einen Klingelton festlegen oder per E-Mail Ihren Sound an einen Freund.</string>
+
+	
+	<string name="title_email">E-Mail-Datei:</string>
+	<string name="email_subject_line">Ein Freund hat Ihnen eine Moo Cow</string>
+	<string name="email_text">Verwendung als Telefon Ringtone</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">meinneuersound</string>
+	<string name="filename_emailed_tmp">freundesound</string>
+	
+	
+<string name="title_sdcard_warning">Nr. SDCard detected!</string>
+<string name="text_dialogue_sdcard_warning">Sie müssen sich irgendwo zu speichern Sie Ihre Moo Sounds!</string>
+</resources>

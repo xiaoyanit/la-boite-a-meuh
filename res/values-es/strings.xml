@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">Grabar un sonido</string>
+	<string name="app_name">Can de Vaca</string>
+	<string name="title_choose_sound">Elija su mugido de sonido!</string>
+	<string name="dialog_ok">Vale</string>
+	<string name="dialog_cancel">Cancelar</string>
+	<string name="title_rename_sound_file">Cambie el nombre de archivo de sonido</string>
+	<string name="lbl_filename">Nombre de archivo</string>
+
+	<string name="menu_action_record">Registro</string>
+	<string name="menu_action_select">Sonidos</string>
+	<string name="menu_action_save">Guardar Recorded Sound</string>
+	<string name="title_save_sound">El nombre de su nuevo sonido</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">Editar archivo de sonido</string>
+	<string name="menu_action_file_rename">Cambiar el nombre de</string>
+	<string name="menu_action_file_delete">Borrar</string>
+	<string name="menu_action_file_email">Enviar a un amigo</string>
+	<string name="menu_action_file_assign_as_ringtone">Utilizar como tono de teléfono</string>
+	
+	<string name="menu_action_help">¿Qué es esto?</string>
+	<string name="title_help">Selección de sonidos!</string>
+	<string name="text_dialogue_help">Usted puede guardar sonidos divertidos!
+Seleccione 'Guardar' en el menú después de realizar una grabación.
+Por 'presión larga "un nombre de sonido se puede establecer un tono de llamada o correo electrónico de su sonido a un amigo.</string>
+
+	
+	<string name="title_email">Archivo de correo electrónico:</string>
+	<string name="email_subject_line">Un amigo te ha enviado un mugido de vaca</string>
+	<string name="email_text">Utilizar como tono de teléfono</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">minuevosonido</string>
+	<string name="filename_emailed_tmp">losamigosdesonido</string>
+	
+	
+<string name="title_sdcard_warning">N SDCard detected!</string>
+<string name="text_dialogue_sdcard_warning">N SDCard detected! Usted necesita tener un lugar para almacenar sus Moo Sounds!</string>
+</resources>

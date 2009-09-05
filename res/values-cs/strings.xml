@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">Záznam zvuku</string>
+	<string name="app_name">Plechovka Kráva</string>
+	<string name="title_choose_sound">Vyberte si mooo zvuk!</string>
+	<string name="dialog_ok">Ok</string>
+	<string name="dialog_cancel">Zrušit</string>
+	<string name="title_rename_sound_file">Přejmenovat zvukových souborů</string>
+	<string name="lbl_filename">Název souboru</string>
+
+	<string name="menu_action_record">Record</string>
+	<string name="menu_action_select">Zvuky</string>
+	<string name="menu_action_save">Uložit nahraný zvuk</string>
+	<string name="title_save_sound">Název vaší nové zvukové</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">Úpravy zvukového souboru</string>
+	<string name="menu_action_file_rename">Přejmenovat</string>
+	<string name="menu_action_file_delete">Odstranit</string>
+	<string name="menu_action_file_email">E-mail známému</string>
+	<string name="menu_action_file_assign_as_ringtone">Použití jako vyzvánění telefonu</string>
+	
+	<string name="menu_action_help">Co je to?</string>
+	<string name="title_help">Výběr Sounds!</string>
+	<string name="text_dialogue_help">Můžete uložit podivné zvuky!
+Zvolte 'uložit' z menu, po provedení záznamu.
+Od 'dlouhý stisk' zvuk jména můžete nastavit vyzvánění nebo e-mail vaší zvukové příteli.</string>
+
+	
+	<string name="title_email">E-mail souboru:</string>
+	<string name="email_subject_line">Přítel Vám zaslal Cow Moo</string>
+	<string name="email_text">Použití jako vyzvánění telefonu</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
+	
+	
+	<string name="title_sdcard_warning">Ne SDCard detected!</string>
+	<string name="text_dialogue_sdcard_warning">Ne SDCard detected! Musíte mít někde k ukládání vašich Moo Sounds!</string>
+</resources>

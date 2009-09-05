@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">音声記録</string>
+	<string name="app_name">することができますカウ</string>
+	<string name="title_choose_sound">あなたのMoooサウンドを選択します！</string>
+	<string name="dialog_ok">玉</string>
+	<string name="dialog_cancel">キャンセル</string>
+	<string name="title_rename_sound_file">名前を変更するサウンドファイル</string>
+	<string name="lbl_filename">ファイル名</string>
+
+	<string name="menu_action_record">レコード</string>
+	<string name="menu_action_select">サウンド</string>
+	<string name="menu_action_save">保存記録サウンド</string>
+	<string name="title_save_sound">名前を付けて、新しいサウンド</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">[編集]サウンドファイル</string>
+	<string name="menu_action_file_rename">名前を変更する</string>
+	<string name="menu_action_file_delete">削除する</string>
+	<string name="menu_action_file_email">友達にメール</string>
+	<string name="menu_action_file_assign_as_ringtone">使用して電話着メロなど</string>
+	
+	<string name="menu_action_help">これは何ですか？</string>
+	<string name="title_help">を選択しそうですね！</string>
+	<string name="text_dialogue_help">
+        あなたが面白い音を保存することができます！
+後、録音を選択して'メニューから保存します。
+'長い'を着メロに設定したり、友人にあなたの音をメール音の名前を押す。</string>
+
+	
+	<string name="title_email">電子メールファイル：</string>
+	<string name="email_subject_line">お友達が牛武鉉が届いています</string>
+	<string name="email_text">使用して電話着メロなど</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
+	
+	
+<string name="title_sdcard_warning">いいえSDCard検出された！</string>
+<string name="text_dialogue_sdcard_warning">いいえSDCard検出された！ どこか武あなたのサウンドを格納する必要がありますする必要があります！</string>
+</resources>
