@@ -42,16 +42,16 @@ public class AudioFileListAdapter extends BaseAdapter {
 		return todayView;
 	}
 
-/***
- * This calc will not be needed when the URI based interaction is 
- * timeCalc is approx (frameSize-1024 * mDefaultRate-22050 ) 
- * TODO: Once all file access is done via URI the duration can be obtained form the MEDIA_DB
- */
+	/***
+	 * This calc will not be needed when the URI based interaction is timeCalc
+	 * is approx (frameSize-1024 * mDefaultRate-22050 ) TODO: Once all file
+	 * access is done via URI the duration can be obtained form the MEDIA_DB
+	 */
 	public class AudioFileListAdapterView extends LinearLayout {
 
-		private TextView			mFileName;
-		private TextView			mFileLength;
-		private double				timeCalc		= 2257.0; 
+		private TextView	mFileName;
+		private TextView	mFileLength;
+		private double		timeCalc	= 1240.0;	// bitrate +header
 
 		public AudioFileListAdapterView(Activity activity, File fileItem) {
 			super(activity);
@@ -63,7 +63,7 @@ public class AudioFileListAdapter extends BaseAdapter {
 			mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
 
 			NumberFormat nf = NumberFormat.getInstance();
-			nf.setMaximumFractionDigits(2);
+			nf.setMaximumFractionDigits(0);
 
 			mFileLength = (TextView) itemInListView.findViewById(R.id.row_item_length);
 			mFileLength.setText(nf.format(new Double(fileItem.length() / timeCalc)) + "secs");
