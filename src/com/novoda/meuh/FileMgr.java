@@ -51,14 +51,18 @@ public class FileMgr extends ListActivity {
 
 		
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)){  
-		    Log.i(TAG, "SDCard installed");
+		    Log.d(TAG, "SDCard installed - Checking for sound directories");
 		    AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
 		    RINGTONES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_ringtones);
 		    TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
+
+		    new File(AUDIO_FILES_DIR).mkdirs();
+		    new File(RINGTONES_DIR).mkdirs();
+		    new File(TMP_AUDIO_DIR).mkdirs();
 		    
 		    initFileListing();
 		}else{
-		    Log.i(TAG, "No SDCard installed");
+		    Log.i(TAG, "No SDCard installed, no sound files can be saved.");
             showDialog(R.layout.dialog_sdcard_warning);
 		}
 		
