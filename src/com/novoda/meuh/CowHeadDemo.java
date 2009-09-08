@@ -341,7 +341,8 @@ public class CowHeadDemo extends Activity {
 		/***
 		 * Invalidation is constrained so only the head is redrawn and not the
 		 * background. CowHead bounds: 30, 70, 300, 360
-		 * 
+		 * Depending on the length of time that the cow head is tilted will 
+		 * affect the distortion on the resulting played audio.
 		 */
 		@Override
 		public void onOrientationChanged(int orientation) {

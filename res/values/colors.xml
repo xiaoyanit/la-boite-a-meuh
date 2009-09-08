@@ -2,4 +2,5 @@
 <resources>
 	<color name="highlight_green">#10be00</color>
 	<color name="BLACK">#FF000000</color>
+	<color name="GREY">#FF000000</color>
 </resources>	

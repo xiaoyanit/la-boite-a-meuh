@@ -14,7 +14,9 @@
 	
 	<application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="true">
 		
-		<activity
+		<!--  
+		
+			<activity
 			android:name=".CowHead" 
 			android:label="@string/app_name"
 			android:screenOrientation="portrait">
@@ -52,8 +54,20 @@
             </intent-filter>
 			
 		</activity>
+	
+		<activity 
+			android:name=".FileMgr" 
+			android:label="@string/label_activity_filemanager"
+			android:screenOrientation="portrait">
 
-		<activity
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
+        -->
+        
+       <activity
 			android:name=".CowHeadDemo" 
 			android:label="@string/app_name"
 			android:screenOrientation="portrait">
@@ -91,17 +105,6 @@
             </intent-filter>
 			
 		</activity>
-
-		
-		<activity 
-			android:name=".FileMgr" 
-			android:label="@string/label_activity_filemanager"
-			android:screenOrientation="portrait">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
         
 		<activity 
 			android:name=".FileMgrDemo" 
