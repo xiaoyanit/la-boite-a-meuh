@@ -20,5 +20,6 @@ public class Constants {
 	public static final Intent	CHOSEN_AUDIO_FILE				= null;
 	public static final String	NATIVE_GMAIL_AUTHORITY			= "gmail-ls";
 	public static final String	FILE_EXT						= ".3gpp";
+	public static Boolean		MOO_IS_PAIDAPP					= true;
 
 }

@@ -58,10 +58,10 @@ public class AudioFileListAdapter extends BaseAdapter {
 
 			LayoutInflater factory = LayoutInflater.from(activity);
 			final View itemInListView = factory.inflate(R.layout.row_item_file, null);
-
+			
 			mFileName = (TextView) itemInListView.findViewById(R.id.row_title);
 			mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
-
+			
 			NumberFormat nf = NumberFormat.getInstance();
 			nf.setMaximumFractionDigits(0);
 

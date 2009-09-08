@@ -52,18 +52,66 @@
             </intent-filter>
 			
 		</activity>
+
+		<activity
+			android:name=".CowHeadDemo" 
+			android:label="@string/app_name"
+			android:screenOrientation="portrait">
+			
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<action android:name="com.novoda.meuh.action.PICK_SOUND" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="audio/*"/>
+                <data android:mimeType="video/*"/>
+                <data android:mimeType="application/ogg"/>
+                <data android:mimeType="application/x-ogg"/>
+                <data android:mimeType="audio/amr" />
+                <data android:mimeType="audio/3gpp" />
+                <data android:mimeType="audio/3gp" />
+                <data android:mimeType="audio/3gpp2" />
+                <data android:mimeType="video/3gpp" />
+                <data android:mimeType="video/3gp" />
+                <data android:mimeType="video/3gpp2" />
+            </intent-filter>
+			<intent-filter>
+                <action android:name="android.intent.action.PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:mimeType="vnd.android.cursor.dir/audio"/>
+            </intent-filter>
+			
+		</activity>
+
 		
 		<activity 
 			android:name=".FileMgr" 
 			android:label="@string/label_activity_filemanager"
 			android:screenOrientation="portrait">
 
-        	
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
         
-		
+		<activity 
+			android:name=".FileMgrDemo" 
+			android:label="@string/label_activity_filemanager"
+			android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
 	</application>
 </manifest> 

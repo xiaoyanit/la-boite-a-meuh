@@ -31,8 +31,13 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.os.FileSys;
 import com.novoda.view.AudioFileListAdapter;
-
-public class FileMgr extends ListActivity {
+/**
+ * This is a hampered version of the FileMgr
+ * Feel free to swap it out with the full version!
+ * @author Novoda
+ *
+ */
+public class FileMgrDemo extends ListActivity {
 
 	private static final String		TAG				= "[MooFileMgr]";
 	private AudioFileListAdapter	mFileListAdapter;
@@ -48,7 +53,7 @@ public class FileMgr extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.filemgr);
+		setContentView(R.layout.filemgr_demo);
 
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 			Log.d(TAG, "SDCard installed - Checking for sound directories");
@@ -131,7 +136,7 @@ public class FileMgr extends ListActivity {
 
 				contents.getEditableText().append(FileSys.getFilenameWithoutExtension(sCurrFileName));
 
-				return new AlertDialog.Builder(FileMgr.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
+				return new AlertDialog.Builder(FileMgrDemo.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_rename_sound_file).setView(textEntryView)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								EditText contents = (EditText) textEntryView.findViewById(R.id.username_edit);
@@ -161,7 +166,7 @@ public class FileMgr extends ListActivity {
 				LayoutInflater factory2 = LayoutInflater.from(this);
 				final View textEntryView2 = factory2.inflate(R.layout.dialog_help, null);
 
-				return new AlertDialog.Builder(FileMgr.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_help).setView(textEntryView2).setPositiveButton(
+				return new AlertDialog.Builder(FileMgrDemo.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_help).setView(textEntryView2).setPositiveButton(
 						R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 							}
@@ -174,7 +179,7 @@ public class FileMgr extends ListActivity {
 				LayoutInflater factory3 = LayoutInflater.from(this);
 				final View textEntryView3 = factory3.inflate(R.layout.dialog_sdcard_warning, null);
 
-				return new AlertDialog.Builder(FileMgr.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_sdcard_warning).setView(textEntryView3)
+				return new AlertDialog.Builder(FileMgrDemo.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_sdcard_warning).setView(textEntryView3)
 						.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 							}
