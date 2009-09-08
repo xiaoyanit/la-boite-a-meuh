@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">录制声音</string>
+	<string name="app_name">可奶牛</string>
+	<string name="title_choose_sound">选择您Mooo声音！</string>
+	<string name="dialog_ok">好的</string>
+	<string name="dialog_cancel">取消</string>
+	<string name="title_rename_sound_file">声音文件重命名</string>
+	<string name="lbl_filename">文件名</string>
+
+	<string name="menu_action_record">记录</string>
+	<string name="menu_action_select">声音</string>
+	<string name="menu_action_save">保存录制的声音</string>
+	<string name="title_save_sound">为您的新声音</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">编辑声音文件</string>
+	<string name="menu_action_file_rename">重命名</string>
+	<string name="menu_action_file_delete">删除</string>
+	<string name="menu_action_file_email">电邮给朋友</string>
+	<string name="menu_action_file_assign_as_ringtone">用作手机铃声</string>
+	
+	<string name="menu_action_help">这是什么？</string>
+	<string name="title_help">选择声音！</string>
+	<string name="text_dialogue_help">您可以保存有趣的声音！
+选择'保存从菜单'之后，你犯了一个记录。
+由'长按'声音的名称可以设置铃声或通过电子邮件发送声音给朋友。</string>
+
+	
+	<string name="title_email">电子邮件文件：</string>
+	<string name="email_subject_line">一位朋友向您发送了母牛的叫声</string>
+	<string name="email_text">用作手机铃声</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
+	
+	
+<string name="title_sdcard_warning">没有SD卡检测！</string>
+<string name="text_dialogue_sdcard_warning">没有SD卡检测！ 你需要有地方存储您的卢武铉声音！</string>
+<string name="label_activity_filemanager">选择一个声音</string>
+</resources>

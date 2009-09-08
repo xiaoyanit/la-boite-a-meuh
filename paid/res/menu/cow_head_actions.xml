@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	<item android:title="@string/menu_action_record" android:visible="true" android:id="@+id/record" android:orderInCategory="0" android:icon="@android:drawable/ic_menu_add"></item>
+	<item android:title="@string/menu_action_select" android:visible="true" android:id="@+id/select" android:enabled="true" android:orderInCategory="1"  android:icon="@drawable/ic_menu_music_library"></item>
+	<item android:title="@string/menu_action_save" android:id="@+id/save" android:orderInCategory="2" android:visible="false" android:enabled="true"  android:icon="@android:drawable/ic_menu_save"></item>
+</menu>

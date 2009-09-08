@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">Spill inn en lyd</string>
+	<string name="app_name">Can of Cow</string>
+	<string name="title_choose_sound">Velg ditt Mooo Sound!</string>
+	<string name="dialog_ok">Ok</string>
+	<string name="dialog_cancel">Avbryt</string>
+	<string name="title_rename_sound_file">Gi nytt navn til lydfil</string>
+	<string name="lbl_filename">Filnavn</string>
+
+	<string name="menu_action_record">Record</string>
+	<string name="menu_action_select">Lyder</string>
+	<string name="menu_action_save">Lagre Recorded Sound</string>
+	<string name="title_save_sound">Navn på ny lyd</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">Rediger Sound File</string>
+	<string name="menu_action_file_rename">Gi nytt navn</string>
+	<string name="menu_action_file_delete">Slette</string>
+	<string name="menu_action_file_email">E-post til en venn</string>
+	<string name="menu_action_file_assign_as_ringtone">Bruk som Phone Ringtone</string>
+	
+	<string name="menu_action_help">Hva er dette?</string>
+	<string name="title_help">Velge Høres!</string>
+	<string name="text_dialogue_help">Du kan lagre morsomme lyder!
+Velg "lagre" fra menyen når du gjøre et opptak.
+Ved lange trykke 'en lyd navn du kan angi en ringetone eller en e-lyden til en venn.</string>
+
+	
+	<string name="title_email">E-post fil:</string>
+	<string name="email_subject_line">En venn har sendt deg en Cow Moo</string>
+	<string name="email_text">Bruk som Phone Ringtone</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
+	
+	
+	<string name="title_sdcard_warning">Ingen SDCard oppdaget!</string>
+	<string name="text_dialogue_sdcard_warning">Ingen SDCard oppdaget! Du må ha et sted å lagre Moo Høres!</string>
+	<string name="label_activity_filemanager">Velg et Sound</string>		
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="label">Запись звука</string>
+	<string name="app_name">Может коровы</string>
+	<string name="title_choose_sound">Выберите Корова Sound!</string>
+	<string name="dialog_ok">Хорошо</string>
+	<string name="dialog_cancel">Отмена</string>
+	<string name="title_rename_sound_file">Переименовать звуковые файлы</string>
+	<string name="lbl_filename">Имя файла</string>
+
+	<string name="menu_action_record">Запись</string>
+	<string name="menu_action_select">Звук</string>
+	<string name="menu_action_save">Сохранить записанный звук</string>
+	<string name="title_save_sound">Название вашей новой звуковой</string>
+	
+	
+	<string name="time">0:00</string>
+	<string name="title_ammend_file">Изменить звуковой файл</string>
+	<string name="menu_action_file_rename">Переименовать</string>
+	<string name="menu_action_file_delete">Удалить</string>
+	<string name="menu_action_file_email">Расскажи другу</string>
+	<string name="menu_action_file_assign_as_ringtone">Использование в качестве телефонный сигнал вызова</string>
+	
+	<string name="menu_action_help">Что это значит?</string>
+	<string name="title_help">Выбор Sounds!</string>
+	<string name="text_dialogue_help">Вы можете сохранить смешные звуки!
+Выберите "Сохранить" в меню после внесения записи.
+Под "долгое нажатие 'звук имени вы можете установить мелодию или звуковое Email к другу.</string>
+
+	
+	<string name="title_email">Email файла:</string>
+	<string name="email_subject_line">Знакомый отправил Вам Moo Cow</string>
+	<string name="email_text">Использование в качестве телефонный сигнал вызова</string>
+
+	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
+	<string name="dir_created_ringtones">/Music/ringtones/</string>
+	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
+	<string name="filename_tmp">mynewsound</string>
+	<string name="filename_emailed_tmp">friendssound</string>
+	
+	<string name="title_sdcard_warning">Нет SDCard обнаружено!</string>
+	<string name="text_dialogue_sdcard_warning">Нет SDCard обнаружено! Вы должны иметь где-то хранить ваши Му Sounds!</string>
+	<string name="label_activity_filemanager">Выберите звук</string>	
+</resources>

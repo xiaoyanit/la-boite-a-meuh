@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.novoda.moo"
+	android:versionCode="1"
+	android:versionName="1.0">
+	
+	<uses-sdk android:minSdkVersion="3" />
+	<uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gmail.permission.READ_GMAIL" />
+	<uses-permission android:name="android.permission.WRITE_SETTINGS" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	
+	
+	<application android:label="@string/app_name" android:icon="@drawable/icon" android:debuggable="true">
+		
+			<activity
+			android:name=".CowHead" 
+			android:label="@string/app_name"
+			android:screenOrientation="portrait">
+			
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<action android:name="com.novoda.meuh.action.PICK_SOUND" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:scheme="content"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="audio/*"/>
+                <data android:mimeType="video/*"/>
+                <data android:mimeType="application/ogg"/>
+                <data android:mimeType="application/x-ogg"/>
+                <data android:mimeType="audio/amr" />
+                <data android:mimeType="audio/3gpp" />
+                <data android:mimeType="audio/3gp" />
+                <data android:mimeType="audio/3gpp2" />
+                <data android:mimeType="video/3gpp" />
+                <data android:mimeType="video/3gp" />
+                <data android:mimeType="video/3gpp2" />
+            </intent-filter>
+			<intent-filter>
+                <action android:name="android.intent.action.PICK" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <data android:mimeType="vnd.android.cursor.dir/audio"/>
+            </intent-filter>
+			
+		</activity>
+	
+		<activity 
+			android:name=".FileMgr" 
+			android:label="@string/label_activity_filemanager"
+			android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        
+	</application>
+</manifest> 
