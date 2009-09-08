@@ -1,6 +1,9 @@
-# need 
+# need
+bin 
 bin/*
+*/bin/*
 gen/*
+*/gen/*
 gen
 .classpath
 .project
