@@ -132,34 +132,60 @@ public class CowHead extends Activity {
 		wl.release();
 	}
 
+	/*
+	 * Limit the number of audiofiles to 1 
+	 *
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 
 		switch (id) {
 			case R.layout.dialog_save_new_sound:
-				LayoutInflater factory = LayoutInflater.from(this);
-				final View textEntryView = factory.inflate(R.layout.dialog_save_new_sound, null);
-
-				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
-				contents.getEditableText().append(TMP_FILE);
-
-				return new AlertDialog.Builder(CowHead.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView).setPositiveButton(
-						R.string.dialog_ok, new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int whichButton) {
-								EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
-								Editable editable = contents.getEditableText();
-								String mNewFileName = editable.toString();
-
-								String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
-								FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
-								//TODO: INSERT new sound into Media DB via URI
-								Log.i(TAG, "Saved new sound called [" + mNewFileName + Constants.FILE_EXT + "] to [" + path + "]");
-							}
-						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int whichButton) {
-					}
-				}).create();
-
+			    
+			    Log.i(TAG, "Audio dir:" + AUDIO_FILES_DIR);
+			    Log.i(TAG, "Contains files: " + new File(AUDIO_FILES_DIR).listFiles().length);
+			    Log.i(TAG, "the assertion is: " + (new File(AUDIO_FILES_DIR).listFiles().length >= 1));
+			    
+			    
+			    if(new File(AUDIO_FILES_DIR).listFiles().length < 1){
+    			    LayoutInflater factory = LayoutInflater.from(this);
+    				final View textEntryView = factory.inflate(R.layout.dialog_save_new_sound, null);
+    
+    				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+    				contents.getEditableText().append(TMP_FILE);
+    
+    				return new AlertDialog.Builder(CowHead.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView).setPositiveButton(
+    						R.string.dialog_ok, new DialogInterface.OnClickListener() {
+    							public void onClick(DialogInterface dialog, int whichButton) {
+    								EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+    								Editable editable = contents.getEditableText();
+    								String mNewFileName = editable.toString();
+    
+    								String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
+    								FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
+    								//TODO: INSERT new sound into Media DB via URI
+    								Log.i(TAG, "Saved new sound called [" + mNewFileName + Constants.FILE_EXT + "] to [" + path + "]");
+    							}
+    						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+    					public void onClick(DialogInterface dialog, int whichButton) {
+    					}
+    				}).create();
+    				
+			    }else{
+			        
+			        LayoutInflater factory3 = LayoutInflater.from(this);
+                    final View textEntryView3 = factory3.inflate(R.layout.dialog_demo_expire, null);
+    
+                    return new AlertDialog.Builder(CowHead.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_demo_expired).setView(textEntryView3)
+                            .setPositiveButton(R.string.btn_buy_ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                }
+                            }).setNegativeButton(R.string.btn_buy_no, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                }
+                            }).create();
+    			}
+	
 		}
 
 		return null;
@@ -181,8 +207,7 @@ public class CowHead extends Activity {
 				Log.v(TAG, "User selected to Record a new sound");
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
 				intent.setClassName(getBaseContext(), Constants.COWHEAD_DEMO_CLASS);
-				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
-				mOptMenu.findItem(R.id.save).setVisible(true);
+				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);			
 				return true;
 
 			case R.id.select:
@@ -228,6 +253,8 @@ public class CowHead extends Activity {
 				SoundPoolMgr.SELECTED_MOO_FILE = TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT;
 				mSoundPoolMgr.init();
 			}
+			
+            mOptMenu.findItem(R.id.save).setVisible(true);
 		}
 
 	}

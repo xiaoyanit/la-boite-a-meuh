@@ -39,7 +39,7 @@
 	<string name="filename_emailed_tmp">friendssound</string>
 	
 	
-<string name="title_sdcard_warning">没有SD卡检测！</string>
-<string name="text_dialogue_sdcard_warning">没有SD卡检测！ 你需要有地方存储您的卢武铉声音！</string>
-<string name="label_activity_filemanager">选择一个声音</string>
+	<string name="title_sdcard_warning">没有SD卡检测！</string>
+	<string name="text_dialogue_sdcard_warning">没有SD卡检测！ 你需要有地方存储您的卢武铉声音！</string>
+	<string name="label_activity_filemanager">选择一个声音</string>
 </resources>

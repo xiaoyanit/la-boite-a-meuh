@@ -182,7 +182,6 @@ public class CowHead extends Activity {
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
 				intent.setClassName(getBaseContext(), Constants.COWHEAD_CLASS);
 				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
-				mOptMenu.findItem(R.id.save).setVisible(true);
 				return true;
 
 			case R.id.select:
@@ -228,6 +227,8 @@ public class CowHead extends Activity {
 				SoundPoolMgr.SELECTED_MOO_FILE = TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT;
 				mSoundPoolMgr.init();
 			}
+			
+            mOptMenu.findItem(R.id.save).setVisible(true);
 		}
 
 	}
