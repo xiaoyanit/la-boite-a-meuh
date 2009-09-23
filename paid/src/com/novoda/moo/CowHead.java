@@ -122,13 +122,13 @@ public class CowHead extends Activity {
 	@Override
 	protected void onStop() {
 		wl.release();
-		mOnRotationEvent.disable();
 		super.onStop();
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
+		mOnRotationEvent.disable();
 		wl.release();
 	}
 

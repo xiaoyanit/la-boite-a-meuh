@@ -50,5 +50,6 @@
 	<string name="text_dialogue_demo_expired">You can only save save one sound with this cow! With the super cow you can save unlimited sounds and set ringtones.</string>
 	<string name="btn_buy_no">No</string>
 	<string name="btn_buy_ok">Super Cow upgrade!</string>
+	<string name="orientation_not_supported">Mooing is not supported on this device!</string>
 	
 </resources>

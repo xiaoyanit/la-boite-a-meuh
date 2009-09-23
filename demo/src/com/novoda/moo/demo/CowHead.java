@@ -30,6 +30,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,7 +55,7 @@ import com.novoda.moo.demo.os.FileSys;
 
 public class CowHead extends Activity {
 
-	private static final String	TAG				= "[CowHead]";
+    private static final String	TAG				= "[CowHead]";
 
 	private int					mOrientation	= 0;
 	private MooOnRotationEvent	mOnRotationEvent;
@@ -98,7 +100,7 @@ public class CowHead extends Activity {
 		mSoundPoolMgr.init();
 
 		if (!mOnRotationEvent.canDetectOrientation()) {
-			Toast.makeText(this, "Can't moo :(", 1000);
+			Toast.makeText(this, R.string.orientation_not_supported, 1000);
 		}
 	}
 
@@ -120,15 +122,15 @@ public class CowHead extends Activity {
 	}
 
 	@Override
-	protected void onStop() {
+	protected void onStop() { 
 		wl.release();
-		mOnRotationEvent.disable();
 		super.onStop();
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
+		mOnRotationEvent.disable();
 		wl.release();
 	}
 
