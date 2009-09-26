@@ -55,21 +55,22 @@ import com.novoda.moo.demo.os.FileSys;
 
 public class CowHead extends Activity {
 
-    private static final String	TAG				= "[CowHead]";
+	private static final String		TAG				= "[CowHead]";
 
-	private int					mOrientation	= 0;
-	private MooOnRotationEvent	mOnRotationEvent;
-	private View				mView;
-	private SoundPoolMgr		mSoundPoolMgr;
-	private Menu				mOptMenu;
-	private boolean				mIsMooChanging	= false;
+	private int						mOrientation	= 0;
+	private MooOnRotationEvent		mOnRotationEvent;
+	private View					mView;
+	private SoundPoolMgr			mSoundPoolMgr;
+	private Menu					mOptMenu;
+	private boolean					mIsMooChanging	= false;
 
-	public static String		AUDIO_FILES_DIR;
-	public static String		TMP_AUDIO_DIR;
-	private static String		TMP_FILE;
-	private static String		EMAIL_TMP;
-	
-	private PowerManager.WakeLock wl;
+	public static String			AUDIO_FILES_DIR;
+	public static String			TMP_AUDIO_DIR;
+	private static String			TMP_FILE;
+	private static String			EMAIL_TMP;
+	private static String			DEFAULT_AUDIO_DIR;
+
+	private PowerManager.WakeLock	wl;
 
 	@Override
 	public void onCreate(Bundle bundle) {
@@ -83,7 +84,7 @@ public class CowHead extends Activity {
 
 		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		wl = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, TAG);
-		
+
 		Log.i(TAG, "Intent passed to CowHead: Data String[" + getIntent().getDataString() + "], Action[" + getIntent().getAction() + "]");
 
 		if (getIntent().getData() != null) {
@@ -110,6 +111,7 @@ public class CowHead extends Activity {
 		wl.acquire();
 		AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
 		TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
+		DEFAULT_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_default_audio);
 		TMP_FILE = this.getString(R.string.filename_tmp);
 		EMAIL_TMP = this.getString(R.string.filename_emailed_tmp);
 	}
@@ -122,11 +124,11 @@ public class CowHead extends Activity {
 	}
 
 	@Override
-	protected void onStop() { 
+	protected void onStop() {
 		wl.release();
 		super.onStop();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -135,59 +137,58 @@ public class CowHead extends Activity {
 	}
 
 	/*
-	 * Limit the number of audiofiles to 1 
-	 *
+	 * Limit the number of audiofiles to 1
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 
 		switch (id) {
 			case R.layout.dialog_save_new_sound:
-			    
-			    Log.i(TAG, "Audio dir:" + AUDIO_FILES_DIR);
-			    Log.i(TAG, "Contains files: " + new File(AUDIO_FILES_DIR).listFiles().length);
-			    Log.i(TAG, "the assertion is: " + (new File(AUDIO_FILES_DIR).listFiles().length >= 1));
-			    
-			    
-			    if(new File(AUDIO_FILES_DIR).listFiles().length < 1){
-    			    LayoutInflater factory = LayoutInflater.from(this);
-    				final View textEntryView = factory.inflate(R.layout.dialog_save_new_sound, null);
-    
-    				EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
-    				contents.getEditableText().append(TMP_FILE);
-    
-    				return new AlertDialog.Builder(CowHead.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView).setPositiveButton(
-    						R.string.dialog_ok, new DialogInterface.OnClickListener() {
-    							public void onClick(DialogInterface dialog, int whichButton) {
-    								EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
-    								Editable editable = contents.getEditableText();
-    								String mNewFileName = editable.toString();
-    
-    								String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
-    								FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
-    								//TODO: INSERT new sound into Media DB via URI
-    								Log.i(TAG, "Saved new sound called [" + mNewFileName + Constants.FILE_EXT + "] to [" + path + "]");
-    							}
-    						}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-    					public void onClick(DialogInterface dialog, int whichButton) {
-    					}
-    				}).create();
-    				
-			    }else{
-			        
-			        LayoutInflater factory3 = LayoutInflater.from(this);
-                    final View textEntryView3 = factory3.inflate(R.layout.dialog_demo_expire, null);
-    
-                    return new AlertDialog.Builder(CowHead.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_demo_expired).setView(textEntryView3)
-                            .setPositiveButton(R.string.btn_buy_ok, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                }
-                            }).setNegativeButton(R.string.btn_buy_no, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                }
-                            }).create();
-    			}
-	
+
+				Log.i(TAG, "Audio dir:" + AUDIO_FILES_DIR);
+				Log.i(TAG, "Contains files: " + new File(AUDIO_FILES_DIR).listFiles().length);
+				Log.i(TAG, "the assertion is: " + (new File(AUDIO_FILES_DIR).listFiles().length >= 1));
+
+				if (new File(AUDIO_FILES_DIR).listFiles().length < 1) {
+					LayoutInflater factory = LayoutInflater.from(this);
+					final View textEntryView = factory.inflate(R.layout.dialog_save_new_sound, null);
+
+					EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+					contents.getEditableText().append(TMP_FILE);
+
+					return new AlertDialog.Builder(CowHead.this).setIcon(R.drawable.alert_dialog_icon).setTitle(R.string.title_save_sound).setView(textEntryView)
+							.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int whichButton) {
+									EditText contents = (EditText) textEntryView.findViewById(R.id.filename_edit);
+									Editable editable = contents.getEditableText();
+									String mNewFileName = editable.toString();
+
+									String path = FileSys.createFilenameWithChecks(AUDIO_FILES_DIR, mNewFileName + Constants.FILE_EXT);
+									FileSys.copyViaChannels(new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT), new File(path));
+									// TODO: INSERT new sound into Media DB via
+									// URI
+									Log.i(TAG, "Saved new sound called [" + mNewFileName + Constants.FILE_EXT + "] to [" + path + "]");
+								}
+							}).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int whichButton) {
+								}
+							}).create();
+
+				} else {
+
+					LayoutInflater factory3 = LayoutInflater.from(this);
+					final View textEntryView3 = factory3.inflate(R.layout.dialog_demo_expire, null);
+
+					return new AlertDialog.Builder(CowHead.this).setIcon(android.R.drawable.ic_dialog_info).setTitle(R.string.title_demo_expired).setView(textEntryView3)
+							.setPositiveButton(R.string.btn_buy_ok, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int whichButton) {
+								}
+							}).setNegativeButton(R.string.btn_buy_no, new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int whichButton) {
+								}
+							}).create();
+				}
+
 		}
 
 		return null;
@@ -209,7 +210,7 @@ public class CowHead extends Activity {
 				Log.v(TAG, "User selected to Record a new sound");
 				SoundPoolMgr.SELECTED_MOO_SOUND = SoundPoolMgr.CUSTOM_MOO_SOUND;
 				intent.setClassName(getBaseContext(), Constants.COWHEAD_DEMO_CLASS);
-				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);			
+				startActivityForResult(new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION), Constants.PICK_NEW_SOUND_REQUEST);
 				return true;
 
 			case R.id.select:
@@ -228,7 +229,7 @@ public class CowHead extends Activity {
 		return false;
 	}
 
-	//TODO: UPDATE actions of copying files with use of providers
+	// TODO: UPDATE actions of copying files with use of providers
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 
@@ -237,6 +238,7 @@ public class CowHead extends Activity {
 			Log.d(TAG, "Intent URI[" + intent.toURI() + "]");
 
 			ArrayList<File> files = FileSys.listFilesInDir(AUDIO_FILES_DIR);
+			files.addAll(FileSys.listFilesInDir(DEFAULT_AUDIO_DIR));
 			File file = files.get(intent.getIntExtra(Constants.PICKED_AUDIO_FILE_POSITION, 999));
 			Log.v(TAG, "The selected file I is[" + file.getAbsolutePath() + "]");
 			SoundPoolMgr.SELECTED_MOO_FILE = file.getAbsolutePath();
@@ -255,8 +257,8 @@ public class CowHead extends Activity {
 				SoundPoolMgr.SELECTED_MOO_FILE = TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT;
 				mSoundPoolMgr.init();
 			}
-			
-            mOptMenu.findItem(R.id.save).setVisible(true);
+
+			mOptMenu.findItem(R.id.save).setVisible(true);
 		}
 
 	}
@@ -282,17 +284,17 @@ public class CowHead extends Activity {
 			Log.e(TAG, "There was a problem copying the attached file to the audio dir", e);
 		}
 	}
-	
-	
-/**
- * TODO: INSERT new sound into Media DB via URI
- * get the name of the imported attachment file then use it as the filename 
- * and make a copy directly in the audio folder.
- * Then add it to media database and update the currently selected track. 
- * @param attachmentURI
- */
+
+	/**
+	 * TODO: INSERT new sound into Media DB via URI get the name of the imported
+	 * attachment file then use it as the filename and make a copy directly in
+	 * the audio folder. Then add it to media database and update the currently
+	 * selected track.
+	 * 
+	 * @param attachmentURI
+	 */
 	private boolean copyToAudioDir(String src) {
-				
+
 		if (new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).exists()) {
 			boolean delete = new File(TMP_AUDIO_DIR + TMP_FILE + Constants.FILE_EXT).delete();
 			Log.i(TAG, "The delete has been done: " + delete);
@@ -364,9 +366,9 @@ public class CowHead extends Activity {
 
 		/***
 		 * Invalidation is constrained so only the head is redrawn and not the
-		 * background. CowHead bounds: 30, 70, 300, 360
-		 * Depending on the length of time that the cow head is tilted will 
-		 * affect the distortion on the resulting played audio.
+		 * background. CowHead bounds: 30, 70, 300, 360 Depending on the length
+		 * of time that the cow head is tilted will affect the distortion on the
+		 * resulting played audio.
 		 */
 		@Override
 		public void onOrientationChanged(int orientation) {

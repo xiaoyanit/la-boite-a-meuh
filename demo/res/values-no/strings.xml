@@ -41,5 +41,14 @@ Ved lange trykke 'en lyd navn du kan angi en ringetone eller en e-lyden til en v
 	
 	<string name="title_sdcard_warning">Ingen SDCard oppdaget!</string>
 	<string name="text_dialogue_sdcard_warning">Ingen SDCard oppdaget! Du må ha et sted å lagre Moo Høres!</string>
-	<string name="label_activity_filemanager">Velg et Sound</string>		
+	<string name="label_activity_filemanager">Velg et Sound</string>
+	
+
+	<string name="title_demo_expired">enne kua er begrenset!</string>
+	<string name="text_dialogue_demo_expired">Du kan bare lagre lagre en lyd med denne kua! Med super kua du kan lagre ubegrenset lyder og sett ringetoner.</string>
+	<string name="btn_buy_no">Nei</string>
+	<string name="btn_buy_ok">Super Cow upgrade!</string>
+	<string name="orientation_not_supported">Mooing støttes ikke på denne enheten!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Du kan dessverre ikke gjøre dette til en standard lyd</string>			
 </resources>

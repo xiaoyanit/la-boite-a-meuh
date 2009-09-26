@@ -42,4 +42,15 @@
 	<string name="title_sdcard_warning">没有SD卡检测！</string>
 	<string name="text_dialogue_sdcard_warning">没有SD卡检测！ 你需要有地方存储您的卢武铉声音！</string>
 	<string name="label_activity_filemanager">选择一个声音</string>
+	
+
+
+	<string name="title_demo_expired">这牛是有限的！</string>
+	<string name="text_dialogue_demo_expired">您只能保存保存这个牛一个声音！随着超级奶牛可以保存无限的声音和设置铃声。</string>
+	<string name="btn_buy_no">否</string>
+	<string name="btn_buy_ok">超级奶牛升级！</string>
+	<string name="orientation_not_supported">Mooing不支持此设备！</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">对不起，你不能这样对待一个默认的声音</string>	
+	
 </resources>

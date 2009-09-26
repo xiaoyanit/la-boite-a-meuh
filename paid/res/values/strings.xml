@@ -38,9 +38,19 @@
 	<string name="dir_tmp">/la-boite-a-meuh/media/audio/tmp/</string>
 	<string name="filename_tmp">mynewsound</string>
 	<string name="filename_emailed_tmp">friendssound</string>
+		
+	<string name="title_sdcard_warning">No SDCard detected!</string>
+	<string name="text_dialogue_sdcard_warning">No SDCard was detected! You need to have somewhere to store your Moo Sounds!</string>
+	<string name="label_activity_filemanager">Choose a Sound</string>
 	
 	
-<string name="title_sdcard_warning">No SDCard detected!</string>
-<string name="text_dialogue_sdcard_warning">No SDCard was detected! You need to have somewhere to store your Moo Sounds!</string>
-<string name="label_activity_filemanager">Choose a Sound</string>
+	
+	<string name="title_demo_expired">This cow is limited!</string>
+	<string name="text_dialogue_demo_expired">You can only save save one sound with this cow! With the super cow you can save unlimited sounds and set ringtones.</string>
+	<string name="btn_buy_no">No</string>
+	<string name="btn_buy_ok">Super Cow upgrade!</string>
+	<string name="orientation_not_supported">Mooing is not supported on this device!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Sorry you cannot do this to a default sound</string>	
+	
 </resources>

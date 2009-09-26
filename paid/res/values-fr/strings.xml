@@ -43,4 +43,14 @@ Par 'de long en appuyant sur' un nom de son que vous pouvez définir une sonneri
 	<string name="title_sdcard_warning">N SDCard détecté!</string>
 	<string name="text_dialogue_sdcard_warning">N SDCard détecté! Vous devez avoir un endroit pour stocker vos Meuh Sounds!</string>
 	<string name="label_activity_filemanager">Sélectionnez un son</string>
+	
+	
+	<string name="title_demo_expired">Cette vache est limité!</string>
+	<string name="text_dialogue_demo_expired">	
+Vous ne pouvez enregistrer enregistrer un son avec cette vache! Avec la vache super vous pouvez enregistrer des sons illimitée et sonneries fixés.</string>
+	<string name="btn_buy_no">Non</string>
+	<string name="btn_buy_ok">Super mise à niveau de la vache!</string>
+	<string name="orientation_not_supported">Mooing n'est pas possible sur cet appareil!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Désolé vous ne pouvez pas faire cela à un son par défaut</string>	
 </resources>

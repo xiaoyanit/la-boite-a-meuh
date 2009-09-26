@@ -42,5 +42,14 @@
 	
 	<string name="title_sdcard_warning">いいえSDCard検出された！</string>
 	<string name="text_dialogue_sdcard_warning">いいえSDCard検出された！ どこか武あなたのサウンドを格納する必要がありますする必要があります！</string>
-	<string name="label_activity_filemanager">サウンドを選択します</string>		
+	<string name="label_activity_filemanager">サウンドを選択します</string>	
+	
+	
+	<string name="title_demo_expired">この牛の限られている！</string>
+	<string name="text_dialogue_demo_expired">場合のみ、この牛が1つのサウンドへ保存することができます！無制限の音を設定着信音を保存することができますスーパー牛と。</string>
+	<string name="btn_buy_no">いいえ</string>
+	<string name="btn_buy_ok">スーパー牛さんをアップグレード！</string>
+	<string name="orientation_not_supported">Mooingこのデバイス上でサポートされていません！</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">は、デフォルトのサウンドにこれを行うことはできません申し訳ありません</string>		
 </resources>

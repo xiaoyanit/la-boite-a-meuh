@@ -42,4 +42,14 @@ Od 'dlouhý stisk' zvuk jména můžete nastavit vyzvánění nebo e-mail vaší
 	<string name="title_sdcard_warning">Ne SDCard detected!</string>
 	<string name="text_dialogue_sdcard_warning">Ne SDCard detected! Musíte mít někde k ukládání vašich Moo Sounds!</string>
 	<string name="label_activity_filemanager">Vyberte Zvuk</string>
+	
+	
+	<string name="title_demo_expired">Tato kráva je omezená!</string>
+	<string name="text_dialogue_demo_expired">Můžete uložit pouze uložit jeden zvuk s tímto kráva! Se super kráva můžete uložit neomezený zvuků a nastavení vyzvánění.</string>
+	<string name="btn_buy_no">Ne</string>
+	<string name="btn_buy_ok">Super Cow upgrade!</string>
+	<string name="orientation_not_supported">Mooing není podporován na toto zařízení!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Omlouváme se, můžete to udělat, aby výchozí zvuk</string>	
+	
 </resources>

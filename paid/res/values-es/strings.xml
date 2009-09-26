@@ -42,4 +42,13 @@ Por 'presión larga "un nombre de sonido se puede establecer un tono de llamada 
 	<string name="title_sdcard_warning">N SDCard detected!</string>
 	<string name="text_dialogue_sdcard_warning">N SDCard detected! Usted necesita tener un lugar para almacenar sus Moo Sounds!</string>
 	<string name="label_activity_filemanager">Elegir un sonido</string>
+	
+	
+	<string name="title_demo_expired">Esta vaca es limitado!</string>
+	<string name="text_dialogue_demo_expired">Sólo se puede guardar guardar un sonido con esta vaca! Con la vaca super puede guardar sonidos y tonos de llamada sin límites establecidos.</string>
+	<string name="btn_buy_no">No</string>
+	<string name="btn_buy_ok">Super actualización Cow!</string>
+	<string name="orientation_not_supported">Super actualización Cow! Mugidos no es compatible con este dispositivo!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Lo que no puede hacer esto a un sonido por defecto</string>		
 </resources>

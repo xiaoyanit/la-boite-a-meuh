@@ -41,5 +41,14 @@ Przez "długie naciśnięcie" dźwięk nazwy można ustawić dzwonek lub e-mail 
 	
 	<string name="title_sdcard_warning">Nr SDCard detected!</string>
 	<string name="text_dialogue_sdcard_warning">Nr SDCard detected! Musisz mieć gdzieś zapisać Moo Sounds!</string>
-	<string name="label_activity_filemanager">Wybierz Sound</string>	
+	<string name="label_activity_filemanager">Wybierz Sound</string>
+	
+	
+	<string name="title_demo_expired">This cow is limited!</string>
+	<string name="text_dialogue_demo_expired">Można zapisać tylko uratować jeden dźwięk z tego cow! Z super krowy, które można zapisać nieograniczoną dźwięków i dzwonków zestawu.</string>
+	<string name="btn_buy_no">Nie</string>
+	<string name="btn_buy_ok">Super Cow upgrade!</string>
+	<string name="orientation_not_supported">Ryczenie nie jest obsługiwany przez to urządzenie!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Niestety nie można zrobić, aby dźwięk domyślny</string>	
 </resources>

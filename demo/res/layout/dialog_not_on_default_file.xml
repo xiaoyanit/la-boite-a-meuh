@@ -20,12 +20,12 @@
     android:orientation="vertical">
 
     <TextView 
-        android:id="@+id/filename_view"
+        android:id="@+id/cannot_delete_view"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginLeft="20dip"
         android:layout_marginRight="20dip"
-        android:text="@string/text_dialogue_help"
+        android:text="@string/text_dialogue_cannot_delete_warning"
         android:gravity="left"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

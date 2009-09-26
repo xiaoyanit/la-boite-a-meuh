@@ -41,5 +41,14 @@ Med "lång trycka på" ett bra namn som du kan ställa in en ringsignal eller e-
 	
 	<string name="title_sdcard_warning">Nej SDCard upptäckt!</string>
 	<string name="text_dialogue_sdcard_warning">Nej SDCard upptäckt! Du måste ha någonstans att lagra dina Moo Sounds!</string>
-	<string name="label_activity_filemanager">Välj ett ljud</string>		
+	<string name="label_activity_filemanager">Välj ett ljud</string>
+	
+	
+	<string name="title_demo_expired">Denna ko är begränsat!</string>
+	<string name="text_dialogue_demo_expired">Du kan bara spara spara ett ljud med denna ko! Med super ko du kan spara obegränsat ljud och ringsignaler set.</string>
+	<string name="btn_buy_no">Nej</string>
+	<string name="btn_buy_ok">Super Cow uppgradering!</string>
+	<string name="orientation_not_supported">Mooing stöds inte på den här enheten!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Tyvärr kan du inte göra detta till en standard ljud</string>		
 </resources>

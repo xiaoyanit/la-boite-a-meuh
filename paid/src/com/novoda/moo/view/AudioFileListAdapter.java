@@ -1,10 +1,15 @@
+
 package com.novoda.moo.view;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,60 +22,91 @@ import com.novoda.moo.os.FileSys;
 
 public class AudioFileListAdapter extends BaseAdapter {
 
-	public ArrayList<File>	files;
-	private final Activity	activity;
+    public ArrayList<File> files;
 
-	public AudioFileListAdapter(Activity activity, ArrayList<File> files) {
-		this.activity = activity;
-		this.files = files;
-	}
+    private final Activity activity;
 
-	public int getCount() {
-		return this.files.size();
-	}
+    public AudioFileListAdapter(Activity activity, ArrayList<File> files) {
+        this.activity = activity;
+        this.files = files;
+    }
 
-	public File getItem(int position) {
-		return this.files.get(position);
-	}
+    public int getCount() {
+        return this.files.size();
+    }
 
-	public long getItemId(int position) {
-		return this.files.hashCode();
-	}
+    public File getItem(int position) {
+        return this.files.get(position);
+    }
 
-	public View getView(int position, View convertView, ViewGroup parent) {
-		AudioFileListAdapterView todayView = new AudioFileListAdapterView(activity, files.get(position));
-		return todayView;
-	}
+    public long getItemId(int position) {
+        return this.files.hashCode();
+    }
 
-	/***
-	 * This calc will not be needed when the URI based interaction is timeCalc
-	 * is approx (frameSize-1024 * mDefaultRate-22050 ) TODO: Once all file
-	 * access is done via URI the duration can be obtained form the MEDIA_DB
-	 */
-	public class AudioFileListAdapterView extends LinearLayout {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        AudioFileListAdapterView todayView = new AudioFileListAdapterView(activity, files
+                .get(position));
+        return todayView;
+    }
 
-		private TextView	mFileName;
-		private TextView	mFileLength;
-		private double		timeCalc	= 1240.0;	// bitrate +header
+    /***
+     * This calc will not be needed when the URI based interaction is timeCalc
+     * is approx (frameSize-1024 * mDefaultRate-22050 ) TODO: Once all file
+     * access is done via URI the duration can be obtained form the MEDIA_DB
+     */
+    public class AudioFileListAdapterView extends LinearLayout {
 
-		public AudioFileListAdapterView(Activity activity, File fileItem) {
-			super(activity);
+        public AudioFileListAdapterView(Activity activity, File fileItem) {
+            super(activity);
+            addView(createListItem(activity, fileItem));
+            File file1 = getDefaultFiles();
+            
+            addView(createListItem(activity, file1));
+        }
 
-			LayoutInflater factory = LayoutInflater.from(activity);
-			final View itemInListView = factory.inflate(R.layout.row_item_file, null);
-			
-			mFileName = (TextView) itemInListView.findViewById(R.id.row_title);
-			mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
-			
-			NumberFormat nf = NumberFormat.getInstance();
-			nf.setMaximumFractionDigits(0);
+    }
+    
+    private File getDefaultFiles() {
+        int size;
+        File file = new File(activity.getString(R.string.dir_tmp) + "carlcow.wav");
+        
+        
+        try {
+            InputStream ins = activity.getResources().openRawResource(R.raw.carlthecow);
+            size = ins.available();
+            // Read the entire resource into a local byte buffer.
+            byte[] buffer = new byte[size];
+            ins.read(buffer);
+            ins.close();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(buffer);
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-			mFileLength = (TextView) itemInListView.findViewById(R.id.row_item_length);
-			mFileLength.setText(nf.format(new Double(fileItem.length() / timeCalc)) + "secs");
+        return file;
+    }
 
-			addView(itemInListView);
-		}
+    private View createListItem(Activity activity, File fileItem) {
 
-	}
+        final TextView mFileName;
+        final TextView mFileLength;
+        final double timeCalc = 1240.0; // bitrate +header
+
+        LayoutInflater factory = LayoutInflater.from(activity);
+        final View itemInListView = factory.inflate(R.layout.row_item_file, null);
+
+        mFileName = (TextView)itemInListView.findViewById(R.id.row_title);
+        mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
+        Log.i("file", "file item name: " + fileItem.getName());
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(0);
+
+        mFileLength = (TextView)itemInListView.findViewById(R.id.row_item_length);
+        mFileLength.setText(nf.format(new Double(fileItem.length() / timeCalc)) + "secs");
+        Log.i("file", "file item length: " + new Double(fileItem.length() / timeCalc) + "secs" );
+        return itemInListView;
+    }
 
 }

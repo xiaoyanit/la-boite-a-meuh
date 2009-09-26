@@ -25,12 +25,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-	<ImageButton 
-		android:name="@+id/mooAdvert"
-  		android:background="@drawable/advert"
-  		android:layout_width="fill_parent"
-  		android:layout_height="wrap_content"/>
-	
+
+	<Button
+		android:id="@+id/mooAdvert"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:background="@drawable/advert"
+    	/> 
 	
 	<com.qwapi.adclient.android.view.QWAdView
         android:id="@+id/QWAd"

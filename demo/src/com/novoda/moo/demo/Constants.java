@@ -17,6 +17,7 @@ public class Constants {
 	public static final String	PICK_SOUND						= "com.novoda.meuh.action.PICK_SOUND";
 	public static final String	RENAME_FILE						= "com.novoda.meuh.action.RENAME_FILE";
 	public static final String	PICKED_AUDIO_FILE_POSITION		= "AUDIO_FILE_POSTION";
+	public static final String	PICKED_AUDIO_FILE_NAME			= "AUDIO_FILE_NAME";
 	public static final Intent	CHOSEN_AUDIO_FILE				= null;
 	public static final String	NATIVE_GMAIL_AUTHORITY			= "gmail-ls";
 	public static final String	FILE_EXT						= ".3gpp";

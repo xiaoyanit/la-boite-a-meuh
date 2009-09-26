@@ -42,4 +42,13 @@ Met 'lang indrukken van' een goede naam kan je een ringtone of uw geluidskaart e
 	<string name="title_sdcard_warning">Geen SDCard gedetecteerd!</string>
 	<string name="text_dialogue_sdcard_warning">Geen SDCard gedetecteerd! Je moet ergens moeten slaan Moo Sounds!</string>
 	<string name="label_activity_filemanager">Kies een Sound</string>
+	
+	<string name="title_demo_expired">Deze koe is beperkt!</string>
+	<string name="text_dialogue_demo_expired">U kunt alleen redden behalve een geluid met deze koe! Met de super koe u kunt opslaan onbeperkt geluiden en stel ringtones.</string>
+	<string name="btn_buy_no">Nee</string>
+	<string name="btn_buy_ok">Super Cow upgrade!</string>
+	<string name="orientation_not_supported">Loeien wordt niet ondersteund op dit apparaat!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Sorry u kunt dit niet doen om een standaard geluid</string>	
+	
 </resources>

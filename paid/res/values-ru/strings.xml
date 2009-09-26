@@ -40,5 +40,14 @@
 	
 	<string name="title_sdcard_warning">Нет SDCard обнаружено!</string>
 	<string name="text_dialogue_sdcard_warning">Нет SDCard обнаружено! Вы должны иметь где-то хранить ваши Му Sounds!</string>
-	<string name="label_activity_filemanager">Выберите звук</string>	
+	<string name="label_activity_filemanager">Выберите звук</string>
+	
+	
+	<string name="title_demo_expired">Ограничено эту корову!</string>
+	<string name="text_dialogue_demo_expired">Можно сохранить только сохранить один звук с этой коровой! С супер корову можно сохранить неограниченный набор звуков и мелодий.</string>
+	<string name="btn_buy_no">Нет</string>
+	<string name="btn_buy_ok">Супер Корова обновление!</string>
+	<string name="orientation_not_supported">Мычание не поддерживается на этом устройстве!</string>	
+	<string name="dir_default_audio">/la-boite-a-meuh/media/audio/defaults/</string>
+	<string name="text_dialogue_cannot_delete_warning">Жаль, что вы не можете сделать это по умолчанию звук</string>	
 </resources>
