@@ -19,13 +19,10 @@
 	<string name="menu_action_file_rename">नाम बदलें</string>
 				<string name="menu_action_file_delete">मिटाना</string>
 				<string name="menu_action_file_email">मित्र को ईमेल</string>
-				<string name="menu_action_file_assign_as_ringtone">फोन रिंगटोन्स के रूप में प्रयोग करें</string>
 	
 	<string name="menu_action_help">यह क्या है?</string>
 	<string name="title_help">चुनने लगता है!</string>
-	<string name="text_dialogue_help">तुम अजीब लग रहा है बचा सकता है!
-चुनें 'मेनू से बचाने के लिए' के बाद एक रिकॉर्ड है.
-'लंबे समय तक उपयोग' एक ध्वनि नाम तुम एक रिंगटोन्स सेट या एक दोस्त के लिए आपके ध्वनि ईमेल कर सकते हैं.</string>
+	<string name="text_dialogue_help">तुम अजीब लग रहा है बचा सकता है! चुनें 'मेनू से बचाने के लिए' के बाद एक रिकॉर्ड है. 'लंबे समय तक उपयोग' एक ध्वनि नाम आप नाम बदलने या एक दोस्त के लिए आपके ध्वनि ईमेल कर सकते हैं.</string>
 
 	
 	<string name="title_email">ईमेल फ़ाइल:</string>

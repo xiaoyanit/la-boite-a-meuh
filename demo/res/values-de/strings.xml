@@ -19,14 +19,11 @@
 	<string name="menu_action_file_rename">Umbenennen</string>
 	<string name="menu_action_file_delete">Löschen</string>
 	<string name="menu_action_file_email">E-Mail an Freund</string>
-	<string name="menu_action_file_assign_as_ringtone">Verwendung als Telefon Ringtone</string>
 	
 	<string name="menu_action_help">Was ist das?</string>
 	<string name="title_help">Auswahl Sounds!</string>
-	<string name="text_dialogue_help">
-        Sie können lustige Töne!
-Wählen Sie "Speichern" aus dem Menü, nachdem Sie eine Aufnahme machen.
-Mit dem "langen Druck auf" eine solide Namen können Sie einen Klingelton festlegen oder per E-Mail Ihren Sound an einen Freund.</string>
+	<string name="text_dialogue_help">	
+Sie können lustige Töne! Wählen Sie "Speichern" aus dem Menü, nachdem Sie eine Aufnahme machen. Mit dem "langen Druck auf" eine gute Name, den Sie umbenennen oder per E-Mail Ihren Sound an einen Freund.</string>
 
 	
 	<string name="title_email">E-Mail-Datei:</string>

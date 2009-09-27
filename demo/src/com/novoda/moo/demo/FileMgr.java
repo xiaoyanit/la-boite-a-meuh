@@ -9,17 +9,12 @@ import java.util.ArrayList;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -134,16 +129,6 @@ public class FileMgr extends ListActivity {
 				sendIntent.putExtra(Intent.EXTRA_TEXT, this.getString(R.string.email_text));
 				startActivity(Intent.createChooser(sendIntent, this.getString(R.string.title_email)));
 				break;
-
-			case R.id.set_ringtone:
-				Log.i(TAG, "Making file[" + sCurrFileName + "] default system Ringtone");
-				String path = null;
-				path = FileSys.createFilenameWithChecks(RINGTONES_DIR, sCurrFileName);
-				FileSys.copyViaChannels(new File(AUDIO_FILES_DIR + sCurrFileName), new File(path));
-
-				Uri newUri = addExternalFileToMediaDB(new File(path));
-				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri);
-				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, newUri.toString());
 
 		}
 
@@ -324,45 +309,6 @@ public class FileMgr extends ListActivity {
         }
         
         return file;
-	}
-
-	/***
-	 * Adds to the Media DB so as it can be retrieved by URI. This file is
-	 * intended as a funny noise notification so it is marked as not being MUSIC
-	 * so mediaplayers can avoid it. After it is entered applications are
-	 * notified by a Media Scanner broadcast.
-	 * 
-	 * @param file
-	 * @return
-	 */
-	private Uri addExternalFileToMediaDB(File file) {
-		ContentValues cv = new ContentValues();
-		ContentResolver resolver = getContentResolver();
-
-		long current = System.currentTimeMillis();
-		long modDate = file.lastModified();
-
-		cv.put(MediaStore.Audio.Media.TITLE, file.getName());
-		cv.put(MediaStore.Audio.Media.IS_MUSIC, "0");
-		cv.put(MediaStore.Audio.Media.DATA, file.getAbsolutePath());
-		cv.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current / 1000));
-		cv.put(MediaStore.Audio.Media.DATE_MODIFIED, (int) (modDate / 1000));
-		cv.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
-		cv.put(MediaStore.Audio.Media.ARTIST, "la-boite-a-meuh");
-		cv.put(MediaStore.Audio.Media.ALBUM, "la-boite-a-meuh");
-		cv.put(MediaStore.Audio.Media.COMPOSER, "CANOFCOW");
-
-		Log.d(TAG, "Inserting audio record for:[" + file.getName() + "] ContentValues:[" + cv.toString() + "]");
-		Uri result = resolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cv);
-
-		if (result == null) {
-			Log.e(TAG, "File:[" + file.getName() + "] was not inserted into the Media DB correctly as an external file");
-			return null;
-		}
-
-		Log.i(TAG, result.toString());
-		sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, result));
-		return result;
 	}
 
 }

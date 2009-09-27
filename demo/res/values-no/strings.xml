@@ -19,13 +19,10 @@
 	<string name="menu_action_file_rename">Gi nytt navn</string>
 	<string name="menu_action_file_delete">Slette</string>
 	<string name="menu_action_file_email">E-post til en venn</string>
-	<string name="menu_action_file_assign_as_ringtone">Bruk som Phone Ringtone</string>
 	
 	<string name="menu_action_help">Hva er dette?</string>
 	<string name="title_help">Velge Høres!</string>
-	<string name="text_dialogue_help">Du kan lagre morsomme lyder!
-Velg "lagre" fra menyen når du gjøre et opptak.
-Ved lange trykke 'en lyd navn du kan angi en ringetone eller en e-lyden til en venn.</string>
+	<string name="text_dialogue_help">Du kan lagre morsomme lyder! Velg "lagre" fra menyen når du gjøre et opptak. Ved lange trykke 'en lyd navnet kan du endre navn eller e-lyden til en venn.</string>
 
 	
 	<string name="title_email">E-post fil:</string>

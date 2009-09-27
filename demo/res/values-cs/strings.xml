@@ -19,13 +19,10 @@
 	<string name="menu_action_file_rename">Přejmenovat</string>
 	<string name="menu_action_file_delete">Odstranit</string>
 	<string name="menu_action_file_email">E-mail známému</string>
-	<string name="menu_action_file_assign_as_ringtone">Použití jako vyzvánění telefonu</string>
 	
 	<string name="menu_action_help">Co je to?</string>
 	<string name="title_help">Výběr Sounds!</string>
-	<string name="text_dialogue_help">Můžete uložit podivné zvuky!
-Zvolte 'uložit' z menu, po provedení záznamu.
-Od 'dlouhý stisk' zvuk jména můžete nastavit vyzvánění nebo e-mail vaší zvukové příteli.</string>
+	<string name="text_dialogue_help">Můžete uložit podivné zvuky! Zvolte 'uložit' z menu, po provedení záznamu. Od 'dlouhý stisk' zvuk název můžete přejmenovat nebo e-mailové vaší zvukové příteli.</string>
 
 	
 	<string name="title_email">E-mail souboru:</string>

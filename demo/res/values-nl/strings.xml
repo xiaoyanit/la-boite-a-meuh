@@ -19,13 +19,10 @@
 	<string name="menu_action_file_rename">Rename</string>
 	<string name="menu_action_file_delete">Wissen</string>
 	<string name="menu_action_file_email">E-mailen naar vriend / vriendin</string>
-	<string name="menu_action_file_assign_as_ringtone">Gebruik als Phone Ringtone</string>
 	
 	<string name="menu_action_help">Wat is dit?</string>
 	<string name="title_help">Kiezen Sounds!</string>
-	<string name="text_dialogue_help">U kunt funny sounds!
-Selecteer 'te redden van het menu nadat u een opname te maken.
-Met 'lang indrukken van' een goede naam kan je een ringtone of uw geluidskaart e-mail naar een vriend.</string>
+	<string name="text_dialogue_help">U kunt funny sounds! Selecteer 'te redden van het menu nadat u een opname te maken. Met 'lang indrukken van' een goede naam die u kunt hernoemen of uw geluidskaart e-mail naar een vriend.</string>
 
 	
 	<string name="title_email">E-mail bestand:</string>

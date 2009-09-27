@@ -19,14 +19,10 @@
 	<string name="menu_action_file_rename">Renommer</string>
 	<string name="menu_action_file_delete">Supprimer</string>
 	<string name="menu_action_file_email">Envoyer à un ami</string>
-	<string name="menu_action_file_assign_as_ringtone">Utiliser comme Phone Ringtone</string>
 	
 	<string name="menu_action_help">What is this?</string>
 	<string name="title_help">Choosing Sounds!</string>
-	<string name="text_dialogue_help">
-        Vous pouvez enregistrer des sons funny!
-Sélectionnez "Enregistrer" dans le menu une fois que vous effectuez un enregistrement.
-Par 'de long en appuyant sur' un nom de son que vous pouvez définir une sonnerie ou un e-mail de votre son à un ami.</string>
+	<string name="text_dialogue_help">Vous pouvez enregistrer des sons funny! Sélectionnez "Enregistrer" dans le menu une fois que vous effectuez un enregistrement. Par 'de long en appuyant sur' un nom de son que vous pouvez renommer ou email votre son à un ami.</string>
 
 	
 	<string name="title_email">Email le fichier:</string>

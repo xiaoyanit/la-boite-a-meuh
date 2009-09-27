@@ -19,13 +19,10 @@
 	<string name="menu_action_file_rename">Cambiar el nombre de</string>
 	<string name="menu_action_file_delete">Borrar</string>
 	<string name="menu_action_file_email">Enviar a un amigo</string>
-	<string name="menu_action_file_assign_as_ringtone">Utilizar como tono de teléfono</string>
 	
 	<string name="menu_action_help">¿Qué es esto?</string>
 	<string name="title_help">Selección de sonidos!</string>
-	<string name="text_dialogue_help">Usted puede guardar sonidos divertidos!
-Seleccione 'Guardar' en el menú después de realizar una grabación.
-Por 'presión larga "un nombre de sonido se puede establecer un tono de llamada o correo electrónico de su sonido a un amigo.</string>
+	<string name="text_dialogue_help">Usted puede guardar sonidos divertidos! Seleccione 'Guardar' en el menú después de realizar una grabación. Por 'presión larga' un nombre de sonido que puede cambiar el nombre o correo electrónico de su sonido a un amigo.</string>
 
 	
 	<string name="title_email">Archivo de correo electrónico:</string>

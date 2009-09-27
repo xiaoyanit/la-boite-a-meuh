@@ -19,14 +19,10 @@
 	<string name="menu_action_file_rename">名前を変更する</string>
 	<string name="menu_action_file_delete">削除する</string>
 	<string name="menu_action_file_email">友達にメール</string>
-	<string name="menu_action_file_assign_as_ringtone">使用して電話着メロなど</string>
 	
 	<string name="menu_action_help">これは何ですか？</string>
 	<string name="title_help">を選択しそうですね！</string>
-	<string name="text_dialogue_help">
-        あなたが面白い音を保存することができます！
-後、録音を選択して'メニューから保存します。
-'長い'を着メロに設定したり、友人にあなたの音をメール音の名前を押す。</string>
+	<string name="text_dialogue_help">あなたが面白い音を保存することができます！後、録音を選択して'メニューから保存します。 '長い'あなたの名前を変更したり、友人にあなたの音をメール音の名前を押す</string>
 
 	
 	<string name="title_email">電子メールファイル：</string>
