@@ -75,7 +75,7 @@ public class FileMgr extends ListActivity {
 		banner = (Button) findViewById(R.id.mooAdvert);
 		banner.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("http://www.novoda.com"));
+				Intent viewIntent = new Intent("android.intent.action.VIEW", Uri.parse("market://search?q=pname:com.novoda.moo"));
 				startActivity(viewIntent);
 			}
 		});
@@ -276,11 +276,13 @@ public class FileMgr extends ListActivity {
 	}
 	
 	private AudioFileListAdapter addSoundDefaults(AudioFileListAdapter fileListAdapter) {
-		String defaultSoundFile = Environment.getExternalStorageDirectory() +  this.getString(R.string.dir_default_audio) + "carlcow.wav";
+		String defaultSoundFile = Environment.getExternalStorageDirectory() +  this.getString(R.string.dir_default_audio) + "moo1.wav";
+		String defaultSound2 = Environment.getExternalStorageDirectory() +  this.getString(R.string.dir_default_audio) + "moo2.wav";
 		File defaultSoundFile1 = new File(defaultSoundFile);
 		
 		if(!defaultSoundFile1.exists()){
-			writeResToFile(this.getResources().openRawResource(R.raw.carlthecow), defaultSoundFile);
+			writeResToFile(this.getResources().openRawResource(R.raw.defaultsound1), defaultSoundFile);
+			writeResToFile(this.getResources().openRawResource(R.raw.defaultsound2), defaultSound2);
 		}
 		
 		ArrayList<File> listFilesInDir = FileSys.listFilesInDir(Environment.getExternalStorageDirectory() +  this.getString(R.string.dir_default_audio));
@@ -293,7 +295,7 @@ public class FileMgr extends ListActivity {
 		File file = null;
 		
 		try {
-			Runtime.getRuntime().exec("chmod 666 " + Environment.getExternalStorageDirectory() +  this.getResources().getString(R.string.dir_default_audio));
+//			Runtime.getRuntime().exec("chmod 666 " + Environment.getExternalStorageDirectory() +  this.getResources().getString(R.string.dir_default_audio));
 			file = new File(fileName);
 			size = ins.available();
             byte[] buffer = new byte[size];

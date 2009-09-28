@@ -27,7 +27,9 @@
 	
 	<string name="title_email">E-post fil:</string>
 	<string name="email_subject_line">En venn har sendt deg en Cow Moo</string>
-	<string name="email_text">Bruk som Phone Ringtone</string>
+	<string name="email_text">En venn har sendt deg en lyd for Cow i Kan-programmet på Android-telefoner!
+Du kan velge denne attacment på din Android telefonen og åpne den med kua i en kanne program.
+Programmet er gratis på Android Market her: market://search?q=pname:com.novoda.moo.demo  (Android Market link kun accesible via Android-telefoner)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

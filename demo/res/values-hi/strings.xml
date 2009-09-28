@@ -27,7 +27,9 @@
 	
 	<string name="title_email">ईमेल फ़ाइल:</string>
 	<string name="email_subject_line">एक दोस्त तुम्हें भेजा है एक गाय Moo</string>
-				<string name="email_text">फोन रिंगटोन्स के रूप में प्रयोग करें</string>
+				<string name="email_text">एक दोस्त ने भेजा है तुम्हें Android फोन पर आवेदन कर सकते में गाय के लिए एक ध्वनि!
+आप अपने Android फोन पर इस attacment का चयन करें और यह कर सकते हैं आवेदन में अपनी गाय के साथ खोल सकते हैं.
+आवेदन android बाजार पर यहाँ मुफ़्त है: market://search?q=pname:com.novoda.moo.demo  (Android Android फोनों के जरिए बाजार में केवल accesible लिंक)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

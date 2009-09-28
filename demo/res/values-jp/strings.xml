@@ -27,7 +27,9 @@
 	
 	<string name="title_email">電子メールファイル：</string>
 	<string name="email_subject_line">お友達が牛武鉉が届いています</string>
-	<string name="email_text">使用して電話着メロなど</string>
+	<string name="email_text">友達があなたのAndroid携帯電話でできるアプリケーションで、牛用のサウンドを送信しています！
+あなたのAndroidの携帯電話にこのattacmentを選択することができることができるアプリケーションで、牛とそれを開きます。
+アプリケーションでは、アンドロイドの市場ではここは無料です： market://search?q=pname:com.novoda.moo.demo  Androidの携帯電話を介して（Androidマーケットのリンクのみづけし）</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

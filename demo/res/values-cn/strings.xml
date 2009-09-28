@@ -26,7 +26,9 @@
 	
 	<string name="title_email">电子邮件文件：</string>
 	<string name="email_subject_line">一位朋友向您发送了母牛的叫声</string>
-	<string name="email_text">用作手机铃声</string>
+	<string name="email_text">一位朋友向您发送了健全的关于机器人的手机可以应用奶牛！
+您可以选择在您的这个Android手机attacment开放与您的应用程序可以牛了。
+这个软件是免费的机器人市场在这里：market://search?q=pname:com.novoda.moo.demo  （机器人市场的联系不仅可以通过Android手机）</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

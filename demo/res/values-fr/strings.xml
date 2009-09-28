@@ -27,7 +27,9 @@
 	
 	<string name="title_email">Email le fichier:</string>
 	<string name="email_subject_line">Un ami vous a envoyé un Moo Cow</string>
-	<string name="email_text">Utiliser comme Phone Ringtone</string>
+	<string name="email_text">UUn ami vous a envoyé un son pour la vache dans une application Can sur les téléphones Android!
+Vous pouvez sélectionner ce attacment sur votre téléphone Android et ouvrez-le avec votre vache dans une application peut.
+L'application est gratuite sur le marché Android ici: market://search?q=pname:com.novoda.moo.demo  (Android lien marché uniquement accessible via les téléphones Android)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

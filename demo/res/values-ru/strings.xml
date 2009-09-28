@@ -27,7 +27,10 @@
 	
 	<string name="title_email">Email файла:</string>
 	<string name="email_subject_line">Знакомый отправил Вам Moo Cow</string>
-	<string name="email_text">Использование в качестве телефонный сигнал вызова</string>
+	<string name="email_text">	
+Знакомый отправил вам крепкого на корову в банке заявление на Android телефоны!
+Вы можете выбрать этот attacment Android на вашем телефоне и открыть его с коровой может приложений.
+Применение свободно на рынке Android здесь: market://search?q=pname:com.novoda.moo.demo  (Android Market ссылку только через подъезд Android телефонов)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

@@ -28,7 +28,9 @@ Sie können lustige Töne! Wählen Sie "Speichern" aus dem Menü, nachdem Sie ei
 	
 	<string name="title_email">E-Mail-Datei:</string>
 	<string name="email_subject_line">Ein Freund hat Ihnen eine Moo Cow</string>
-	<string name="email_text">Verwendung als Telefon Ringtone</string>
+	<string name="email_text">Ein Freund hat Ihnen eine für die Kuh in a Can Anwendung auf Android Handys sound!
+Sie können diese attacment auf Ihrem Android Handy auswählen und öffnen Sie sie mit Ihrer Kuh in der Dose Anwendung.
+Die Anwendung basiert auf dem Android Market kostenlos hier:market://search?q=pname:com.novoda.moo.demo  (Android Markt Link nur zugänglich über Android-Telefone)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

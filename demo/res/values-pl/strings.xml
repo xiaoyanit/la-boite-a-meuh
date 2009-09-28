@@ -27,7 +27,9 @@
 	
 	<string name="title_email">Wyślij plik:</string>
 	<string name="email_subject_line">Znajomy wysłał do Ciebie Cow Moo</string>
-	<string name="email_text">Użyj jako Phone Ringtone</string>
+	<string name="email_text">Znajomy wysłał do Ciebie dźwięk dla krów w Czy wniosek o Android telefony!
+Możesz wybrać ten attacment na Android telefon i otworzyć go z krów w aplikacji może.
+Wniosek jest wolny w Android Market tutaj: market://search?q=pname:com.novoda.moo.demo  (Link rynku Android dostępna tylko za pośrednictwem Android komórkowych)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

@@ -27,7 +27,9 @@
 	
 	<string name="title_email">E-mail bestand:</string>
 	<string name="email_subject_line">Een vriend heeft je een Moo Cow</string>
-	<string name="email_text">Gebruik als Phone Ringtone</string>
+	<string name="email_text">Een vriend heeft u een geluid voor de koe in een blikje toepassing op Android telefoons!
+U kunt deze attacment op uw Android telefoon en open het met je koe in een blikje toepassing.
+De applicatie is gratis hier op de Android markt: market://search?q=pname:com.novoda.moo.demo  (Android Market Link alleen toegankelijk via de Android-telefoons)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

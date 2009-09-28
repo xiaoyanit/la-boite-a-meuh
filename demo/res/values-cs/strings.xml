@@ -27,7 +27,9 @@
 	
 	<string name="title_email">E-mail souboru:</string>
 	<string name="email_subject_line">Přítel Vám zaslal Cow Moo</string>
-	<string name="email_text">Použití jako vyzvánění telefonu</string>
+	<string name="email_text">Přítel Vám zaslal zvuk v Cow Mohu aplikaci na android telefony!
+Můžete si vybrat tuto attacment na vašem android telefon a otevřete jej s krávou na možné aplikace.
+Aplikace je zdarma na Android Market zde:market://search?q=pname:com.novoda.moo.demo (Android trhu odkaz přístupné pouze pomocí Android telefony)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

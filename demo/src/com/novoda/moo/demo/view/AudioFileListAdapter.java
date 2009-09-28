@@ -70,13 +70,24 @@ public class AudioFileListAdapter extends BaseAdapter {
 
         mFileName = (TextView)itemInListView.findViewById(R.id.row_title);
         mFileName.setText(FileSys.getFilenameWithoutExtension(fileItem.getName()));
-        Log.i("file", "file item name: " + fileItem.getName());
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(0);
 
         mFileLength = (TextView)itemInListView.findViewById(R.id.row_item_length);
-        mFileLength.setText(nf.format(new Double(fileItem.length() / timeCalc)) + "secs");
-        Log.i("file", "file item length: " + new Double(fileItem.length() / timeCalc) + "secs" );
+        
+        if(fileItem.getName().equals("moo1.wav")){
+        	mFileLength.setText("3secs");	
+        }
+        
+        if(fileItem.getName().equals("moo2.wav")){
+        	mFileLength.setText("5secs");
+        }
+        
+        if(!fileItem.getName().equals("moo1.wav") && !fileItem.getName().equals("moo2.wav")){
+        	mFileLength.setText(nf.format(new Double(fileItem.length() / timeCalc)) + "secs");
+        }
+        
+        
         return itemInListView;
     }
 
