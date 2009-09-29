@@ -19,19 +19,17 @@
 	<string name="menu_action_file_rename">Renommer</string>
 	<string name="menu_action_file_delete">Supprimer</string>
 	<string name="menu_action_file_email">Envoyer à un ami</string>
-	<string name="menu_action_file_assign_as_ringtone">Utiliser comme Phone Ringtone</string>
 	
 	<string name="menu_action_help">What is this?</string>
 	<string name="title_help">Choosing Sounds!</string>
-	<string name="text_dialogue_help">
-        Vous pouvez enregistrer des sons funny!
-Sélectionnez "Enregistrer" dans le menu une fois que vous effectuez un enregistrement.
-Par 'de long en appuyant sur' un nom de son que vous pouvez définir une sonnerie ou un e-mail de votre son à un ami.</string>
+	<string name="text_dialogue_help">Vous pouvez enregistrer des sons funny! Sélectionnez "Enregistrer" dans le menu une fois que vous effectuez un enregistrement. Par 'de long en appuyant sur' un nom de son que vous pouvez renommer ou email votre son à un ami.</string>
 
 	
 	<string name="title_email">Email le fichier:</string>
 	<string name="email_subject_line">Un ami vous a envoyé un Moo Cow</string>
-	<string name="email_text">Utiliser comme Phone Ringtone</string>
+	<string name="email_text">UUn ami vous a envoyé un son pour la vache dans une application Can sur les téléphones Android!
+Vous pouvez sélectionner ce attacment sur votre téléphone Android et ouvrez-le avec votre vache dans une application peut.
+L'application est gratuite sur le marché Android ici: market://search?q=pname:com.novoda.moo.demo  (Android lien marché uniquement accessible via les téléphones Android)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

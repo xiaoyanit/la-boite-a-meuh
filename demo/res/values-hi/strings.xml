@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 				<string name="label">एक आवाज़ रिकार्ड</string>
-	<string name="app_name">गाय के सकता है</string>
+	<string name="app_name">गाय के सकता है 	डेमो</string>
 				<string name="title_choose_sound">अपने Mooo ध्वनि चुनें!</string>
 	<string name="dialog_ok">ठीक है</string>
 	<string name="dialog_cancel">रद्द करें</string>

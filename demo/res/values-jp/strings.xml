@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">音声記録</string>
-	<string name="app_name">することができますカウ</string>
+	<string name="app_name">することができますカウ デモ</string>
 	<string name="title_choose_sound">あなたのMoooサウンドを選択します！</string>
 	<string name="dialog_ok">玉</string>
 	<string name="dialog_cancel">キャンセル</string>

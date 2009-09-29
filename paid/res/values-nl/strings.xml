@@ -19,18 +19,17 @@
 	<string name="menu_action_file_rename">Rename</string>
 	<string name="menu_action_file_delete">Wissen</string>
 	<string name="menu_action_file_email">E-mailen naar vriend / vriendin</string>
-	<string name="menu_action_file_assign_as_ringtone">Gebruik als Phone Ringtone</string>
 	
 	<string name="menu_action_help">Wat is dit?</string>
 	<string name="title_help">Kiezen Sounds!</string>
-	<string name="text_dialogue_help">U kunt funny sounds!
-Selecteer 'te redden van het menu nadat u een opname te maken.
-Met 'lang indrukken van' een goede naam kan je een ringtone of uw geluidskaart e-mail naar een vriend.</string>
+	<string name="text_dialogue_help">U kunt funny sounds! Selecteer 'te redden van het menu nadat u een opname te maken. Met 'lang indrukken van' een goede naam die u kunt hernoemen of uw geluidskaart e-mail naar een vriend.</string>
 
 	
 	<string name="title_email">E-mail bestand:</string>
 	<string name="email_subject_line">Een vriend heeft je een Moo Cow</string>
-	<string name="email_text">Gebruik als Phone Ringtone</string>
+	<string name="email_text">Een vriend heeft u een geluid voor de koe in een blikje toepassing op Android telefoons!
+U kunt deze attacment op uw Android telefoon en open het met je koe in een blikje toepassing.
+De applicatie is gratis hier op de Android markt: market://search?q=pname:com.novoda.moo.demo  (Android Market Link alleen toegankelijk via de Android-telefoons)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Nagrywanie dźwięku</string>
-	<string name="app_name">Czy z Cow</string>
+	<string name="app_name">Czy z Cow DEMO</string>
 	<string name="title_choose_sound">Wybierz Mooo Sound!</string>
 	<string name="dialog_ok">Ok</string>
 	<string name="dialog_cancel">Anuluj</string>

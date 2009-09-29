@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Enregistrer un son</string>
-	<string name="app_name">La boite a Moo</string>
+	<string name="app_name">La boite a Moo DEMO</string>
 	<string name="title_choose_sound">Choisissez votre Meuh Sound!</string>
 	<string name="dialog_ok">D'accord</string>
 	<string name="dialog_cancel">Annuler</string>

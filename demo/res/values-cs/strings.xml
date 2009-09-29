@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Záznam zvuku</string>
-	<string name="app_name">Plechovka Kráva</string>
+	<string name="app_name">Plechovka Kráva DEMO</string>
 	<string name="title_choose_sound">Vyberte si mooo zvuk!</string>
 	<string name="dialog_ok">Ok</string>
 	<string name="dialog_cancel">Zrušit</string>

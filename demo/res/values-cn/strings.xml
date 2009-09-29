@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">录制声音</string>
-	<string name="app_name">可奶牛</string>
+	<string name="app_name">可奶牛演示</string>
 	<string name="title_choose_sound">选择您Mooo声音！</string>
 	<string name="dialog_ok">好的</string>
 	<string name="dialog_cancel">取消</string>

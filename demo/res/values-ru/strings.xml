@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Запись звука</string>
-	<string name="app_name">Может коровы</string>
+	<string name="app_name">Может коровы DEMO</string>
 	<string name="title_choose_sound">Выберите Корова Sound!</string>
 	<string name="dialog_ok">Хорошо</string>
 	<string name="dialog_cancel">Отмена</string>

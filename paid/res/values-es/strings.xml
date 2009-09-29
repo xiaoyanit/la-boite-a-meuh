@@ -19,18 +19,17 @@
 	<string name="menu_action_file_rename">Cambiar el nombre de</string>
 	<string name="menu_action_file_delete">Borrar</string>
 	<string name="menu_action_file_email">Enviar a un amigo</string>
-	<string name="menu_action_file_assign_as_ringtone">Utilizar como tono de teléfono</string>
 	
 	<string name="menu_action_help">¿Qué es esto?</string>
 	<string name="title_help">Selección de sonidos!</string>
-	<string name="text_dialogue_help">Usted puede guardar sonidos divertidos!
-Seleccione 'Guardar' en el menú después de realizar una grabación.
-Por 'presión larga "un nombre de sonido se puede establecer un tono de llamada o correo electrónico de su sonido a un amigo.</string>
+	<string name="text_dialogue_help">Usted puede guardar sonidos divertidos! Seleccione 'Guardar' en el menú después de realizar una grabación. Por 'presión larga' un nombre de sonido que puede cambiar el nombre o correo electrónico de su sonido a un amigo.</string>
 
 	
 	<string name="title_email">Archivo de correo electrónico:</string>
 	<string name="email_subject_line">Un amigo te ha enviado un mugido de vaca</string>
-	<string name="email_text">Utilizar como tono de teléfono</string>
+	<string name="email_text">Un amigo te ha enviado un sonido de la vaca en una aplicación de la CAN sobre los teléfonos Android!
+Puede seleccionar esta attacment en su teléfono Android y abrirla con su vaca en una aplicación puede.
+La aplicación es gratuita en el mercado androide aquí:market://search?q=pname:com.novoda.moo.demo  (Enlace de mercado Android sólo accesible a través de teléfonos Android)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

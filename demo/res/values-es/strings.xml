@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Grabar un sonido</string>
-	<string name="app_name">Can de Vaca</string>
+	<string name="app_name">Can de Vaca DEMO</string>
 	<string name="title_choose_sound">Elija su mugido de sonido!</string>
 	<string name="dialog_ok">Vale</string>
 	<string name="dialog_cancel">Cancelar</string>

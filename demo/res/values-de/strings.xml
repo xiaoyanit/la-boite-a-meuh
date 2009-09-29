@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Nehmen Sie einen Sound</string>
-	<string name="app_name">Kann von Kuh</string>
+	<string name="app_name">Kann von Kuh DEMO</string>
 	<string name="title_choose_sound">Wählen Sie Ihre Mooo Sound!</string>
 	<string name="dialog_ok">Ok</string>
 	<string name="dialog_cancel">Abbrechen</string>

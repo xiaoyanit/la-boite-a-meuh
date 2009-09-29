@@ -1,20 +1,20 @@
 package com.novoda.moo;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.RingtoneManager;
+import android.content.res.Resources.NotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.text.Editable;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -25,8 +25,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.novoda.moo.os.FileSys;
@@ -44,21 +46,25 @@ public class FileMgr extends ListActivity {
 	public static String			RINGTONES_DIR;
 	public static String			AUDIO_FILES_DIR;
 	public static String			TMP_AUDIO_DIR;
+	private static String			DEFAULT_AUDIO_DIR;
+	private Button					banner;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filemgr);
-
+		
 		if (android.os.Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED)) {
 			Log.d(TAG, "SDCard installed - Checking for sound directories");
 			AUDIO_FILES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_sounds);
 			RINGTONES_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_created_ringtones);
 			TMP_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_tmp);
+			DEFAULT_AUDIO_DIR = Environment.getExternalStorageDirectory() + this.getString(R.string.dir_default_audio);
 
 			new File(AUDIO_FILES_DIR).mkdirs();
 			new File(RINGTONES_DIR).mkdirs();
 			new File(TMP_AUDIO_DIR).mkdirs();
+			new File(DEFAULT_AUDIO_DIR).mkdirs();
 
 			initFileListing();
 		} else {
@@ -76,23 +82,34 @@ public class FileMgr extends ListActivity {
 		Log.i(TAG, "Name of file=" + sCurrFileName);
 		boolean success = false;
 
+		
 		switch (item.getItemId()) {
 			case R.id.delete:
-				Log.d(TAG, "Deleting file [" + sCurrFileName + "]");
-				success = (new File(AUDIO_FILES_DIR + sCurrFileName)).delete();
-
-				if (success) {
-					// TODO: DELETE entry in Media DB via URI
-					Log.i(TAG, "File [" + sCurrFileName + "] was deleted");
-					refreshFileListAdapter();
-				} else {
-					Log.e(TAG, "File  [" + sCurrFileName + "] was not deleted");
+				
+				if(new File(DEFAULT_AUDIO_DIR + sCurrFileName).exists()){
+					showDialog(R.layout.dialog_not_on_default_file);
+				}else{
+					Log.d(TAG, "Deleting file [" + sCurrFileName + "]");
+					success = (new File(AUDIO_FILES_DIR + sCurrFileName)).delete();
+					
+					if (success) {
+						// TODO: DELETE entry in Media DB via URI
+						Log.i(TAG, "File [" + sCurrFileName + "] was deleted");
+						refreshFileListAdapter();
+					} else {
+						Log.e(TAG, "File  [" + sCurrFileName + "] was not deleted");
+					}
 				}
 				break;
 
 			case R.id.rename:
-				Log.d(TAG, "Renaming file [" + sCurrFileName + "]");
-				showDialog(R.layout.dialog_rename);
+				
+				if(new File(DEFAULT_AUDIO_DIR + sCurrFileName).exists()){
+					showDialog(R.layout.dialog_not_on_default_file);
+				}else{
+					Log.d(TAG, "Renaming file [" + sCurrFileName + "]");
+					showDialog(R.layout.dialog_rename);
+				}
 				break;
 
 			case R.id.email:
@@ -105,20 +122,11 @@ public class FileMgr extends ListActivity {
 				startActivity(Intent.createChooser(sendIntent, this.getString(R.string.title_email)));
 				break;
 
-			case R.id.set_ringtone:
-				Log.i(TAG, "Making file[" + sCurrFileName + "] default system Ringtone");
-				String path = null;
-				path = FileSys.createFilenameWithChecks(RINGTONES_DIR, sCurrFileName);
-				FileSys.copyViaChannels(new File(AUDIO_FILES_DIR + sCurrFileName), new File(path));
-
-				Uri newUri = addExternalFileToMediaDB(new File(path));
-				RingtoneManager.setActualDefaultRingtoneUri(this, RingtoneManager.TYPE_RINGTONE, newUri);
-				Settings.System.putString(this.getContentResolver(), Settings.System.RINGTONE, newUri.toString());
-
 		}
 
 		return true;
 	}
+
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -182,6 +190,18 @@ public class FileMgr extends ListActivity {
 							public void onClick(DialogInterface dialog, int whichButton) {
 							}
 						}).create();
+				
+			case R.layout.dialog_not_on_default_file:
+				LayoutInflater factory4 = LayoutInflater.from(this);
+				final View textEntryView4 = factory4.inflate(R.layout.dialog_not_on_default_file, null);
+
+				return new AlertDialog.Builder(FileMgr.this)
+					.setIcon(android.R.drawable.ic_dialog_info)
+					.setView(textEntryView4)
+					.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int whichButton) {
+						}
+					}).create();
 		}
 
 		return null;
@@ -194,7 +214,6 @@ public class FileMgr extends ListActivity {
 	}
 
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		switch (item.getItemId()) {
 			case R.id.help:
 				Log.v(TAG, "User selected Help");
@@ -233,56 +252,57 @@ public class FileMgr extends ListActivity {
 
 				Intent intent = new Intent();
 				intent.putExtra(Constants.PICKED_AUDIO_FILE_POSITION, position);
+				Log.i(TAG, "Row title : " + ((TextView) view.findViewById(R.id.row_title)).getText());
+				intent.putExtra(Constants.PICKED_AUDIO_FILE_NAME, view.findViewById(R.id.row_title).toString());
 				setResult(RESULT_OK, intent);
 				finish();
 			}
 		});
-		
-		
+
 	}
 
 	private void refreshFileListAdapter() {
 		mFileListAdapter = new AudioFileListAdapter(this, FileSys.listFilesInDir(AUDIO_FILES_DIR));
+		mFileListAdapter = addSoundDefaults(mFileListAdapter);
 		this.setListAdapter(mFileListAdapter);
 	}
-
-	/***
-	 * Adds to the Media DB so as it can be retrieved by URI. This file is
-	 * intended as a funny noise notification so it is marked as not being MUSIC
-	 * so mediaplayers can avoid it. After it is entered applications are
-	 * notified by a Media Scanner broadcast.
-	 * 
-	 * @param file
-	 * @return
-	 */
-	private Uri addExternalFileToMediaDB(File file) {
-		ContentValues cv = new ContentValues();
-		ContentResolver resolver = getContentResolver();
-
-		long current = System.currentTimeMillis();
-		long modDate = file.lastModified();
-
-		cv.put(MediaStore.Audio.Media.TITLE, file.getName());
-		cv.put(MediaStore.Audio.Media.IS_MUSIC, "0");
-		cv.put(MediaStore.Audio.Media.DATA, file.getAbsolutePath());
-		cv.put(MediaStore.Audio.Media.DATE_ADDED, (int) (current / 1000));
-		cv.put(MediaStore.Audio.Media.DATE_MODIFIED, (int) (modDate / 1000));
-		cv.put(MediaStore.Audio.Media.MIME_TYPE, "audio/3gpp");
-		cv.put(MediaStore.Audio.Media.ARTIST, "la-boite-a-meuh");
-		cv.put(MediaStore.Audio.Media.ALBUM, "la-boite-a-meuh");
-		cv.put(MediaStore.Audio.Media.COMPOSER, "CANOFCOW");
-
-		Log.d(TAG, "Inserting audio record for:[" + file.getName() + "] ContentValues:[" + cv.toString() + "]");
-		Uri result = resolver.insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, cv);
-
-		if (result == null) {
-			Log.e(TAG, "File:[" + file.getName() + "] was not inserted into the Media DB correctly as an external file");
-			return null;
+	
+	private AudioFileListAdapter addSoundDefaults(AudioFileListAdapter fileListAdapter) {
+		String defaultSoundFile = Environment.getExternalStorageDirectory() +  this.getString(R.string.dir_default_audio) + "moo1.wav";
+		String defaultSound2 = Environment.getExternalStorageDirectory() +  this.getString(R.string.dir_default_audio) + "moo2.wav";
+		File defaultSoundFile1 = new File(defaultSoundFile);
+		
+		if(!defaultSoundFile1.exists()){
+			writeResToFile(this.getResources().openRawResource(R.raw.defaultsound1), defaultSoundFile);
+			writeResToFile(this.getResources().openRawResource(R.raw.defaultsound2), defaultSound2);
 		}
+		
+		ArrayList<File> listFilesInDir = FileSys.listFilesInDir(Environment.getExternalStorageDirectory() +  this.getString(R.string.dir_default_audio));
+		fileListAdapter.files.addAll(listFilesInDir);
+	    return fileListAdapter;
+	}
 
-		Log.i(TAG, result.toString());
-		sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, result));
-		return result;
+	private File writeResToFile(InputStream ins, String fileName) {
+		int size;
+		File file = null;
+		
+		try {
+//			Runtime.getRuntime().exec("chmod 666 " + Environment.getExternalStorageDirectory() +  this.getResources().getString(R.string.dir_default_audio));
+			file = new File(fileName);
+			size = ins.available();
+            byte[] buffer = new byte[size];
+            ins.read(buffer);
+            ins.close();
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(buffer);
+            fos.close();
+        } catch (NotFoundException e1) {
+            Log.e(TAG, "Problem with creating default files on external storage", e1);
+        } catch (IOException e2) {
+            Log.e(TAG, "Problem with creating default files on external storage", e2);
+        }
+        
+        return file;
 	}
 
 }

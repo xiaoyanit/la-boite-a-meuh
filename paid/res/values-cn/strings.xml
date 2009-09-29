@@ -19,18 +19,16 @@
 	<string name="menu_action_file_rename">重命名</string>
 	<string name="menu_action_file_delete">删除</string>
 	<string name="menu_action_file_email">电邮给朋友</string>
-	<string name="menu_action_file_assign_as_ringtone">用作手机铃声</string>
 	
 	<string name="menu_action_help">这是什么？</string>
 	<string name="title_help">选择声音！</string>
-	<string name="text_dialogue_help">您可以保存有趣的声音！
-选择'保存从菜单'之后，你犯了一个记录。
-由'长按'声音的名称可以设置铃声或通过电子邮件发送声音给朋友。</string>
-
+	<string name="text_dialogue_help">您可以保存有趣的声音！选择'保存从菜单'之后，你犯了一个记录。由'长按'一个健全的名字您可以重命名或通过电子邮件发送声音给朋友。</string>
 	
 	<string name="title_email">电子邮件文件：</string>
 	<string name="email_subject_line">一位朋友向您发送了母牛的叫声</string>
-	<string name="email_text">用作手机铃声</string>
+	<string name="email_text">一位朋友向您发送了健全的关于机器人的手机可以应用奶牛！
+您可以选择在您的这个Android手机attacment开放与您的应用程序可以牛了。
+这个软件是免费的机器人市场在这里：market://search?q=pname:com.novoda.moo.demo  （机器人市场的联系不仅可以通过Android手机）</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>
@@ -38,13 +36,10 @@
 	<string name="filename_tmp">mynewsound</string>
 	<string name="filename_emailed_tmp">friendssound</string>
 	
-	
 	<string name="title_sdcard_warning">没有SD卡检测！</string>
 	<string name="text_dialogue_sdcard_warning">没有SD卡检测！ 你需要有地方存储您的卢武铉声音！</string>
 	<string name="label_activity_filemanager">选择一个声音</string>
 	
-
-
 	<string name="title_demo_expired">这牛是有限的！</string>
 	<string name="text_dialogue_demo_expired">您只能保存保存这个牛一个声音！随着超级奶牛可以保存无限的声音和设置铃声。</string>
 	<string name="btn_buy_no">否</string>

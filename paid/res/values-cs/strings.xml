@@ -19,18 +19,17 @@
 	<string name="menu_action_file_rename">Přejmenovat</string>
 	<string name="menu_action_file_delete">Odstranit</string>
 	<string name="menu_action_file_email">E-mail známému</string>
-	<string name="menu_action_file_assign_as_ringtone">Použití jako vyzvánění telefonu</string>
 	
 	<string name="menu_action_help">Co je to?</string>
 	<string name="title_help">Výběr Sounds!</string>
-	<string name="text_dialogue_help">Můžete uložit podivné zvuky!
-Zvolte 'uložit' z menu, po provedení záznamu.
-Od 'dlouhý stisk' zvuk jména můžete nastavit vyzvánění nebo e-mail vaší zvukové příteli.</string>
+	<string name="text_dialogue_help">Můžete uložit podivné zvuky! Zvolte 'uložit' z menu, po provedení záznamu. Od 'dlouhý stisk' zvuk název můžete přejmenovat nebo e-mailové vaší zvukové příteli.</string>
 
 	
 	<string name="title_email">E-mail souboru:</string>
 	<string name="email_subject_line">Přítel Vám zaslal Cow Moo</string>
-	<string name="email_text">Použití jako vyzvánění telefonu</string>
+	<string name="email_text">Přítel Vám zaslal zvuk v Cow Mohu aplikaci na android telefony!
+Můžete si vybrat tuto attacment na vašem android telefon a otevřete jej s krávou na možné aplikace.
+Aplikace je zdarma na Android Market zde:market://search?q=pname:com.novoda.moo.demo (Android trhu odkaz přístupné pouze pomocí Android telefony)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>

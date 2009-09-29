@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="label">Spill inn en lyd</string>
-	<string name="app_name">Can of Cow</string>
+	<string name="app_name">Can of Cow DEMO</string>
 	<string name="title_choose_sound">Velg ditt Mooo Sound!</string>
 	<string name="dialog_ok">Ok</string>
 	<string name="dialog_cancel">Avbryt</string>

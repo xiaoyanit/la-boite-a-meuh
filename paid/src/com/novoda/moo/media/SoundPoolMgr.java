@@ -14,12 +14,13 @@ package com.novoda.moo.media;
 
 import java.util.HashMap;
 
+import com.novoda.moo.R;
+
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
 
-import com.novoda.moo.R;
 
 public class SoundPoolMgr {
 	private static final String			TAG							= "[SoundPoolMgr]:";
@@ -52,8 +53,8 @@ public class SoundPoolMgr {
 			release();
 			mSoundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 100);
 			mSoundPoolMap = new HashMap<Integer, Integer>();
-			mSoundPoolMap.put(MOO_SOUND_1, mSoundPool.load(mContext, R.raw.carlthecow, 1));
-			mSoundPoolMap.put(MOO_SOUND_2, mSoundPool.load(mContext, R.raw.kevinthecow, 1));
+			mSoundPoolMap.put(MOO_SOUND_1, mSoundPool.load(mContext, R.raw.defaultsound1, 1));
+			mSoundPoolMap.put(MOO_SOUND_2, mSoundPool.load(mContext, R.raw.defaultsound2, 1));
 
 			if (SELECTED_MOO_SOUND == CUSTOM_MOO_SOUND) {
 				mSoundPoolMap.put(CUSTOM_MOO_SOUND, mSoundPool.load(SELECTED_MOO_FILE, 1));

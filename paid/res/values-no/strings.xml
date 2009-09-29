@@ -19,18 +19,17 @@
 	<string name="menu_action_file_rename">Gi nytt navn</string>
 	<string name="menu_action_file_delete">Slette</string>
 	<string name="menu_action_file_email">E-post til en venn</string>
-	<string name="menu_action_file_assign_as_ringtone">Bruk som Phone Ringtone</string>
 	
 	<string name="menu_action_help">Hva er dette?</string>
 	<string name="title_help">Velge Høres!</string>
-	<string name="text_dialogue_help">Du kan lagre morsomme lyder!
-Velg "lagre" fra menyen når du gjøre et opptak.
-Ved lange trykke 'en lyd navn du kan angi en ringetone eller en e-lyden til en venn.</string>
+	<string name="text_dialogue_help">Du kan lagre morsomme lyder! Velg "lagre" fra menyen når du gjøre et opptak. Ved lange trykke 'en lyd navnet kan du endre navn eller e-lyden til en venn.</string>
 
 	
 	<string name="title_email">E-post fil:</string>
 	<string name="email_subject_line">En venn har sendt deg en Cow Moo</string>
-	<string name="email_text">Bruk som Phone Ringtone</string>
+	<string name="email_text">En venn har sendt deg en lyd for Cow i Kan-programmet på Android-telefoner!
+Du kan velge denne attacment på din Android telefonen og åpne den med kua i en kanne program.
+Programmet er gratis på Android Market her: market://search?q=pname:com.novoda.moo.demo  (Android Market link kun accesible via Android-telefoner)</string>
 
 	<string name="dir_created_sounds">/la-boite-a-meuh/media/audio/meuhs/</string>
 	<string name="dir_created_ringtones">/Music/ringtones/</string>
